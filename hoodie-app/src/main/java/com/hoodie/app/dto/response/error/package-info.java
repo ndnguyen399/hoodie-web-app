@@ -1,0 +1,1 @@
+package com.hoodie.app.dto.response.error;
