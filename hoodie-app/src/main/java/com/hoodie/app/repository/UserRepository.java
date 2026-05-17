@@ -3,6 +3,8 @@
  */
 package com.hoodie.app.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.hoodie.app.entity.User;
@@ -11,8 +13,8 @@ import com.hoodie.app.entity.User;
  * UserRepository class
  */
 public interface UserRepository extends JpaRepository<User, Long> {
-    // Optional<User> findByUsername(String username);
-
+    Optional<User> findByEmail(String email);
+    Optional<User> findByEmailAndDeleteFlag(String email, String deleteFlag);
     // boolean existsByUsername(String username);
 
     boolean existsByEmail(String email);

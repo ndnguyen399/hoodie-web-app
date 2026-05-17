@@ -10,5 +10,6 @@ import lombok.Data;
  */
 @Data
 public class RegisterResponse {
-    String info;
+    String code;
+    String message;
 }

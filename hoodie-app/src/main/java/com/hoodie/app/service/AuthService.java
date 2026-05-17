@@ -6,6 +6,7 @@ package com.hoodie.app.service;
 import com.hoodie.app.dto.AuthRequest;
 import com.hoodie.app.dto.AuthResponse;
 import com.hoodie.app.dto.RegisterRequest;
+import com.hoodie.app.dto.RegisterResponse;
 
 /**
  * AuthService class
@@ -15,9 +16,9 @@ public interface AuthService {
      * registerUserByRequest
      * 
      * @param request
-     * @return void
+     * @return RegisterResponse
      */
-    public void registerUserByRequest(RegisterRequest request);
+    public RegisterResponse registerUserByRequest(RegisterRequest request);
 
     /**
      * loginUser

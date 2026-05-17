@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hoodie.app.constant.Constant;
 import com.hoodie.app.dto.AuthRequest;
 import com.hoodie.app.dto.AuthResponse;
 import com.hoodie.app.dto.RegisterRequest;
@@ -30,32 +29,28 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+    /**
+     * register
+     * 
+     * @param request
+     * @return BaseApiResponse<RegisterResponse>
+     */
     @PostMapping("/register")
     public BaseApiResponse<RegisterResponse> register(@RequestBody @Valid RegisterRequest request) {
-        try {
-//            if (userRepository.existsByUsername(request.getUsername())) {
-//                return ResponseEntity.badRequest().body("Username already exists");
-//            }
-//            if (userRepository.existsByEmail(request.email())) {
-//                return ResponseEntity.badRequest().body("Email already exists");
-//            }
-            authService.registerUserByRequest(request);
-            RegisterResponse response = new RegisterResponse();
-            response.setInfo(Constant.INFO_SUCCESS);
-            return BaseApiResponse.success(response);
-        } catch (Exception e) {
-            return BaseApiResponse.fail(Constant.INTERNAL_SERVER_ERROR);
-        }
+        RegisterResponse response = authService.registerUserByRequest(request);
+        return BaseApiResponse.success(response);
     }
 
+    /**
+     * login
+     * 
+     * @param request
+     * @return BaseApiResponse<AuthResponse
+     */
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest request) {
-        try {
-            AuthResponse authResponse = authService.loginUser(request);
-            return ResponseEntity.ok(authResponse);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e);
-        }
+    public BaseApiResponse<AuthResponse> login(@RequestBody @Valid AuthRequest request) {
+        AuthResponse authResponse = authService.loginUser(request);
+        return BaseApiResponse.success(authResponse);
     }
 
     @PostMapping("/refresh")

@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.hoodie.app.constant.Constant;
 import com.hoodie.app.repository.UserRepository;
 
 /**
@@ -20,21 +21,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
     /**
      * loadUserByUsername
      * 
      * @param username
      * @return UserDetails
      */
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        return userRepository.findByUsername(username)
-//                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-//    }
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException(Constant.INVALID_CREDENTIALS_MESSAGE));
+    }
 }

@@ -1,5 +1,5 @@
 /**
- * @tbe duynguyen © 2025
+ * @author duynguyen © 2025
  */
 package com.hoodie.app.dto.response.error;
 
@@ -7,11 +7,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * FieldErrorDto class
+ * ValidationErrorItem
  */
 @Data
-@AllArgsConstructor 
-public class FieldErrorDto {
-    private String field;
+@AllArgsConstructor
+public class ValidationErrorItem {
+    private String code;
     private String message;
 }
