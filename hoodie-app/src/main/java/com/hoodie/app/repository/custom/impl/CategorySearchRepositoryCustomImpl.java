@@ -65,30 +65,31 @@ public class CategorySearchRepositoryCustomImpl implements CategorySearchReposit
      * @return {@link }
      */
     public long getCountData(CategorySearchApplicationModel request) {
-        Field<Integer> maxHistoryNo = CATEGORIES.CATEGORY_HISTORY_NO.max().as("category_history_no");
-
-        Table<?> subqueryE = dsl.select(CATEGORIES.CATEGORY_ID, maxHistoryNo).from(CATEGORIES)
-                .groupBy(CATEGORIES.CATEGORY_ID).asTable("e"); // as name is 'e'
-
-        Field<Integer> eCategoryId = subqueryE.field(CATEGORIES.CATEGORY_ID);
-        Field<Integer> eHistoryNo = subqueryE.field(maxHistoryNo);
-
-        List<Condition> conditions = new ArrayList<>();
-
-        if (!StringUtils.isEmpty(request.getCategoryId())) {
-            conditions.add(T.CATEGORY_ID.eq(request.getCategoryId()));
-        }
-        if (!StringUtils.isEmpty(request.getCategoryName())) {
-            String likePattern = "%" + request.getCategoryName() + "%";
-            conditions.add(
-                    T.CATEGORY_NAME.likeIgnoreCase(likePattern).or(T.CATEGORY_DESCRIPTION.likeIgnoreCase(likePattern)));
-        }
-        conditions.add(T.DELETE_FLAG.eq(DEFAULT_DELETE_FLAG));
-
-        return dsl
-                .select(DSL.countDistinct(T.CATEGORY_ID)).from(T).innerJoin(subqueryE).on(eCategoryId.eq(T.CATEGORY_ID)
-                        .and(eHistoryNo.eq(T.CATEGORY_HISTORY_NO)).and(T.DELETE_FLAG.eq(DEFAULT_DELETE_FLAG)))
-                .where(conditions).fetchOne().into(Long.class);
+//        Field<Integer> maxHistoryNo = CATEGORIES.CATEGORY_HISTORY_NO.max().as("category_history_no");
+//
+//        Table<?> subqueryE = dsl.select(CATEGORIES.CATEGORY_ID, maxHistoryNo).from(CATEGORIES)
+//                .groupBy(CATEGORIES.CATEGORY_ID).asTable("e"); // as name is 'e'
+//
+//        Field<Integer> eCategoryId = subqueryE.field(CATEGORIES.CATEGORY_ID);
+//        Field<Integer> eHistoryNo = subqueryE.field(maxHistoryNo);
+//
+//        List<Condition> conditions = new ArrayList<>();
+//
+//        if (!StringUtils.isEmpty(request.getCategoryId())) {
+//            conditions.add(T.CATEGORY_ID.eq(request.getCategoryId()));
+//        }
+//        if (!StringUtils.isEmpty(request.getCategoryName())) {
+//            String likePattern = "%" + request.getCategoryName() + "%";
+//            conditions.add(
+//                    T.CATEGORY_NAME.likeIgnoreCase(likePattern).or(T.CATEGORY_DESCRIPTION.likeIgnoreCase(likePattern)));
+//        }
+//        conditions.add(T.DELETE_FLAG.eq(DEFAULT_DELETE_FLAG));
+//
+//        return dsl
+//                .select(DSL.countDistinct(T.CATEGORY_ID)).from(T).innerJoin(subqueryE).on(eCategoryId.eq(T.CATEGORY_ID)
+//                        .and(eHistoryNo.eq(T.CATEGORY_HISTORY_NO)).and(T.DELETE_FLAG.eq(DEFAULT_DELETE_FLAG)))
+//                .where(conditions).fetchOne().into(Long.class);
+        return dsl.select(DSL.countDistinct(T.CATEGORY_ID)).from(T).fetchOne().into(Long.class);
     }
 
     /**
@@ -97,32 +98,34 @@ public class CategorySearchRepositoryCustomImpl implements CategorySearchReposit
      * @return {@link List<CategorySearchDomainModel>}
      */
     public List<CategorySearchDomainModel> getSearchData(CategorySearchApplicationModel request) {
-        Field<Integer> maxHistoryNo = CATEGORIES.CATEGORY_HISTORY_NO.max().as("category_history_no");
-
-        Table<?> subqueryE = dsl.select(CATEGORIES.CATEGORY_ID, maxHistoryNo).from(CATEGORIES)
-                .groupBy(CATEGORIES.CATEGORY_ID).asTable("e"); // as name is 'e'
-
-        Field<Integer> eCategoryId = subqueryE.field(CATEGORIES.CATEGORY_ID);
-        Field<Integer> eHistoryNo = subqueryE.field(maxHistoryNo);
-
-        List<Condition> conditions = new ArrayList<>();
-
-        if (!StringUtils.isEmpty(request.getCategoryId())) {
-            conditions.add(T.CATEGORY_ID.eq(request.getCategoryId()));
-        }
-        if (!StringUtils.isEmpty(request.getCategoryName())) {
-            String likePattern = "%" + request.getCategoryName() + "%";
-            conditions.add(
-                    T.CATEGORY_NAME.likeIgnoreCase(likePattern).or(T.CATEGORY_DESCRIPTION.likeIgnoreCase(likePattern)));
-        }
-        conditions.add(T.DELETE_FLAG.eq(DEFAULT_DELETE_FLAG));
-
-        return dsl
-                .select(T.CATEGORY_ID, T.CATEGORY_HISTORY_NO, T.CATEGORY_NAME, T.CATEGORY_DESCRIPTION, T.DELETE_FLAG,
-                        T.CREATED_AT, T.UPDATED_AT)
-                .from(T).innerJoin(subqueryE)
-                .on(eCategoryId.eq(T.CATEGORY_ID).and(eHistoryNo.eq(T.CATEGORY_HISTORY_NO))
-                        .and(T.DELETE_FLAG.eq(DEFAULT_DELETE_FLAG)))
-                .where(conditions).fetchInto(CategorySearchDomainModel.class);
+//        Field<Integer> maxHistoryNo = CATEGORIES.CATEGORY_HISTORY_NO.max().as("category_history_no");
+//
+//        Table<?> subqueryE = dsl.select(CATEGORIES.CATEGORY_ID, maxHistoryNo).from(CATEGORIES)
+//                .groupBy(CATEGORIES.CATEGORY_ID).asTable("e"); // as name is 'e'
+//
+//        Field<Integer> eCategoryId = subqueryE.field(CATEGORIES.CATEGORY_ID);
+//        Field<Integer> eHistoryNo = subqueryE.field(maxHistoryNo);
+//
+//        List<Condition> conditions = new ArrayList<>();
+//
+//        if (!StringUtils.isEmpty(request.getCategoryId())) {
+//            conditions.add(T.CATEGORY_ID.eq(request.getCategoryId()));
+//        }
+//        if (!StringUtils.isEmpty(request.getCategoryName())) {
+//            String likePattern = "%" + request.getCategoryName() + "%";
+//            conditions.add(
+//                    T.CATEGORY_NAME.likeIgnoreCase(likePattern).or(T.CATEGORY_DESCRIPTION.likeIgnoreCase(likePattern)));
+//        }
+//        conditions.add(T.DELETE_FLAG.eq(DEFAULT_DELETE_FLAG));
+//
+//        return dsl
+//                .select(T.CATEGORY_ID, T.CATEGORY_HISTORY_NO, T.CATEGORY_NAME, T.CATEGORY_DESCRIPTION, T.DELETE_FLAG,
+//                        T.CREATED_AT, T.UPDATED_AT)
+//                .from(T).innerJoin(subqueryE)
+//                .on(eCategoryId.eq(T.CATEGORY_ID).and(eHistoryNo.eq(T.CATEGORY_HISTORY_NO))
+//                        .and(T.DELETE_FLAG.eq(DEFAULT_DELETE_FLAG)))
+//                .where(conditions).fetchInto(CategorySearchDomainModel.class);
+        return dsl.select(T.CATEGORY_ID, T.CATEGORY_NAME, T.CATEGORY_DESCRIPTION, T.DELETE_FLAG, T.CREATED_AT,
+                T.UPDATED_AT).from(T).fetchInto(CategorySearchDomainModel.class);
     }
 }

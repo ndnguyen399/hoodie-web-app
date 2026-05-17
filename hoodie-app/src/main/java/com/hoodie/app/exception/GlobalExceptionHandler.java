@@ -3,21 +3,26 @@
  */
 package com.hoodie.app.exception;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
 import com.hoodie.app.dto.response.BaseApiResponse;
 import com.hoodie.app.dto.response.BaseApiResponseFactory;
 import com.hoodie.app.dto.response.error.ErrorDetailDto;
 import com.hoodie.app.dto.response.error.FieldErrorDto;
-//import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * GlobalExceptionHandler class
  */
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
     /**
      * Validation Error – 400
@@ -26,6 +31,7 @@ public class GlobalExceptionHandler {
      * @return BaseApiResponse<ErrorDetailDto>
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public BaseApiResponse<ErrorDetailDto> handleValidationException(MethodArgumentNotValidException ex) {
         List<FieldErrorDto> errors = ex.getBindingResult().getFieldErrors().stream()
                 .map(err -> new FieldErrorDto(err.getField(), err.getDefaultMessage())).toList();
@@ -51,6 +57,7 @@ public class GlobalExceptionHandler {
      * @return BaseApiResponse<ErrorDetailDto>
      */
     @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public BaseApiResponse<ErrorDetailDto> handleIllegalArgument(IllegalArgumentException ex) {
         ErrorDetailDto detail = ErrorDetailDto.builder().code("BAD_REQUEST").build();
 
@@ -62,12 +69,15 @@ public class GlobalExceptionHandler {
      * 
      * @param ex
      * @return aseApiResponse<ErrorDetailDto>
+     * @throws Exception 
      */
     @ExceptionHandler(Exception.class)
-    public BaseApiResponse<ErrorDetailDto> handleException(Exception ex) {
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) 
+    public BaseApiResponse<ErrorDetailDto> handleException(Exception ex) throws Exception {
 
-        // log.error("Unexpected error", ex); // production logging
+        log.error("Unexpected error", ex); // production logging
 
-        return BaseApiResponseFactory.internalError("Internal server error");
+        //return BaseApiResponseFactory.internalError("Internal server error");
+        throw ex;
     }
 }

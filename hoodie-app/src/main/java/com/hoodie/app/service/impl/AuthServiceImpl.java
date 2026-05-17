@@ -51,12 +51,18 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void registerUserByRequest(RegisterRequest request) {
         try {
-            User user = User.builder().username((request).getUsername())
-                    .passwordHash(passwordEncoder.encode(request.getPassword())).email(request.getEmail())
-                    .deleteFlag(Constant.DELETE_FLAG_ZERO).role(Role.CUSTOMER).build();
+            User user = 
+                    User.builder()
+                    .fullName(request.getFullName())
+                    .email(request.getEmail())
+                    .passwordHash(passwordEncoder.encode(request.getPassword()))
+                    .phone(request.getPhone())
+                    .role(Role.CUSTOMER)
+                    .deleteFlag(Constant.DELETE_FLAG_ZERO)
+                    .build();
             userRepository.save(user);
         } catch (Exception e) {
-            throw e;
+            throw new IllegalArgumentException(e);
         }
 
     }
@@ -70,9 +76,9 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponse loginUser(AuthRequest request) {
         authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+                .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
         final String accessToken = jwtUtil.generateAccessToken(userDetails);
         final String refreshToken = jwtUtil.generateRefreshToken(userDetails);
 

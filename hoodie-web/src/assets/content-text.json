@@ -13,5 +13,20 @@
     "label-filter": "Filter",
     "label-results": "Results",
     "label-noProduct": "No products were found.",
-    "label-noCategory": "No Categories were found."
+    "label-noCategory": "No Categories were found.",
+
+    "label-register": "Đăng ký tài khoản",
+    "label-buttonRegister": "Đăng ký",
+    "label-login": "Đăng nhập tài khoản",
+    "label-buttonLogin": "Đăng nhập",
+    "label-fullName": "Tên đầy đủ",
+    "label-placeholderFullName": "Nguyen Van A",
+    "label-email": "E-mail",
+    "label-placeholderEmail": "your@email.com",
+    "label-numberPhone": "số điện thoại",
+    "label-placeholderNumberPhone": "0 123 456 789",
+    "label-password": "Mật khẩu",
+    "label-or": "Hoặc",
+    "label-haveAnAccount": "Bạn đã có tài khoản chưa?",
+    "label-allowExtraEmails": "Tôi muốn nhận thông báo cập nhật qua email."
 }

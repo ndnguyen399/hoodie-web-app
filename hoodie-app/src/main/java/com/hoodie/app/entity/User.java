@@ -44,13 +44,10 @@ public class User implements UserDetails {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "user_history_no", unique = true, nullable = false)
-    private Integer userHistoryNo;
+    @Column(name = "full_name", unique = true, nullable = false, length = 150)
+    private String fullName;
 
-    @Column(name = "username", unique = true, nullable = false, length = 50)
-    private String username;
-
-    @Column(name = "email", unique = true, nullable = false, length = 100)
+    @Column(name = "email", unique = true, nullable = false, length = 255)
     private String email;
 
     @Column(name = "password_hash", nullable = false, length = 255)
@@ -59,6 +56,12 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false, length = 10)
     private Role role;
+
+    @Column(name = "phone", unique = true, nullable = true, length = 20)
+    private String phone;
+
+    @Column(name = "avatar_url", length = 500)
+    private String avatarUrl;
 
     @Column(name = "delete_flag", nullable = false, length = 1)
     private String deleteFlag;
@@ -87,7 +90,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override

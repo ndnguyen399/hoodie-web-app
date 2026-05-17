@@ -10,10 +10,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hoodie.app.constant.Constant;
 import com.hoodie.app.dto.AuthRequest;
 import com.hoodie.app.dto.AuthResponse;
 import com.hoodie.app.dto.RegisterRequest;
+import com.hoodie.app.dto.RegisterResponse;
+import com.hoodie.app.dto.response.BaseApiResponse;
 import com.hoodie.app.service.AuthService;
+
+import jakarta.validation.Valid;
 
 /**
  * AuthController class
@@ -26,7 +31,7 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+    public BaseApiResponse<RegisterResponse> register(@RequestBody @Valid RegisterRequest request) {
         try {
 //            if (userRepository.existsByUsername(request.getUsername())) {
 //                return ResponseEntity.badRequest().body("Username already exists");
@@ -35,9 +40,11 @@ public class AuthController {
 //                return ResponseEntity.badRequest().body("Email already exists");
 //            }
             authService.registerUserByRequest(request);
-            return ResponseEntity.ok("User registered successfully");
+            RegisterResponse response = new RegisterResponse();
+            response.setInfo(Constant.INFO_SUCCESS);
+            return BaseApiResponse.success(response);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e);
+            return BaseApiResponse.fail(Constant.INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -1,4 +1,6 @@
-
+/**
+ * @author duynguyen © 2025
+ */
 import { Box, Container, Divider, Typography } from '@mui/material';
 import GppGoodOutlinedIcon from '@mui/icons-material/GppGoodOutlined';
 import Shop2OutlinedIcon from '@mui/icons-material/Shop2Outlined';
@@ -8,6 +10,12 @@ import Image from '../Image';
 import Images from '../../utils/Images';
 import LinkCustom from '../LinkCustom';
 
+/**
+ * Footer
+ * 
+ * @param props 
+ * @returns Footer
+ */
 export default function Footer() {
   return (
     <>

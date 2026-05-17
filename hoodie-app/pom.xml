@@ -12,7 +12,7 @@
 	<artifactId>app</artifactId>
 	<version>1.0.0</version>
 	<name>hoodie-app</name>
-	<description>Project ecommerce_clothes for Spring Boot</description>
+	<description>Project ecommerce_application for Spring Boot</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -135,7 +135,7 @@
 				      <configuration>
 				        <jdbc>
 				          <driver>org.postgresql.Driver</driver>
-				          <url>jdbc:postgresql://localhost:5432/ecommerce_clothes</url>
+				          <url>jdbc:postgresql://localhost:5432/ecommerce_app</url>
 				          <user>postgres</user>
 				          <password>postgres</password>
 				        </jdbc>

@@ -6,6 +6,7 @@ import type { ComponentType } from 'react';
 import { GuestLayout } from '../layouts';   // Layout dành cho khách (không đăng nhập, trang giới thiệu)
 import { Introduction } from '../components/Introduction';
 import { ProductSearch } from '../components/ProductSearch/ProductSearch';
+import { Register } from '../components/Register';
 
 // Page Private (bỏ comment khi cần)
 // import CategoryPage from '~/views/Category';
@@ -40,11 +41,11 @@ const PublicRoutes: RouteItem[] = [
   //   component: Login,
   //   layout: null,                    // không layout nào cả (full screen login)
   // },
-  // {
-  //   path: '/register',
-  //   component: Register,
-  //   layout: null,
-  // },
+  {
+    path: '/sign-up',
+    component: Register,
+    layout: GuestLayout,
+  },
 ];
 
 const PrivateRoutes: RouteItem[] = [
