@@ -9,7 +9,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -86,52 +85,40 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponse loginUser(AuthRequest request) {
         // check validate
-//        List<ValidationErrorItem> errors = new ArrayList<>();
-
-//        User user = userRepository.findByEmailAndDeleteFlag(request.getEmail(), Constant.DELETE_FLAG_ZERO);
-//        if (user == null) {
-//            errors.add(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.ACCOUNT_NOT_FOUND_MESSAGE));
-//        }
-//        if (!errors.isEmpty()) {
-//            throw new BusinessValidationException(errors);
-//        }
-//        boolean isMatch = passwordEncoder.matches(request.getPassword(), user.getPasswordHash());
-//        if (!isMatch) {
-//            errors.add(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.INVALID_CREDENTIALS_MESSAGE));
-//        }
-//        if (!errors.isEmpty()) {
-//            throw new BusinessValidationException(errors);
-//        }
-//        authenticationManager
-//                .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-//
-//        final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
-//        final String accessToken = jwtUtil.generateAccessToken(userDetails);
-//        final String refreshToken = jwtUtil.generateRefreshToken(userDetails);
-//
-//        AuthResponse authResponse = new AuthResponse(accessToken, refreshToken);
-//        return authResponse;
-
-        userRepository.findByEmailAndDeleteFlag(request.getEmail(), Constant.DELETE_FLAG_ZERO)
-                .orElseThrow(() -> new BusinessValidationException(
-                        List.of(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.ACCOUNT_NOT_FOUND_MESSAGE))));
-        try {
-            Authentication authentication = authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-
-            // Bước 3: Lấy UserDetails từ Authentication (không cần gọi lại DB)
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-            // Bước 4: Generate tokens
-            String accessToken = jwtUtil.generateAccessToken(userDetails);
-            String refreshToken = jwtUtil.generateRefreshToken(userDetails);
-
-            return new AuthResponse(accessToken, refreshToken);
-
-        } catch (BusinessValidationException e) {
-            throw new BusinessValidationException(
-                    List.of(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.INVALID_CREDENTIALS_MESSAGE)));
+        List<ValidationErrorItem> errors = this.checkValidate(request);// new ArrayList<>();
+        if (!errors.isEmpty()) {
+            throw new BusinessValidationException(errors);
         }
+        authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
+        final String accessToken = jwtUtil.generateAccessToken(userDetails);
+        final String refreshToken = jwtUtil.generateRefreshToken(userDetails);
+
+        AuthResponse authResponse = new AuthResponse(accessToken, refreshToken);
+        return authResponse;
     }
 
+    /**
+     * checkValidate
+     * 
+     * @param request
+     * @return List<ValidationErrorItem>
+     */
+    public List<ValidationErrorItem> checkValidate(AuthRequest request) {
+        List<ValidationErrorItem> errors = new ArrayList<>();
+        User user = userRepository.findByEmailAndDeleteFlag(request.getEmail(), Constant.DELETE_FLAG_ZERO);
+        if (user == null) {
+            errors.add(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.INVALID_CREDENTIALS_MESSAGE));
+        }
+        if (!errors.isEmpty()) {
+            throw new BusinessValidationException(errors);
+        }
+        boolean isMatch = passwordEncoder.matches(request.getPassword(), user.getPasswordHash());
+        if (!isMatch) {
+            errors.add(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.INVALID_CREDENTIALS_MESSAGE));
+        }
+        return errors;
+    }
 }

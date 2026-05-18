@@ -14,7 +14,7 @@ import com.hoodie.app.entity.User;
  */
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
-    Optional<User> findByEmailAndDeleteFlag(String email, String deleteFlag);
+    User findByEmailAndDeleteFlag(String email, String deleteFlag);
     // boolean existsByUsername(String username);
 
     boolean existsByEmail(String email);
