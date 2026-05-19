@@ -3,6 +3,9 @@
  */
 package com.hoodie.app.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,9 +39,11 @@ public class AuthController {
      * @return BaseApiResponse<RegisterResponse>
      */
     @PostMapping("/register")
-    public BaseApiResponse<RegisterResponse> register(@RequestBody @Valid RegisterRequest request) {
+    public BaseApiResponse<List<RegisterResponse>> register(@RequestBody @Valid RegisterRequest request) {
+        List<RegisterResponse> lists = new ArrayList<>();
         RegisterResponse response = authService.registerUserByRequest(request);
-        return BaseApiResponse.success(response);
+        lists.add(response);
+        return BaseApiResponse.success(lists);
     }
 
     /**

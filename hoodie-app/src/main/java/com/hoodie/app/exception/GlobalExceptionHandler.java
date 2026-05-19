@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.hoodie.app.dto.response.BaseApiResponse;
-import com.hoodie.app.dto.response.BaseApiResponseFactory;
-import com.hoodie.app.dto.response.error.ErrorDetailDto;
-import com.hoodie.app.dto.response.error.FieldErrorDto;
 import com.hoodie.app.dto.response.error.ValidationErrorItem;
 
 import lombok.extern.slf4j.Slf4j;
@@ -34,13 +31,10 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public BaseApiResponse<ErrorDetailDto> handleValidationException(MethodArgumentNotValidException ex) {
-        List<FieldErrorDto> errors = ex.getBindingResult().getFieldErrors().stream()
-                .map(err -> new FieldErrorDto(err.getField(), err.getDefaultMessage())).toList();
-
-        ErrorDetailDto detail = ErrorDetailDto.builder().code("BAD_REQUEST").errors(errors).build();
-
-        return BaseApiResponseFactory.badRequest("Validation failed", detail);
+    public ResponseEntity<BaseApiResponse<List<ValidationErrorItem>>> handleValidationException(MethodArgumentNotValidException ex) {
+        List<ValidationErrorItem> errors = ex.getBindingResult().getFieldErrors().stream()
+              .map(err -> new ValidationErrorItem(err.getField(), err.getDefaultMessage())).toList();
+        return ResponseEntity.badRequest().body(BaseApiResponse.failValidate(errors));
     }
 
     /**
