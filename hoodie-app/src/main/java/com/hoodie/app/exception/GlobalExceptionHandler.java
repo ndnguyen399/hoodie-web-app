@@ -31,9 +31,10 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<BaseApiResponse<List<ValidationErrorItem>>> handleValidationException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<BaseApiResponse<List<ValidationErrorItem>>> handleValidationException(
+            MethodArgumentNotValidException ex) {
         List<ValidationErrorItem> errors = ex.getBindingResult().getFieldErrors().stream()
-              .map(err -> new ValidationErrorItem(err.getField(), err.getDefaultMessage())).toList();
+                .map(err -> new ValidationErrorItem(err.getField(), err.getDefaultMessage())).toList();
         return ResponseEntity.badRequest().body(BaseApiResponse.failValidate(errors));
     }
 
@@ -60,5 +61,17 @@ public class GlobalExceptionHandler {
         ex.printStackTrace();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(BaseApiResponse.fail("Internal server error"));
+    }
+
+    /**
+     * handleUnauthorized - 401
+     * 
+     * @param ex
+     * @return error
+     */
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<BaseApiResponse<Object>> handleUnauthorized(UnauthorizedException ex) {
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(BaseApiResponse.failValidate(ex.getErrors()));
     }
 }

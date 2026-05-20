@@ -27,4 +27,12 @@ public interface AuthService {
      * @return AuthResponse
      */
     public AuthResponse loginUser(AuthRequest request);
+
+    /**
+     * refreshToken
+     * 
+     * @param refreshToken
+     * @return
+     */
+    public AuthResponse refreshToken(String refreshToken);
 }

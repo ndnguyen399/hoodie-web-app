@@ -33,14 +33,14 @@ public final class Constant {
 
     // ==== name fields ====
     public static final String EMAIL = "Email";
-    
+
     // ==== Message fields ====
     public static final String FULL_NAME_NOT_BLANK = "Họ và tên không được để trống";
     public static final String EMAIL_NOT_BLANK = "Email không được để trống";
     public static final String EMAIL_INVALID = "Email không đúng định dạng";
     public static final String PASSWORD_NOT_BLANK = "Mật khẩu không được để trống";
     public static final String PHONE_INVALID = "Số điện thoại không hợp lệ";
-    
+
     // ========================
     // AUTH / TÀI KHOẢN
     // ========================
@@ -52,7 +52,9 @@ public final class Constant {
     public static final String UNAUTHORIZED_MESSAGE = "Bạn chưa đăng nhập";
     public static final String ACCESS_DENIED_MESSAGE = "Bạn không có quyền thực hiện thao tác này";
     public static final String TOKEN_INVALID_MESSAGE = "Token không hợp lệ";
+    public static final String TOKEN_NOT_NULL_MESSAGE = "Token không được để trống";
     public static final String TOKEN_EXPIRED_MESSAGE = "Token đã hết hạn";
+    public static final String TOKEN_REVOKED_MESSAGE = "Token đã bị thu hồi";
     public static final String REGISTER_SUCCESS_MESSAGE = "Đăng ký tài khoản thành công";
     public static final String LOGIN_SUCCESS_MESSAGE = "Đăng nhập thành công";
     public static final String LOGOUT_SUCCESS_MESSAGE = "Đăng xuất thành công";
@@ -61,7 +63,7 @@ public final class Constant {
     public static final String PASSWORD_NOT_MATCH_MESSAGE = "Mật khẩu xác nhận không khớp";
     public static final String RESET_PASSWORD_EMAIL_SENT_MESSAGE = "Email đặt lại mật khẩu đã được gửi";
     public static final String RESET_PASSWORD_SUCCESS_MESSAGE = "Đặt lại mật khẩu thành công";
- 
+
     // ========================
     // NGƯỜI DÙNG
     // ========================
@@ -70,7 +72,7 @@ public final class Constant {
     public static final String USER_UPDATED_SUCCESS_MESSAGE = "Cập nhật thông tin người dùng thành công";
     public static final String USER_DELETED_SUCCESS_MESSAGE = "Xóa người dùng thành công";
     public static final String USER_FETCHED_SUCCESS_MESSAGE = "Lấy thông tin người dùng thành công";
- 
+
     // ========================
     // SẢN PHẨM
     // ========================
@@ -82,7 +84,7 @@ public final class Constant {
     public static final String PRODUCT_OUT_OF_STOCK_MESSAGE = "Sản phẩm đã hết hàng";
     public static final String PRODUCT_INSUFFICIENT_STOCK_MESSAGE = "Số lượng sản phẩm trong kho không đủ";
     public static final String PRODUCT_ALREADY_EXISTS_MESSAGE = "Sản phẩm đã tồn tại";
- 
+
     // ========================
     // DANH MỤC
     // ========================
@@ -92,7 +94,7 @@ public final class Constant {
     public static final String CATEGORY_DELETED_SUCCESS_MESSAGE = "Xóa danh mục thành công";
     public static final String CATEGORY_ALREADY_EXISTS_MESSAGE = "Danh mục đã tồn tại";
     public static final String CATEGORY_HAS_PRODUCTS_MESSAGE = "Không thể xóa danh mục đang chứa sản phẩm";
- 
+
     // ========================
     // GIỎ HÀNG
     // ========================
@@ -103,7 +105,7 @@ public final class Constant {
     public static final String CART_ITEM_REMOVED_SUCCESS_MESSAGE = "Xóa sản phẩm khỏi giỏ hàng thành công";
     public static final String CART_CLEARED_SUCCESS_MESSAGE = "Xóa toàn bộ giỏ hàng thành công";
     public static final String CART_EMPTY_MESSAGE = "Giỏ hàng đang trống";
- 
+
     // ========================
     // ĐƠN HÀNG
     // ========================
@@ -115,7 +117,7 @@ public final class Constant {
     public static final String ORDER_ALREADY_CANCELLED_MESSAGE = "Đơn hàng đã được hủy trước đó";
     public static final String ORDER_DELIVERED_SUCCESS_MESSAGE = "Đơn hàng đã được giao thành công";
     public static final String ORDER_FETCHED_SUCCESS_MESSAGE = "Lấy danh sách đơn hàng thành công";
- 
+
     // ========================
     // THANH TOÁN
     // ========================
@@ -126,7 +128,7 @@ public final class Constant {
     public static final String PAYMENT_NOT_FOUND_MESSAGE = "Không tìm thấy thông tin thanh toán";
     public static final String PAYMENT_ALREADY_PAID_MESSAGE = "Đơn hàng đã được thanh toán trước đó";
     public static final String PAYMENT_METHOD_NOT_SUPPORTED_MESSAGE = "Phương thức thanh toán không được hỗ trợ";
- 
+
     // ========================
     // MÃ GIẢM GIÁ / VOUCHER
     // ========================
@@ -139,7 +141,7 @@ public final class Constant {
     public static final String COUPON_APPLIED_SUCCESS_MESSAGE = "Áp dụng mã giảm giá thành công";
     public static final String COUPON_CREATED_SUCCESS_MESSAGE = "Tạo mã giảm giá thành công";
     public static final String COUPON_ALREADY_EXISTS_MESSAGE = "Mã giảm giá đã tồn tại";
- 
+
     // ========================
     // ĐỊA CHỈ
     // ========================
@@ -149,7 +151,7 @@ public final class Constant {
     public static final String ADDRESS_DELETED_SUCCESS_MESSAGE = "Xóa địa chỉ thành công";
     public static final String ADDRESS_SET_DEFAULT_SUCCESS_MESSAGE = "Đặt địa chỉ mặc định thành công";
     public static final String ADDRESS_LIMIT_REACHED_MESSAGE = "Bạn đã đạt giới hạn số lượng địa chỉ";
- 
+
     // ========================
     // ĐÁNH GIÁ SẢN PHẨM
     // ========================
@@ -159,7 +161,7 @@ public final class Constant {
     public static final String REVIEW_DELETED_SUCCESS_MESSAGE = "Xóa đánh giá thành công";
     public static final String REVIEW_ALREADY_EXISTS_MESSAGE = "Bạn đã đánh giá sản phẩm này rồi";
     public static final String REVIEW_NOT_PURCHASED_MESSAGE = "Bạn cần mua sản phẩm trước khi đánh giá";
- 
+
     // ========================
     // UPLOAD FILE / HÌNH ẢNH
     // ========================
@@ -169,7 +171,7 @@ public final class Constant {
     public static final String FILE_SIZE_EXCEEDED_MESSAGE = "Kích thước file vượt quá giới hạn cho phép";
     public static final String FILE_TYPE_NOT_SUPPORTED_MESSAGE = "Định dạng file không được hỗ trợ";
     public static final String FILE_DELETED_SUCCESS_MESSAGE = "Xóa file thành công";
- 
+
     // ========================
     // CHUNG
     // ========================
@@ -182,4 +184,32 @@ public final class Constant {
     public static final String DUPLICATE_DATA_MESSAGE = "Dữ liệu đã tồn tại";
     public static final String VALIDATION_ERROR_MESSAGE = "Dữ liệu không hợp lệ, vui lòng kiểm tra lại";
     public static final String NO_CONTENT_MESSAGE = "Không có dữ liệu";
+
+    // ========================
+    // I - INTERNAL / INFO CODES
+    // ========================
+    public static final String I_HOODIE_001 = "I.HOODIE.001";
+    public static final String I_HOODIE_002 = "I.HOODIE.002";
+    public static final String I_HOODIE_003 = "I.HOODIE.003";
+    public static final String I_HOODIE_004 = "I.HOODIE.004";
+    public static final String I_HOODIE_005 = "I.HOODIE.005";
+    public static final String I_HOODIE_006 = "I.HOODIE.006";
+    public static final String I_HOODIE_007 = "I.HOODIE.007";
+    public static final String I_HOODIE_008 = "I.HOODIE.008";
+    public static final String I_HOODIE_009 = "I.HOODIE.009";
+    public static final String I_HOODIE_010 = "I.HOODIE.010";
+
+    // ========================
+    // E - ERROR CODES
+    // ========================
+    public static final String E_HOODIE_001 = "E.HOODIE.001";
+    public static final String E_HOODIE_002 = "E.HOODIE.002";
+    public static final String E_HOODIE_003 = "E.HOODIE.003";
+    public static final String E_HOODIE_004 = "E.HOODIE.004";
+    public static final String E_HOODIE_005 = "E.HOODIE.005";
+    public static final String E_HOODIE_006 = "E.HOODIE.006";
+    public static final String E_HOODIE_007 = "E.HOODIE.007";
+    public static final String E_HOODIE_008 = "E.HOODIE.008";
+    public static final String E_HOODIE_009 = "E.HOODIE.009";
+    public static final String E_HOODIE_010 = "E.HOODIE.010";
 }

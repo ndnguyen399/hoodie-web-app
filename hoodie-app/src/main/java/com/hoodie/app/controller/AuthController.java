@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,11 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hoodie.app.dto.AuthRequest;
 import com.hoodie.app.dto.AuthResponse;
+import com.hoodie.app.dto.RefreshTokenRequest;
 import com.hoodie.app.dto.RegisterRequest;
 import com.hoodie.app.dto.RegisterResponse;
 import com.hoodie.app.dto.response.BaseApiResponse;
 import com.hoodie.app.service.AuthService;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 /**
@@ -39,6 +40,7 @@ public class AuthController {
      * @return BaseApiResponse<RegisterResponse>
      */
     @PostMapping("/register")
+    @Transactional
     public BaseApiResponse<List<RegisterResponse>> register(@RequestBody @Valid RegisterRequest request) {
         List<RegisterResponse> lists = new ArrayList<>();
         RegisterResponse response = authService.registerUserByRequest(request);
@@ -53,15 +55,22 @@ public class AuthController {
      * @return BaseApiResponse<AuthResponse
      */
     @PostMapping("/login")
+    @Transactional
     public BaseApiResponse<AuthResponse> login(@RequestBody @Valid AuthRequest request) {
         AuthResponse authResponse = authService.loginUser(request);
         return BaseApiResponse.success(authResponse);
     }
 
-    @PostMapping("/refresh")
-    public ResponseEntity<?> refresh(@RequestBody String refreshToken) {
-        // Implement logic refresh token nếu cần (kiểm tra, tạo access mới)
-        // Hiện tại để đơn giản, bạn có thể mở rộng sau
-        return ResponseEntity.ok().build();
+    /**
+     * refreshToken
+     * 
+     * @param refreshToken
+     * @return
+     */
+    @PostMapping("/refresh-token")
+    @Transactional
+    public BaseApiResponse<AuthResponse> refreshToken(@RequestBody @Valid RefreshTokenRequest request) {
+        AuthResponse response = authService.refreshToken(request.getRefreshToken());
+        return BaseApiResponse.success(response);
     }
 }
