@@ -9,24 +9,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hoodie.app.application.model.CategorySearchApplicationModel;
+import com.hoodie.app.application.model.CodeSearchApplicationModel;
 import com.hoodie.app.application.model.ProductSearchApplicationModel;
-import com.hoodie.app.domain.model.CategorySearchDomainModel;
+import com.hoodie.app.domain.model.CodeSearchDomainModel;
 import com.hoodie.app.dto.response.BaseApiResponse;
 import com.hoodie.app.dto.response.SearchResponse;
-import com.hoodie.app.service.CategorySearchService;
+import com.hoodie.app.service.CodeService;
 
 /**
- * CategorySearchController class
+ * CodeController class
  */
 @RestController
-@RequestMapping("/api/v1/category")
-public class CategorySearchController {
+@RequestMapping("/api/v1/code")
+public class CodeController {
     /**
-     * CategorySearchService
+     * CodeService
      */
     @Autowired
-    private CategorySearchService categorySearchService;
+    private CodeService codeService;
 
     /**
      * search
@@ -35,8 +35,8 @@ public class CategorySearchController {
      * @return {@link BaseApiResponse<SearchResponse<ProductSearchDomainModel>>}
      */
     @PostMapping("/search")
-    public BaseApiResponse<SearchResponse<CategorySearchDomainModel>> search(
-            @RequestBody CategorySearchApplicationModel request) {
-        return BaseApiResponse.success(categorySearchService.search(request));
+    public BaseApiResponse<SearchResponse<CodeSearchDomainModel>> search(
+            @RequestBody CodeSearchApplicationModel request) {
+        return BaseApiResponse.success(codeService.search(request));
     }
 }

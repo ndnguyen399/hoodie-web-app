@@ -1,5 +1,5 @@
 /**
- * @tbe duynguyen © 2025
+ * @author duynguyen © 2025
  */
 package com.hoodie.app.domain.model;
 
@@ -10,47 +10,32 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * CategorySearchDomainModel class
+ * CodeSearchDomainModel class
  */
 @Getter
 @Setter
 @AllArgsConstructor
-public class CategorySearchDomainModel {
+public class CodeSearchDomainModel {
     /**
-     * category id
+     * codeId
      */
-    private Integer categoryId;
-
+    private Integer codeId;
     /**
-     * category Name
+     * codeCd
      */
-    private String categoryName;
-
+    private String codeCd;
     /**
-     * skill type
+     * codeName
      */
-    private String skillType;
-    
+    private String codeName;
     /**
-     * skill type name
+     * codeValue
      */
-    private String skillTypeName;
-
+    private String codeValue;
     /**
-     * age group
+     * codeDescription
      */
-    private String ageGroup;
-    
-    /**
-     * age group name
-     */
-    private String ageGroupName;
-
-    /**
-     * category Description
-     */
-    private String categoryDescription;
-
+    private String codeDescription;
     /**
      * reserveItem01
      */

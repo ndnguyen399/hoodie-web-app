@@ -13,5 +13,4 @@ import lombok.Data;
 @Data
 public class CategoryId implements Serializable {
     private Integer categoryId;
-    private Integer categoryHistoryNo;
 }

@@ -16,17 +16,17 @@ public class CategorySearchApplicationModel {
     private Integer categoryId;
 
     /**
-     * category History No
-     */
-    private Integer categoryHistoryNo;
-
-    /**
      * category Name
      */
     private String categoryName;
 
     /**
-     * category Description
+     * skill type
      */
-    private String categoryDescription;
+    private String skillType;
+
+    /**
+     * age group
+     */
+    private String ageGroup;
 }

@@ -20,44 +20,44 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Category class
+ * Code class
  */
 @Entity
-@Table(name = "categories")
+@Table(name = "code_master")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Category {
+public class Code {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
-    @Column(name = "category_id")
-    private Integer categoryId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "code_id")
+    private Integer codeId;
 
-    @Column(name = "category_name", nullable = false, length = 100)
-    private String categoryName;
-    
-    @Column(name = "skill_type", nullable = false, length = 20)
-    private String skillType;
-    
-    @Column(name = "age_group", nullable = false, length = 10)
-    private String ageGroup;
+    @Column(name = "code_cd", nullable = false, length = 100)
+    private String codeCd;
 
-    @Column(name = "category_description", length = 255)
-    private String categoryDescription;
-    
+    @Column(name = "code_name", nullable = false, length = 100)
+    private String codeName;
+
+    @Column(name = "code_value", nullable = false, length = 100)
+    private String codeValue;
+
+    @Column(name = "code_description", length = 255)
+    private String codeDescription;
+
     @Column(name = "reserve_item01", length = 255)
     private String reserveItem01;
-    
+
     @Column(name = "reserve_item02", length = 255)
     private String reserveItem02;
-    
+
     @Column(name = "reserve_item03", length = 255)
     private String reserveItem03;
-    
+
     @Column(name = "reserve_item04", length = 255)
     private String reserveItem04;
-    
+
     @Column(name = "reserve_item05", length = 255)
     private String reserveItem05;
 

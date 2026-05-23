@@ -532,7 +532,29 @@ CREATE TABLE refresh_tokens (
 COMMENT ON TABLE  refresh_tokens            IS 'JWT Refresh Token (lưu hash để bảo mật)';
 COMMENT ON COLUMN refresh_tokens.token_hash IS 'SHA-256 hash của refresh token, không lưu plaintext';
 
+-- ============================================================
+--  22. CODE_MASTER — Mã Code dùng trong Các Autocomplete CodeMaster
+-- ============================================================
+CREATE TABLE code_master (
+    code_id     SERIAL          PRIMARY KEY,
+	code_cd		VARCHAR(100)    NOT NULL,
+    code_name   VARCHAR(100)    NOT NULL,
+	code_value  VARCHAR(100)    NOT NULL,
+    code_description VARCHAR(255),
+    reserve_item01  VARCHAR(255),
+    reserve_item02  VARCHAR(255),
+    reserve_item03  VARCHAR(255),
+    reserve_item04  VARCHAR(255),
+    reserve_item05  VARCHAR(255),
+    delete_flag     VARCHAR(1)      NOT NULL DEFAULT '0',
+    created_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+COMMENT ON TABLE  code_master            IS 'Table Code Master';
+COMMENT ON COLUMN code_master.code_name IS 'Key of Code Master';
+COMMENT ON COLUMN code_master.code_value IS 'Value of Code Master';
 
--- đã tạo trước table từ 1-15 và 21 để chạy trước chương trình
+
+-- đã tạo trước table từ 1-15 và 21, 22 để chạy trước chương trình
 -- mvn clean generate-sources
 -- Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
