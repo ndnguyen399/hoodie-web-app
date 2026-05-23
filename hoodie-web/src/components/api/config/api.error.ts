@@ -1,4 +1,7 @@
 
+/**
+ * @author duynguyen © 2025
+ */
 import { AxiosError } from 'axios';
 
 export class ApiError extends Error {

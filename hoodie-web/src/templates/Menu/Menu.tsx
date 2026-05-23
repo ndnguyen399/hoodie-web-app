@@ -1,3 +1,6 @@
+/**
+ * @author duynguyen © 2025
+ */
 import { Box, Button, Divider, Drawer, Stack, Typography } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import ContentText from '../../assets/content-text.json';

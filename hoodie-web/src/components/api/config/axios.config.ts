@@ -1,4 +1,6 @@
-
+/**
+ * @author duynguyen © 2025
+ */
 export const AXIOS_CONFIG = {
   timeout: 30_000,
   withCredentials: true,

@@ -1,4 +1,6 @@
-
+/**
+ * @author duynguyen © 2025
+ */
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectFade, Navigation, Pagination } from 'swiper/modules';

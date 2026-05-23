@@ -1,46 +1,50 @@
+/**
+ * @author duynguyen © 2025
+ */
 // ~/router/route.ts
-
 import type { ComponentType } from 'react';
 
 // Page Public hiện tại
-import { GuestLayout } from '../layouts';   // Layout dành cho khách (không đăng nhập, trang giới thiệu)
+import { GuestLayout, HomeLayout } from '../layouts';
 import { Introduction } from '../components/Introduction';
 import { ProductSearch } from '../components/ProductSearch/ProductSearch';
 import { Register } from '../components/Register';
+import { Login } from '../components/Login';
+import { CategorySearch } from '../components/ManageCategory/CategorySearch';
+import { CategoryRegistration } from '../components/ManageCategory/CategoryRegistration';
 
-// Page Private (bỏ comment khi cần)
+// Page Private
 // import CategoryPage from '~/views/Category';
 // import Profile from '~/views/Profile';
 
-// Page Public khác (sau này)
+// Page Public khác
 // import Home from '~/views/Home';
 // import Login from '~/views/Login';
 // import Register from '~/views/Register';
-// import { AuthLayout } from '../layouts'; // nếu có layout riêng cho login/register
+// import { AuthLayout } from '../layouts';
 
 interface RouteItem {
   path: string;
   component: ComponentType;
-  layout?: ComponentType<any> | null; // null = không layout, undefined = dùng default trong App.tsx
+  layout?: ComponentType<any> | null;
 }
 
 const PublicRoutes: RouteItem[] = [
   {
     path: '/',
     component: Introduction,
-    layout: GuestLayout,               // ← Quan trọng: dùng GuestLayout cho trang giới thiệu
+    layout: GuestLayout,
   },
   {
     path: '/product',
     component: ProductSearch,
-    layout: GuestLayout,               // ← Quan trọng: dùng GuestLayout cho trang giới thiệu
+    layout: GuestLayout,
   },
-  // Ví dụ sau này:
-  // {
-  //   path: '/login',
-  //   component: Login,
-  //   layout: null,                    // không layout nào cả (full screen login)
-  // },
+  {
+    path: '/sign-in',
+    component: Login,
+    layout: GuestLayout,
+  },
   {
     path: '/sign-up',
     component: Register,
@@ -52,12 +56,22 @@ const PrivateRoutes: RouteItem[] = [
   // {
   //   path: '/dashboard',
   //   component: Dashboard,
-  //   layout: HomeLayout,              // dùng layout có header, sidebar...
+  //   layout: HomeLayout,
   // },
   // {
   //   path: '/profile',
   //   component: Profile,
   // },
+  {
+    path: '/manage-category-search',
+    component: CategorySearch,
+    layout: HomeLayout,
+  },
+  {
+    path: '/manage-category-registration',
+    component: CategoryRegistration,
+    layout: HomeLayout,
+  },
 ];
 
 export { PublicRoutes, PrivateRoutes };

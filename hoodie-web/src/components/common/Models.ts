@@ -43,6 +43,38 @@ export interface SearchResponse<T = any> {
      */
     search?: T[];
 }
+/**
+ * SubmitApiResponse
+ */
+export interface SubmitApiResponse<T = any> {
+  /**
+   * error
+   */
+  error?: boolean;
+
+  /**
+   * message
+   */
+  message?: string;
+
+  /**
+   * data
+   */
+  data?: T[] | null;
+}
+/**
+ * ReturnSubmitApiResponse
+ */
+export interface ReturnSubmitApiResponse {
+  /**
+   * code
+   */
+  code: string;
+  /**
+   * message
+   */
+  message: string;
+}
 // -----------------------[end commons]----------------------- //
 /**
  * ProductSearchApplicationModel
@@ -107,17 +139,17 @@ export interface CategorySearchApplicationModel {
      */
     categoryId?: number;
     /**
-     * categoryHistoryNo
+     * skillType
      */
-    categoryHistoryNo?: number;
+    skillType?: string;
+    /**
+     * ageGroup
+     */
+    ageGroup?: string;
     /**
      * categoryName
      */
     categoryName?: string;
-    /**
-     * categoryDescription
-     */
-    categoryDescription?: string;
 }
 /**
  * CategorySearchDomainModel
@@ -128,15 +160,180 @@ export interface CategorySearchDomainModel {
      */
     categoryId?: number;
     /**
-     * categoryHistoryNo
+     * categoryName
      */
-    categoryHistoryNo?: number;
+    categoryName?: string;
+    /**
+     * skillType
+     */
+    skillType?: string;
+    /**
+     * skillTypeName
+     */
+    skillTypeName?: string;
+    /**
+     * ageGroup
+     */
+    ageGroup?: string;
+    /**
+     * ageGroupName
+     */
+    ageGroupName?: string;
+    /**
+     * categoryDescription
+     */
+    categoryDescription?: string;
+    /**
+     * reserveItem01
+     */
+    reserveItem01?: string;
+    /**
+     * reserveItem02
+     */
+    reserveItem02?: string;
+    /**
+     * reserveItem03
+     */
+    reserveItem03?: string;
+    /**
+     * reserveItem04
+     */
+    reserveItem04?: string;
+    /**
+     * reserveItem05
+     */
+    reserveItem05?: string;
+    /**
+     * deleteFlag
+     */
+    deleteFlag?: string;
+    /**
+     * createdAt
+     */
+    createdAt?: Date;
+    /**
+     * updatedAt
+     */
+    updatedAt?: Date;
+}
+/**
+ * CategorySubmitApplicationModel
+ */
+export interface CategorySubmitApplicationModel {
     /**
      * categoryName
      */
     categoryName?: string;
     /**
+     * skillType
+     */
+    skillType?: string;
+    /**
+     * ageGroup
+     */
+    ageGroup?: string;
+    /**
      * categoryDescription
      */
     categoryDescription?: string;
+}
+/**
+ * RegisterRequestApplicationModel
+ */
+export interface RegisterRequestApplicationModel {
+    /**
+     * fullName
+     */
+    fullName?: string,
+    /**
+     * email
+     */
+    email?: string,
+    /**
+     * phone
+     */
+    phone?: string,
+    /**
+     * password
+     */
+    password?: string,
+}
+/**
+ * LoginRequestApplicationModel
+ */
+export interface LoginRequestApplicationModel {
+    /**
+     * email
+     */
+    email?: string,
+    /**
+     * password
+     */
+    password?: string,
+}
+/**
+ * CodeSearchDomainModel
+ */
+export interface CodeSearchDomainModel {
+    /**
+     * codeId
+     */
+    codeId?: number;
+    /**
+     * codeCd
+     */
+    codeCd?: string;
+    /**
+     * codeName
+     */
+    codeName?: string;
+    /**
+     * codeValue
+     */
+    codeValue?: string;
+    /**
+     * codeDescription
+     */
+    codeDescription?: string;
+    /**
+     * reserveItem01
+     */
+    reserveItem01?: string;
+    /**
+     * reserveItem02
+     */
+    reserveItem02?: string;
+    /**
+     * reserveItem03
+     */
+    reserveItem03?: string;
+    /**
+     * reserveItem04
+     */
+    reserveItem04?: string;
+    /**
+     * reserveItem05
+     */
+    reserveItem05?: string;
+    /**
+     * deleteFlag
+     */
+    deleteFlag?: string;
+    /**
+     * createdAt
+     */
+    createdAt?: Date;
+    /**
+     * updatedAt
+     */
+    updatedAt?: Date;
+}
+/**
+ * CodeSearchApplicationModel
+ */
+export interface CodeSearchApplicationModel {
+    /**
+     * codeCd
+     */
+    codeCd?: string;
 }

@@ -18,6 +18,7 @@
     "label-register": "Đăng ký tài khoản",
     "label-buttonRegister": "Đăng ký",
     "label-login": "Đăng nhập tài khoản",
+    "label-loginSuccess": "Đăng nhập tài khoản thành công",
     "label-buttonLogin": "Đăng nhập",
     "label-fullName": "Tên đầy đủ",
     "label-placeholderFullName": "Nguyen Van A",
@@ -28,6 +29,23 @@
     "label-password": "Mật khẩu",
     "label-or": "Hoặc",
     "label-haveAnAccount": "Bạn đã có tài khoản chưa?",
-    "label-allowExtraEmails": "Tôi muốn nhận thông báo cập nhật qua email."
-    
+    "label-notHaveAnAccount": "Bạn chưa có tài khoản?",
+    "label-allowExtraEmails": "Tôi muốn nhận thông báo cập nhật qua email.",
+    "label-buttonOk": "OK",
+    "label-internalServerError": "Không thể kết nối tới máy chủ",
+    "label-rememberMe": "Ghi nhớ lần cho tới",
+    "label-buttonCreate": "Tạo mới",
+    "label-categoryName": "Tên loại",
+    "label-skillType": "Loại kỹ năng",
+    "label-skillTypeName": "Tên Loại kỹ năng",
+    "label-ageGroup": "Nhóm tuổi",
+    "label-ageGroupName": "Tên Nhóm tuổi",
+    "label-categoryDescription": "Mô tả chi tiết",
+    "label-pageTitleCategorySearch": "Quản lý phân loại",
+    "label-pageTitleCategoryCreate": "Tạo mới phân loại",
+    "label-buttonBack": "Quay lại",
+    "label-": "",
+    "label-": "",
+    "label-": "",
+    "label-": ""
 }

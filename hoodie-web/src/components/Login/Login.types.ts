@@ -2,7 +2,7 @@
  * @author duynguyen © 2025
  */
 
-import type { RegisterRequestApplicationModel } from "../common/Models";
+import type { LoginRequestApplicationModel } from "../common/Models";
 
 export interface PageProps {
   isPanel?: boolean;
@@ -10,7 +10,6 @@ export interface PageProps {
 }
 
 export interface PageState {
-  registerRequestApplicationModel?: RegisterRequestApplicationModel;
+  loginRequestApplicationModel: LoginRequestApplicationModel,
   loading: boolean;
-  isSubmitting: boolean;
 }

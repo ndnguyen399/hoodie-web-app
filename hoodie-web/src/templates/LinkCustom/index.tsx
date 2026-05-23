@@ -1,3 +1,6 @@
+/**
+ * @author duynguyen © 2025
+ */
 import React from 'react';
 import { Box, Link, Typography } from '@mui/material';
 import type { SxProps } from '@mui/material';

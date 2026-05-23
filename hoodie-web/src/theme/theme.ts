@@ -1,3 +1,6 @@
+/**
+ * @author duynguyen © 2025
+ */
 import { createTheme } from '@mui/material/styles';
 
 export const theme = createTheme({

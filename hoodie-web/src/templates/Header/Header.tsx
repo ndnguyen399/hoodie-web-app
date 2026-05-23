@@ -1,3 +1,6 @@
+/**
+ * @author duynguyen © 2025
+ */
 import { useState } from 'react';
 import { AppBar, Box, Button, useMediaQuery, useTheme } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';

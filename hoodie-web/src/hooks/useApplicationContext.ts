@@ -1,13 +1,28 @@
-
+/**
+ * @author duynguyen © 2025
+ */
 // import { useCallback } from 'react';
+import { dialogService } from "../services/dialogService";
 
+/**
+ * useApplicationContext
+ * 
+ * @returns useApplicationContext
+ */
 export const useApplicationContext = () => {
   const overlay = {
     open: (_type?: any, _opts?: any) => ({
       execute: async (fn: () => Promise<void>) => {
         try {
-          console.log('Overlay start');
           await fn();
+          // return {
+          //   isError: false
+          // };
+        } catch (error) {
+          console.error(error);
+          // return {
+          //   isError: true
+          // };
         } finally {
           console.log('Overlay end');
         }
@@ -17,13 +32,14 @@ export const useApplicationContext = () => {
 
   const navigation = {
     openConfirmDialog: async (message: string) => {
-      return window.confirm(message);
+      //return window.confirm(message);
+      return await dialogService.open('confirm', message);
     },
     openInformationDialog: async (message: string) => {
-      alert(message);
+      await dialogService.open('info', message);
     },
     openErrorDialog: async (message: string) => {
-      alert(message);
+      await dialogService.open('error', message);
     },
     clearMessage: () => {}
   };

@@ -5,16 +5,16 @@ import { Box, Button, Checkbox, CircularProgress, CssBaseline, Divider, FormCont
 import MuiCard from '@mui/material/Card';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import { useEffect } from "react";
-import type { PageProps } from "./Register.types";
-import { useStore } from "./RegisterStore";
+import type { PageProps } from "./Login.types";
+import { useStore } from "./LoginStore";
 
 /**
- * RegisterContent
+ * LoginContent
  * 
  * @param props 
- * @returns RegisterContent
+ * @returns LoginContent
  */
-export const RegisterContent: React.FC<PageProps> = props => {
+export const LoginContent: React.FC<PageProps> = props => {
     const { t, state, action } = useStore(props);
 
     useEffect(() => {
@@ -36,33 +36,13 @@ export const RegisterContent: React.FC<PageProps> = props => {
                         variant="h4"
                         sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
                     >
-                        {t("label-register")}
+                        {t("label-login")}
                     </Typography>
                     <Box
                         component="form"
-                        onSubmit={action.registration.execute}
+                        onSubmit={action.submitLogin.execute}
                         sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
                     >
-                        <FormControl>
-                            <FormLabel htmlFor="name">{t("label-fullName")}</FormLabel>
-                            <TextField
-                                autoComplete="name"
-                                name="fullName"
-                                required
-                                fullWidth
-                                id="fullName"
-                                placeholder={t("label-placeholderFullName")}
-                                slotProps={{
-                                    htmlInput: {
-                                        maxLength: 150
-                                    },
-                                }}      
-                                value={state.registerRequestApplicationModel?.fullName!}
-                                onChange={(e) => {
-                                    action.onChangeField("fullName", e.target.value);
-                                }}
-                            />
-                        </FormControl>
                         <FormControl>
                             <FormLabel htmlFor="email">{t("label-email")}</FormLabel>
                             <TextField
@@ -78,30 +58,9 @@ export const RegisterContent: React.FC<PageProps> = props => {
                                         maxLength: 255
                                     },
                                 }} 
-                                value={state.registerRequestApplicationModel?.email!}
+                                value={state.loginRequestApplicationModel?.email!}
                                 onChange={(e) => {
                                     action.onChangeField("email", e.target.value);
-                                }}
-                            />
-                        </FormControl>
-                        <FormControl>
-                            <FormLabel htmlFor="phone">{t("label-numberPhone")}</FormLabel>
-                            <TextField
-                                fullWidth
-                                id="phone"
-                                placeholder={t("label-placeholderNumberPhone")}
-                                name="phone"
-                                autoComplete="phone"
-                                variant="outlined"
-                                slotProps={{
-                                    htmlInput: {
-                                        maxLength: 10
-                                    },
-                                }} 
-                                value={state.registerRequestApplicationModel?.phone!}
-                                onChange={(e) => {
-                                    const value = e.target.value.replace(/\D/g, "");
-                                    action.onChangeField("phone", value);
                                 }}
                             />
                         </FormControl>
@@ -121,24 +80,23 @@ export const RegisterContent: React.FC<PageProps> = props => {
                                         maxLength: 255
                                     },
                                 }}
-                                value={state.registerRequestApplicationModel?.password!}
+                                value={state.loginRequestApplicationModel?.password!}
                                 onChange={(e) => {
                                     action.onChangeField("password", e.target.value);
                                 }}
                             />
                         </FormControl>
                         <FormControlLabel
-                            control={<Checkbox value="allowExtraEmails" color="primary" />}
-                            label={t("label-allowExtraEmails")}
+                            control={<Checkbox value="rememberMe" color="primary" />}
+                            label={t("label-rememberMe")}
                         />
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             //onClick={action.registration.execute}
-                            loading={state.isSubmitting}
                         >
-                        {t("label-buttonRegister")}
+                        {t("label-buttonLogin")}
                         </Button>
                     </Box>
                     <Divider>
@@ -146,13 +104,13 @@ export const RegisterContent: React.FC<PageProps> = props => {
                     </Divider>
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                         <Typography sx={{ textAlign: 'center' }}>
-                            {t("label-haveAnAccount")}{' '}
+                            {t("label-notHaveAnAccount")}{' '}
                             <Link
-                                href="/sign-in"
+                                href="/sign-up"
                                 variant="body2"
                                 sx={{ alignSelf: 'center' }}
                             >
-                                {t("label-buttonLogin")}
+                                {t("label-buttonRegister")}
                             </Link>
                         </Typography>
                     </Box>
@@ -181,7 +139,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 const SignUpContainer = styled(Stack)(({ theme }) => ({
-    height: 'calc((1 - var(--template-frame-height, 0)) * 108dvh)',
+    height: 'calc((1 - var(--template-frame-height, 0)) * 80dvh)',
     minHeight: '100%',
     padding: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {

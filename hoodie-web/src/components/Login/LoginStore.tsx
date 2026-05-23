@@ -4,11 +4,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useApplicationContext } from "../../hooks/useApplicationContext";
 import { useTranslation } from "../../hooks/useTranslation";
-import type { PageProps, PageState } from "./Register.types";
-import type { RegisterRequestApplicationModel } from "../common/Models";
+import type { PageProps, PageState } from "./Login.types";
+import type { LoginRequestApplicationModel } from "../common/Models";
 import { AuthViewApi } from "../api/AuthViewApi";
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/AuthProvider";
 import Constants from "../common/Constants";
+import { useNavigate } from "react-router-dom";
 
 /**
  * useStore
@@ -20,11 +21,11 @@ export const useStore = (props: PageProps) => {
     const { t } = useTranslation();
     const context = useApplicationContext();
     const navigate = useNavigate();
+    const auth = useAuth();
 
     const [state, setState] = useState<PageState>({
-        registerRequestApplicationModel: {},
-        loading: false,
-        isSubmitting: false
+        loginRequestApplicationModel: {},
+        loading: false
     });
 
     const stateRef = useRef(state);
@@ -41,44 +42,46 @@ export const useStore = (props: PageProps) => {
             });
         },
         onChangeField: (item: string, newValue: any) => {
-            const before: RegisterRequestApplicationModel = stateRef.current.registerRequestApplicationModel!;
-            const registerRequestApplicationModel: RegisterRequestApplicationModel = {
+            const before: LoginRequestApplicationModel = stateRef.current.loginRequestApplicationModel!;
+            const loginRequestApplicationModel: LoginRequestApplicationModel = {
                 ...before,
                 [item]: newValue
             };
             setState(prev => ({
                 ...prev,
-                registerRequestApplicationModel
+                loginRequestApplicationModel
             }));
         },
         cleanData: {
             execute: () => {
                 setState(prev => ({
                     ...prev,
-                    registerRequestApplicationModel: {}
+                    loginRequestApplicationModel: {}
                 }));
             }
         },
-        registration: {
-            execute: (event: React.FormEvent<HTMLFormElement>) => {
+        submitLogin: {
+            execute: () => {
                 context.overlay
                 .open()
                 .execute(async () => {
-                    event.preventDefault();
-                    setState(prev => ({ ...prev, isSubmitting: true }));
+                    setState(prev => ({ ...prev, loading: true }));
                     try {
-                        const result = await new AuthViewApi().registration(
-                            stateRef.current.registerRequestApplicationModel!
+                        const result = await new AuthViewApi().login(
+                            stateRef.current.loginRequestApplicationModel!
                         );
                         const resultModel = result.data;
-                        let message = '';
-                        for (const item of resultModel) {
-                            message += `${item.code}: ${item.message}\n`;
-                        }
-                        await context.navigation.openInformationDialog(message);
+                        const accessToken = resultModel.accessToken;
+                        const refreshToken = resultModel.refreshToken;
+
+                        const role = auth.login(accessToken, refreshToken);
                         if (resultModel) {
-                            action.cleanData.execute();
-                            navigate(Constants.routeLoginPage);
+                            await context.navigation.openInformationDialog(t("label-loginSuccess"));
+                        }
+                        if (role === Constants.ROLE_ADMIN) {
+                            navigate(Constants.routeDashboard);
+                        } else if (role === Constants.ROLE_CUSTOMER) {
+                            navigate(Constants.routeHomePage);
                         }
                     } catch (error: any) {
                         const responseData = error?.payload;
@@ -98,7 +101,7 @@ export const useStore = (props: PageProps) => {
                     } finally {
                         setState(prev => ({
                             ...prev,
-                            isSubmitting: false
+                            loading: false
                         }));
                     }
                 });

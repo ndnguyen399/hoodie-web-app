@@ -1,3 +1,6 @@
+/**
+ * @author duynguyen © 2025
+ */
 import React from 'react';
 import type { EmblaOptionsType } from 'embla-carousel';
 import Autoplay from 'embla-carousel-autoplay';

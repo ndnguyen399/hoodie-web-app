@@ -1,4 +1,6 @@
-
+/**
+ * @author duynguyen © 2025
+ */
 import React, { Fragment } from 'react';
 import type { ReactNode } from 'react';
 import {
@@ -12,6 +14,7 @@ import { AuthProvider, useAuth } from './hooks/AuthProvider';
 import { HomeLayout, GuestLayout } from './layouts';
 import { PublicRoutes, PrivateRoutes } from './router/route';
 import { CircularProgress, Box } from '@mui/material';
+import MessageDialogProvider from './templates/MessageDialog/MessageDialogProvider';
 
 const PrivateRoute: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { user, loading } = useAuth();
@@ -24,7 +27,7 @@ const PrivateRoute: React.FC<{ children: ReactNode }> = ({ children }) => {
     );
   }
 
-  return user ? <>{children}</> : <Navigate to="/login" replace />;
+  return user ? <>{children}</> : <Navigate to="/sign-in" replace />;
 };
 
 function App() {
@@ -83,6 +86,7 @@ function App() {
           })}
         </Routes>
       </Router>
+      <MessageDialogProvider />
     </AuthProvider>
   );
 }

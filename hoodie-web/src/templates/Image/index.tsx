@@ -1,3 +1,6 @@
+/**
+ * @author duynguyen © 2025
+ */
 import { forwardRef, useState, type ImgHTMLAttributes } from "react";
 
 interface ImageProps extends ImgHTMLAttributes<HTMLImageElement> {

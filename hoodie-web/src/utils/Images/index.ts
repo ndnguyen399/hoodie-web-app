@@ -1,4 +1,6 @@
-
+/**
+ * @author duynguyen © 2025
+ */
 import logo from '../../utils/Images/hoodie.png';
 import Image1 from './product/image1.jpg';
 import Image2 from './product/image2.jpg';
