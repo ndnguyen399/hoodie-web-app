@@ -54,7 +54,8 @@ public class JwtUtil {
 
     private String generateToken(UserDetails userDetails, long expiration, String tokenType) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("roles", userDetails.getAuthorities());
+//        claims.put("roles", userDetails.getAuthorities());
+        claims.put("roles", userDetails.getAuthorities().stream().map(authority -> authority.getAuthority()).toList());
         claims.put("token_type", tokenType);
         claims.put("jti", UUID.randomUUID().toString());
         return Jwts.builder().claims(claims).subject(userDetails.getUsername()).issuedAt(new Date())

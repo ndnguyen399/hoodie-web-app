@@ -13,9 +13,10 @@ import { tokenStorage } from '../components/api/config/token.storage';
 
 type JwtPayload = {
     sub: string;
-    roles: {
-        authority: string;
-    }[];
+    // roles: {
+    //     authority: string;
+    // }[];
+    roles: string[];
     exp: number;
 };
 
@@ -67,7 +68,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             setUser({
                 username: decoded.sub,
                 role:
-                    decoded.roles?.[0]?.authority ?? 'ROLE_USER'
+                    // decoded.roles?.[0]?.authority ?? 'ROLE_USER'
+                    decoded.roles[0] ?? 'ROLE_USER'
             });
         } catch (error) {
             tokenStorage.clear();
@@ -89,7 +91,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     //         decoded.roles?.[0]?.authority ?? 'ROLE_USER' 
     // });
     const decoded = jwtDecode<JwtPayload>(accessToken);
-    const role = decoded.roles?.[0]?.authority ?? 'ROLE_USER';
+    // const role = decoded.roles[0]?.authority ?? 'ROLE_USER';
+    const role = decoded.roles[0] ?? 'ROLE_USER';
+
     setUser({ username: decoded.sub, role });
     return role;
   };

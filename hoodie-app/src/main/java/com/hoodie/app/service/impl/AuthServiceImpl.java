@@ -78,7 +78,7 @@ public class AuthServiceImpl implements AuthService {
 
         User user = User.builder().fullName(request.getFullName()).email(request.getEmail())
                 .passwordHash(passwordEncoder.encode(request.getPassword())).phone(request.getPhone())
-                .role(Role.CUSTOMER).deleteFlag(Constant.DELETE_FLAG_ZERO).build();
+                .role(Role.ROLE_CUSTOMER).deleteFlag(Constant.DELETE_FLAG_ZERO).build();
         userRepository.save(user);
 
         RegisterResponse response = new RegisterResponse();

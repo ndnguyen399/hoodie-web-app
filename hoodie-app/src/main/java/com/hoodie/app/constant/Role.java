@@ -7,5 +7,7 @@ package com.hoodie.app.constant;
  * Role class
  */
 public enum Role {
-    CUSTOMER, ADMIN
+//    CUSTOMER, ADMIN
+    ROLE_ADMIN,
+    ROLE_CUSTOMER
 }
