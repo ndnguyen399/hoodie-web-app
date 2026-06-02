@@ -11,6 +11,7 @@ import Constants from "../../common/Constants";
 import type { CategorySubmitApplicationModel, CodeSearchDomainModel } from "../../common/Models";
 // import type { ICommandBarItemProps } from "@fluentui/react";
 import { useNavigate } from "react-router-dom";
+import { CategorySubmitViewApi } from "../../api/CategorySubmitViewApi";
 
 /**
  * useStore
@@ -81,15 +82,18 @@ export const useStore = (props: PageProps) => {
                     event.preventDefault();
                     setState(prev => ({ ...prev, isSubmitting: true }));
                     try {
-                        // const result = await new AuthViewApi().registration(
-                        //     stateRef.current.registerRequestApplicationModel!
-                        // );
-                        // const resultModel = result.data;
-                        // let message = '';
-                        // for (const item of resultModel) {
-                        //     message += `${item.code}: ${item.message}\n`;
-                        // }
-                        // await context.navigation.openInformationDialog(message);
+
+                        const result = await new CategorySubmitViewApi().submit({
+                            requestType: Constants.REUEST_TYPE_CREATE,
+                            model: stateRef.current.categorySubmitApplicationModel!
+                        });
+                        const resultModel = result.data;
+                        let message = '';
+                        for (const item of resultModel) {
+                            message += `${item.code}: ${item.message}\n`;
+                        }
+                        await context.navigation.openInformationDialog(message);
+                        action.back.execute();
                     } catch (error: any) {
                         const responseData = error?.payload;
                         if (responseData) {
@@ -122,6 +126,7 @@ export const useStore = (props: PageProps) => {
                     setState(prev => ({
                         ...prev,
                         categorySubmitApplicationModel: {
+                            ...prev.categorySubmitApplicationModel,
                             skillType: newValue?.codeName!
                         }
                     }));
@@ -164,6 +169,7 @@ export const useStore = (props: PageProps) => {
                     setState(prev => ({
                         ...prev,
                         categorySubmitApplicationModel: {
+                            ...prev.categorySubmitApplicationModel,
                             ageGroup: newValue?.codeName!
                         }
                     }));

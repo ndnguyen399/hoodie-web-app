@@ -75,6 +75,19 @@ export interface ReturnSubmitApiResponse {
    */
   message: string;
 }
+/**
+ * SubmitRequest
+ */
+export interface SubmitRequest<T = any> {
+    /**
+     * requestType
+     */
+    requestType?: string;
+    /**
+     * model
+     */
+    model?: T;
+}
 // -----------------------[end commons]----------------------- //
 /**
  * ProductSearchApplicationModel
@@ -152,6 +165,51 @@ export interface CategorySearchApplicationModel {
     categoryName?: string;
 }
 /**
+ * CategorySubmitApplicationModel
+ */
+export interface CategorySubmitApplicationModel {
+    /**
+     * categoryId
+     */
+    categoryId?: number;
+    /**
+     * categoryName
+     */
+    categoryName?: string;
+    /**
+     * skillType
+     */
+    skillType?: string;
+    /**
+     * ageGroup
+     */
+    ageGroup?: string;
+    /**
+     * categoryDescription
+     */
+    categoryDescription?: string;
+    /**
+     * reserveItem01
+     */
+    reserveItem01?: string;
+    /**
+     * reserveItem02
+     */
+    reserveItem02?: string;
+    /**
+     * reserveItem03
+     */
+    reserveItem03?: string;
+    /**
+     * reserveItem04
+     */
+    reserveItem04?: string;
+    /**
+     * reserveItem05
+     */
+    reserveItem05?: string;
+}
+/**
  * CategorySearchDomainModel
  */
 export interface CategorySearchDomainModel {
@@ -215,27 +273,6 @@ export interface CategorySearchDomainModel {
      * updatedAt
      */
     updatedAt?: Date;
-}
-/**
- * CategorySubmitApplicationModel
- */
-export interface CategorySubmitApplicationModel {
-    /**
-     * categoryName
-     */
-    categoryName?: string;
-    /**
-     * skillType
-     */
-    skillType?: string;
-    /**
-     * ageGroup
-     */
-    ageGroup?: string;
-    /**
-     * categoryDescription
-     */
-    categoryDescription?: string;
 }
 /**
  * RegisterRequestApplicationModel

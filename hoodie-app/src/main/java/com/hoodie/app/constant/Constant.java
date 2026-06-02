@@ -10,6 +10,11 @@ public final class Constant {
     private Constant() {
     }
 
+    // reuqest type
+    private static final String CONSTANT_SUBMIT_REQUEST_TYPE_INITIAL = "01";
+    private static final String CONSTANT_SUBMIT_REQUEST_TYPE_CREATE = "02";
+    private static final String CONSTANT_SUBMIT_REQUEST_TYPE_UPDATE = "03";
+
     // Paths
     public static final String DELETE_FLAG_ZERO = "0";
 
@@ -94,6 +99,9 @@ public final class Constant {
     public static final String CATEGORY_DELETED_SUCCESS_MESSAGE = "Xóa danh mục thành công";
     public static final String CATEGORY_ALREADY_EXISTS_MESSAGE = "Danh mục đã tồn tại";
     public static final String CATEGORY_HAS_PRODUCTS_MESSAGE = "Không thể xóa danh mục đang chứa sản phẩm";
+    public static final String CATEGORY_NAME_NOT_NULL_MESSAGE = "Tên danh mục không được để trống";
+    public static final String CATEGORY_SKILL_TYPE_NOT_NULL_MESSAGE = "Loại kỹ năng không được để trống";
+    public static final String CATEGORY_AGE_GROUP_NULL_MESSAGE = "Nhóm tuổi không được để trống";
 
     // ========================
     // GIỎ HÀNG

@@ -10,6 +10,7 @@ import com.hoodie.app.repository.custom.CategorySearchRepositoryCustom;
 /**
  * CategoryRepository class
  */
-public interface CategoryRepository extends JpaRepository<Category, Long>, CategorySearchRepositoryCustom {
-
+public interface CategoryRepository extends JpaRepository<Category, Integer>, CategorySearchRepositoryCustom {
+    Category findByCategoryIdAndDeleteFlag(Integer categoryId, String deleteFlag);
+    Category findByCategoryNameAndDeleteFlag(String categoryName, String deleteFlag);
 }
