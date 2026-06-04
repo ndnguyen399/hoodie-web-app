@@ -558,3 +558,6 @@ COMMENT ON COLUMN code_master.code_value IS 'Value of Code Master';
 -- đã tạo trước table từ 1-15 và 21, 22 để chạy trước chương trình
 -- mvn clean generate-sources
 -- Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+
+-- mvn clean compile

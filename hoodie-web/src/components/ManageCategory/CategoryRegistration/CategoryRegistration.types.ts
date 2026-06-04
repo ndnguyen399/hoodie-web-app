@@ -14,5 +14,6 @@ export interface PageState {
   ageGroupAC?: SearchResponse<CodeSearchDomainModel>;
   loading: boolean;
   isSubmitting: boolean;
+  requestType: string;
   // ribbonItem: any[];
 }

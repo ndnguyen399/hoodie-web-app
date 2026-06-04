@@ -13,6 +13,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import type { CategorySearchDomainModel } from "../../common/Models";
 import { CategorySearchViewApi } from "../../api/CategorySearchViewApi";
+import { CategorySubmitViewApi } from "../../api/CategorySubmitViewApi";
 // import type { ICommandBarItemProps } from "@fluentui/react";
 
 /**
@@ -63,7 +64,7 @@ export const useStore = (props: PageProps) => {
         },
         handleCreateClick: {
             execute: () => {
-                navigate(Constants.routeCategoryRegistration)
+                navigate(`${Constants.routeCategoryRegistration}?requestType=${Constants.REUEST_TYPE_CREATE}`)
             }
         },
         handleRefreshClick: {
@@ -83,9 +84,9 @@ export const useStore = (props: PageProps) => {
                 filterModel: GridFilterModel
             ): Promise<{ items: CategorySearchDomainModel[]; itemCount: number }> => {
                 const response = await new CategorySearchViewApi().search(stateRef.current.categorySearchApplicationModel!);
-                const CategoryData = response.data?.search!;
+                const categoryData = response.data?.search!;
 
-                let filteredCategory = [...CategoryData];
+                let filteredCategory = [...categoryData];
 
                 // Apply filters (example only)
                 if (filterModel?.items?.length) {
@@ -257,26 +258,62 @@ export const useStore = (props: PageProps) => {
 
                 await action.grid.loadDataTable.execute();
             },
-            onRowClick: (
-                params: GridRowParams<CategorySearchDomainModel>,
-            ) => {
-                navigate(`/employees/${params.row.categoryId}`);
-            },
-
+            // onRowClick: (
+            //     params: GridRowParams<CategorySearchDomainModel>,
+            // ) => {
+            //     navigate(`/employees/${params.row.categoryId}`);
+            // },
             onRowEdit: (
                 row: CategorySearchDomainModel,
             ) => {
-                navigate(`/employees/edit/${row.categoryId}`);
+                const searchParams = new URLSearchParams({
+                    requestType: Constants.REUEST_TYPE_UPDATE,
+                    categoryId: String(row.categoryId),
+                });
+                navigate({
+                    pathname: Constants.routeCategoryRegistration,
+                    search: searchParams.toString()
+                });
             },
             onRowDelete: async (
                 row: CategorySearchDomainModel,
             ) => {
-                const isOk = window.confirm(
-                `Delete employee ${row.categoryName}?`,
-                );
-
+                const isOk = 
+                    await context.navigation
+                        .openConfirmDialog(`${t('label-textButtonDelete')} - ${t('label-categoryName')}: ${row.categoryName}`);
                 if (!isOk) {
                     return;
+                }
+
+                try {
+                    const result = await new CategorySubmitViewApi().submitDelete({
+                        requestType: Constants.REUEST_TYPE_DELETE,
+                        model: {
+                            categoryId: row.categoryId
+                        }
+                    });
+                    const resultModel = result.data;
+                    let message = '';
+                    for (const item of resultModel) {
+                        message += `${item.code}: ${item.message}\n`;
+                    }
+                    await context.navigation.openInformationDialog(message);
+                    await action.grid.loadDataTable.execute();
+                } catch (error: any) {
+                    const responseData = error?.payload;
+                    if (responseData) {
+                        let message = '';
+                        if (responseData.data?.length) {
+                            for (const item of responseData.data) {
+                                message += `${item.code}: ${item.message}\n`;
+                            }
+                        } else {
+                            message = responseData.message;
+                        }
+                        await context.navigation.openErrorDialog(message);
+                    } else {
+                        await context.navigation.openErrorDialog(t("label-internalServerError"));
+                    }
                 }
             },
         },

@@ -3,7 +3,7 @@
  */
 import { useEffect, useMemo, useRef, useState, type SyntheticEvent } from "react";
 import { useApplicationContext } from "../../../hooks/useApplicationContext";
-// import { useAppParameters } from "../../hooks/useAppParameters";
+import { useAppParameters } from "../../../hooks/useAppParameters";
 import { useTranslation } from "../../../hooks/useTranslation";
 import type { PageProps, PageState } from "./CategoryRegistration.types";
 import { CodeSearchViewApi } from "../../api/CodeSearchViewApi";
@@ -22,7 +22,7 @@ import { CategorySubmitViewApi } from "../../api/CategorySubmitViewApi";
 export const useStore = (props: PageProps) => {
     const { t } = useTranslation();
     const context = useApplicationContext();
-    // const params = useAppParameters();
+    const params = useAppParameters();
     const navigate = useNavigate();
 
     const [state, setState] = useState<PageState>({
@@ -30,7 +30,8 @@ export const useStore = (props: PageProps) => {
         skillTypeAC: {},
         ageGroupAC: {},
         loading: false,
-        isSubmitting: false
+        isSubmitting: false,
+        requestType: params.get("requestType") ?? Constants.REUEST_TYPE_INITIAL
         // ribbonItem: []
     });
 
@@ -42,10 +43,36 @@ export const useStore = (props: PageProps) => {
     const action = useMemo(() => ({
         load: async () => {
             await context.overlay.open().execute(async () => {
-                setState(prev => ({
-                    ...prev,
-                    // ribbonItem: action.getRibbonItem()
-                }));
+                action.items.skillType.handleOpen();
+                action.items.ageGroup.handleOpen();
+                try {
+                    const response = await new CategorySubmitViewApi().initial({
+                        requestType: stateRef.current.requestType,
+                        model: {
+                            categoryId: Number(params.get("categoryId"))!
+                        }
+                    });
+                    setState(prev => ({
+                        ...prev,
+                        categorySubmitApplicationModel: response.data?.search?.[0]
+                    }));
+                } catch (error: any) {
+                    const responseData = error?.payload;
+                    if (responseData) {
+                        let message = '';
+                        if (responseData.data?.length) {
+                            for (const item of responseData.data) {
+                                message += `${item.code}: ${item.message}\n`;
+                            }
+                        } else {
+                            message = responseData.message;
+                        }
+                        await context.navigation.openErrorDialog(message);
+                    } else {
+                        await context.navigation.openErrorDialog(t("label-internalServerError"));
+                    }
+                    navigate(-1)
+                }
             });
         },
         onChangeField: (item: string, newValue: any) => {
@@ -82,9 +109,8 @@ export const useStore = (props: PageProps) => {
                     event.preventDefault();
                     setState(prev => ({ ...prev, isSubmitting: true }));
                     try {
-
                         const result = await new CategorySubmitViewApi().submit({
-                            requestType: Constants.REUEST_TYPE_CREATE,
+                            requestType: stateRef.current.requestType,
                             model: stateRef.current.categorySubmitApplicationModel!
                         });
                         const resultModel = result.data;
@@ -127,11 +153,14 @@ export const useStore = (props: PageProps) => {
                         ...prev,
                         categorySubmitApplicationModel: {
                             ...prev.categorySubmitApplicationModel,
-                            skillType: newValue?.codeName!
+                            skillType: newValue?.codeName
                         }
                     }));
                 },
                 handleOpen: async () => {
+                    if (stateRef.current.skillTypeAC?.search?.length) {
+                        return;
+                    }
                     context.overlay
                         .open()
                         .execute(async () => {
@@ -170,11 +199,14 @@ export const useStore = (props: PageProps) => {
                         ...prev,
                         categorySubmitApplicationModel: {
                             ...prev.categorySubmitApplicationModel,
-                            ageGroup: newValue?.codeName!
+                            ageGroup: newValue?.codeName
                         }
                     }));
                 },
                 handleOpen: async () => {
+                    if (stateRef.current.skillTypeAC?.search?.length) {
+                        return;
+                    }
                     context.overlay
                         .open()
                         .execute(async () => {

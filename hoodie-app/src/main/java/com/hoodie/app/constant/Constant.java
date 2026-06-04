@@ -11,12 +11,14 @@ public final class Constant {
     }
 
     // reuqest type
-    private static final String CONSTANT_SUBMIT_REQUEST_TYPE_INITIAL = "01";
-    private static final String CONSTANT_SUBMIT_REQUEST_TYPE_CREATE = "02";
-    private static final String CONSTANT_SUBMIT_REQUEST_TYPE_UPDATE = "03";
+    public static final String CONSTANT_SUBMIT_REQUEST_TYPE_INITIAL = "01";
+    public static final String CONSTANT_SUBMIT_REQUEST_TYPE_CREATE = "02";
+    public static final String CONSTANT_SUBMIT_REQUEST_TYPE_UPDATE = "03";
+    public static final String CONSTANT_SUBMIT_REQUEST_TYPE_DELETE = "04";
 
     // Paths
     public static final String DELETE_FLAG_ZERO = "0";
+    public static final String DELETE_FLAG_ONE = "1";
 
     // Code No Error
     public static final String NO_ERROR = "I.HOODIE.SUCCESS";
@@ -29,6 +31,10 @@ public final class Constant {
 
     // Message info success
     public static final String INFO_SUCCESS = "Tạo mới thành công";
+
+    public static final String INFO_UPDATE_SUCCESS = "Cập nhật thành công";
+
+    public static final String INFO_DELETE_SUCCESS = "Xóa thành công";
 
     // Code Error existsByEmail
     public static final String EXISTS_BY_EMAIL_CODE = "E.HOODIE.ERROR";
@@ -45,6 +51,8 @@ public final class Constant {
     public static final String EMAIL_INVALID = "Email không đúng định dạng";
     public static final String PASSWORD_NOT_BLANK = "Mật khẩu không được để trống";
     public static final String PHONE_INVALID = "Số điện thoại không hợp lệ";
+    public static final String REQUEST_TYPE_NOT_BLANK = "Request Type Không được để trống";
+    public static final String REQUEST_TYPE_NOT_VALID = "Bạn không thể xóa";
 
     // ========================
     // AUTH / TÀI KHOẢN
@@ -102,6 +110,7 @@ public final class Constant {
     public static final String CATEGORY_NAME_NOT_NULL_MESSAGE = "Tên danh mục không được để trống";
     public static final String CATEGORY_SKILL_TYPE_NOT_NULL_MESSAGE = "Loại kỹ năng không được để trống";
     public static final String CATEGORY_AGE_GROUP_NULL_MESSAGE = "Nhóm tuổi không được để trống";
+    public static final String CATEGORY_ID_NOT_NULL_MESSAGE = "ID danh mục không được để trống";
 
     // ========================
     // GIỎ HÀNG

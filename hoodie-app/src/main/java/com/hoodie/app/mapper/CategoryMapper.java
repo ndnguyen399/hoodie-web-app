@@ -7,7 +7,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
+import com.hoodie.app.application.model.CategoryInitialApplicationModel;
+import com.hoodie.app.application.model.CategorySearchApplicationModel;
 import com.hoodie.app.application.model.CategorySubmitApplicationModel;
+import com.hoodie.app.application.model.CategorySubmitDeleteApplicationModel;
 import com.hoodie.app.entity.Category;
 
 /**
@@ -15,14 +18,40 @@ import com.hoodie.app.entity.Category;
  */
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
-    // Map from request → entity
+    /**
+     * map create
+     * 
+     * @param request
+     * @return
+     */
     Category map(CategorySubmitApplicationModel request);
 
-    // Map from entity → response
-//    CategorySubmitApplicationModel toModel(Category category);
+    /**
+     * map initial
+     * 
+     * @param request
+     * @return
+     */
+    CategorySearchApplicationModel map(CategoryInitialApplicationModel request);
 
-    // Dùng cho update: map vào entity đã có sẵn, giữ lại các field không được map
-    @Mapping(target = "categoryId", ignore = true) 
+    /**
+     * updateEntity
+     * 
+     * @param request
+     * @param category
+     */
+    @Mapping(target = "categoryId", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     void updateEntity(CategorySubmitApplicationModel request, @MappingTarget Category category);
+
+    /**
+     * deleteEntity
+     * 
+     * @param request
+     * @param category
+     */
+    @Mapping(target = "categoryId", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    void deleteEntity(CategorySubmitDeleteApplicationModel request, @MappingTarget Category category);
 }

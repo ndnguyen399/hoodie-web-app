@@ -307,7 +307,7 @@ public class CheckLogic {
      * Null-safe inequality check between two objects.
      */
     public static boolean isSubmitEntry(String requestType) {
-        if (requestType.equals(CONSTANT_SUBMIT_REQUEST_TYPE_CREATE)) {
+        if (CONSTANT_SUBMIT_REQUEST_TYPE_CREATE.equals(requestType)) {
             return true;
         } else {
             return false;

@@ -144,6 +144,31 @@ export interface ProductSearchDomainModel {
     primaryImageUrl?: string;
 }
 /**
+ * CategoryInitialApplicationModel
+ */
+export interface CategoryInitialApplicationModel {
+    /**
+     * categoryId
+     */
+    categoryId?: number;
+    /**
+     * skillType
+     */
+    skillType?: string;
+    /**
+     * ageGroup
+     */
+    ageGroup?: string;
+    /**
+     * categoryName
+     */
+    categoryName?: string;
+    /**
+     * categoryDescription
+     */
+    categoryDescription?: string;
+}
+/**
  * CategorySearchApplicationModel
  */
 export interface CategorySearchApplicationModel {
@@ -208,6 +233,31 @@ export interface CategorySubmitApplicationModel {
      * reserveItem05
      */
     reserveItem05?: string;
+}
+/**
+ * CategorySubmitDeleteApplicationModel
+ */
+export interface CategorySubmitDeleteApplicationModel {
+    /**
+     * categoryId
+     */
+    categoryId?: number;
+    /**
+     * categoryName
+     */
+    categoryName?: string;
+    /**
+     * skillType
+     */
+    skillType?: string;
+    /**
+     * ageGroup
+     */
+    ageGroup?: string;
+    /**
+     * categoryDescription
+     */
+    categoryDescription?: string;
 }
 /**
  * CategorySearchDomainModel

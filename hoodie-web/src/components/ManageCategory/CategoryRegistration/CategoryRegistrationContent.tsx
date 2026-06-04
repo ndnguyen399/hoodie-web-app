@@ -2,17 +2,17 @@
  * @author duynguyen © 2025
  */
 import React, { useEffect } from "react";
-import { Autocomplete, Box, Button, Checkbox, CircularProgress, FormControl, FormControlLabel, FormGroup, FormHelperText, Grid, InputLabel, MenuItem, Select, Stack, TextField, type SelectChangeEvent, type SelectProps } from "@mui/material";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { Autocomplete, Box, Button, CircularProgress, FormControl, FormGroup, Grid, Stack, TextField } from "@mui/material";
+// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 // import { CommandBar } from "@fluentui/react";
 import type { PageProps } from "./CategoryRegistration.types";
 import { useStore } from "./CategoryRegistrationStore";
 import PageContainer from "../PageContainer";
-import { useNavigate } from "react-router-dom";
-import dayjs, { Dayjs } from "dayjs";
+// import { useNavigate } from "react-router-dom";
+// import dayjs, { Dayjs } from "dayjs";
 import Constants from "../../common/Constants";
 // import Image from "../../templates/Image";
 
@@ -37,8 +37,8 @@ export const CategoryRegistrationContent: React.FC<PageProps> = props => {
         <>
             {/* <CommandBar items={state.ribbonItem} /> */}
             <PageContainer
-                title={t('label-pageTitleCategoryCreate')}
-                breadcrumbs={[{ title: t('label-pageTitleCategorySearch'), path: Constants.routeCategorySearch }, { title: t('label-buttonCreate') }]}
+                title={state.requestType === Constants.REUEST_TYPE_CREATE ? t('label-pageTitleCategoryCreate') : t('label-pageTitleCategoryUpdate')}
+                breadcrumbs={[{ title: t('label-pageTitleCategorySearch'), path: Constants.routeCategorySearch }, { title: state.requestType === Constants.REUEST_TYPE_CREATE ? t('label-buttonCreate') : t('label-buttonUpdate') }]}
             >
             <Box
                 component="form"
@@ -50,6 +50,23 @@ export const CategoryRegistrationContent: React.FC<PageProps> = props => {
             >
             <FormGroup>
                 <Grid container spacing={2} sx={{ mb: 2, width: '100%' }}>
+                    <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'none' }}>
+                        <TextField
+                            name="categoryId"
+                            label={t('label-categoryId')}
+                            slotProps={{
+                                htmlInput: {
+                                    maxLength: 100
+                                },
+                            }} 
+                            value={state.categorySubmitApplicationModel?.categoryId!}
+                            onChange={(e) => {
+                                action.onChangeField("categoryId", e.target.value);
+                            }}
+                            fullWidth
+                            type="hidden"
+                        />
+                    </Grid>
                     <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex' }}>
                         <TextField
                             name="categoryName"
@@ -58,6 +75,9 @@ export const CategoryRegistrationContent: React.FC<PageProps> = props => {
                                 htmlInput: {
                                     maxLength: 100
                                 },
+                                inputLabel: {
+                                    shrink: state.categorySubmitApplicationModel?.categoryName ? true : false
+                                }
                             }} 
                             value={state.categorySubmitApplicationModel?.categoryName!}
                             onChange={(e) => {
@@ -70,7 +90,15 @@ export const CategoryRegistrationContent: React.FC<PageProps> = props => {
                         <FormControl fullWidth>
                             <Autocomplete
                                 disablePortal
+                                disableClearable={false}
                                 options={state.skillTypeAC?.search ?? []}
+                                value={
+                                    state.skillTypeAC?.search?.find(
+                                        item =>
+                                            item.codeName ===
+                                            state.categorySubmitApplicationModel?.skillType
+                                    ) ?? null
+                                }
                                 getOptionLabel={(option) => option.codeValue ?? ''}
                                 renderOption={(props, option) => (
                                     <li {...props} key={option.codeName}>
@@ -96,7 +124,15 @@ export const CategoryRegistrationContent: React.FC<PageProps> = props => {
                         <FormControl fullWidth> {/* error={!!formErrors.role} */}
                             <Autocomplete
                                 disablePortal
+                                disableClearable={false}
                                 options={state.ageGroupAC?.search ?? []}
+                                value={
+                                    state.ageGroupAC?.search?.find(
+                                        item =>
+                                            item.codeName ===
+                                            state.categorySubmitApplicationModel?.ageGroup
+                                    ) ?? null
+                                }
                                 getOptionLabel={(option) => option.codeValue ?? ''}
                                 renderOption={(props, option) => (
                                     <li {...props} key={option.codeName}>
@@ -126,6 +162,9 @@ export const CategoryRegistrationContent: React.FC<PageProps> = props => {
                                 htmlInput: {
                                     maxLength: 255
                                 },
+                                inputLabel: {
+                                    shrink: state.categorySubmitApplicationModel?.categoryDescription ? true : false
+                                }
                             }} 
                             value={state.categorySubmitApplicationModel?.categoryDescription!}
                             onChange={(e) => {
@@ -150,7 +189,7 @@ export const CategoryRegistrationContent: React.FC<PageProps> = props => {
                     size="large"
                     loading={state.isSubmitting}
                 >
-                    {t('label-buttonCreate')}
+                    {state.requestType === Constants.REUEST_TYPE_CREATE ? t('label-buttonCreate') : t('label-buttonUpdate')}
                 </Button>
             </Stack>
             </Box>

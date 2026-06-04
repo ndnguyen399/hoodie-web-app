@@ -15,5 +15,6 @@ const Constants : any= {
     REUEST_TYPE_INITIAL: "01",
     REUEST_TYPE_CREATE: "02",
     REUEST_TYPE_UPDATE: "03",
+    REUEST_TYPE_DELETE: "04",
 };
 export default Constants;
