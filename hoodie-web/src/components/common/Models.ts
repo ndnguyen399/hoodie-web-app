@@ -94,29 +94,25 @@ export interface SubmitRequest<T = any> {
  */
 export interface ProductSearchApplicationModel {
     /**
-     * keyword
+     * productId
      */
-    keyword?: string;
+    productId?: number;
     /**
      * categoryId
      */
     categoryId?: number;
     /**
-     * colorId
+     * productName
      */
-    colorId?: number;
-    /**
-     * sizeId
-     */
-    sizeId?: number;
+    productName?: string;
     /**
      * minPrice
      */
-    minPrice?: string;
+    minPrice?: number;
     /**
      * maxPrice
      */
-    maxPrice?: string;
+    maxPrice?: number;
 }
 /**
  * ProductSearchDomainModel
@@ -127,21 +123,162 @@ export interface ProductSearchDomainModel {
      */
     productId?: number;
     /**
+     * category Id
+     */
+    categoryId?: number;
+    /**
      * product Name
      */
     productName?: string;
     /**
-     * category Name
+     * product description
      */
-    categoryName?: string;
+    productDescription?: string;
     /**
-     * display Price
+     * price
      */
-    displayPrice?: number;
+    price?: number;
     /**
-     * primary Image Url
+     * stock quantity
      */
-    primaryImageUrl?: string;
+    stockQuantity?: number;
+    /**
+     * skill Logic
+     */
+    skillLogic?: string;
+    /**
+     * skill Logic name
+     */
+    skillLogicName?: string;
+    /**
+     * skill Creative
+     */
+    skillCreative?: string;
+    /**
+     * skill Creative name
+     */
+    skillCreativeName?: string;
+    /**
+     * skill Stem
+     */
+    skillStem?: string;
+    /**
+     * skill Stem name
+     */
+    skillStemName?: string;
+    /**
+     * skill Motor
+     */
+    skillMotor?: string;
+    /**
+     * skill Motor name
+     */
+    skillMotorName?: string;
+    /**
+     * skill Social
+     */
+    skillSocial?: string;
+    /**
+     * skill Social name
+     */
+    skillSocialName?: string;
+    /**
+     * list Images
+     */
+    listImages?: ProductImageSearchDomainModel[];
+    /**
+     * reserveItem01
+     */
+    reserveItem01?: string;
+    /**
+     * reserveItem02
+     */
+    reserveItem02?: string;
+    /**
+     * reserveItem03
+     */
+    reserveItem03?: string;
+    /**
+     * reserveItem04
+     */
+    reserveItem04?: string;
+    /**
+     * reserveItem05
+     */
+    reserveItem05?: string;
+    /**
+     * deleteFlag
+     */
+    deleteFlag?: string;
+    /**
+     * createdAt
+     */
+    createdAt?: Date;
+    /**
+     * updatedAt
+     */
+    updatedAt?: Date;
+}
+/**
+ * ProductImageSearchDomainModel
+ */
+export interface ProductImageSearchDomainModel {
+    /**
+     * imageId
+     */
+    imageId?: number;
+    /**
+     * productId
+     */
+    productId?: number;
+    /**
+     * imageUrl
+     */
+    imageUrl?: string;
+    /**
+     * altText
+     */
+    altText?: string;
+    /**
+     * displayOrder
+     */
+    displayOrder?: number;
+    /**
+     * isPrimary
+     */
+    isPrimary?: boolean;
+    /**
+     * reserveItem01
+     */
+    reserveItem01?: string;
+    /**
+     * reserveItem02
+     */
+    reserveItem02?: string;
+    /**
+     * reserveItem03
+     */
+    reserveItem03?: string;
+    /**
+     * reserveItem04
+     */
+    reserveItem04?: string;
+    /**
+     * reserveItem05
+     */
+    reserveItem05?: string;
+    /**
+     * deleteFlag
+     */
+    deleteFlag?: string;
+    /**
+     * createdAt
+     */
+    createdAt?: Date;
+    /**
+     * updatedAt
+     */
+    updatedAt?: Date;
 }
 /**
  * CategoryInitialApplicationModel

@@ -12,24 +12,19 @@ import java.math.BigDecimal;
 @Data
 public class ProductSearchApplicationModel {
     /**
-     * content search
+     * product id
      */
-    private String keyword;
+    private Integer productId;
 
     /**
      * category id
      */
-    private Long categoryId;
+    private Integer categoryId;
 
     /**
-     * color id
+     * product name
      */
-    private Long colorId;
-
-    /**
-     * size id
-     */
-    private Long sizeId;
+    private String productName;
 
     /**
      * min price
@@ -40,8 +35,4 @@ public class ProductSearchApplicationModel {
      * max price
      */
     private BigDecimal maxPrice;
-
-    // private Integer page = 0;
-
-    // private Integer size = 20;
 }

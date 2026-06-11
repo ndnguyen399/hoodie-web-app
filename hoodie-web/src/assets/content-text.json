@@ -61,5 +61,8 @@
     "label-skillMotor": "Chỉ số vận động",
     "label-skillSocial": "Chỉ số xã hội",
     "label-point": "Điểm",
-    "label-uploadFile": "Tải tập tin lên"
+    "label-uploadFile": "Tải tập tin lên",
+    "label-currencyUnit": "vnđ",
+    "label-inStock": "Còn hàng",
+    "label-outStock": "Hết hàng"
 }

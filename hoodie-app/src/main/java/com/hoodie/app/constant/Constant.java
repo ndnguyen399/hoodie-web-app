@@ -239,4 +239,9 @@ public final class Constant {
     public static final String E_HOODIE_008 = "E.HOODIE.008";
     public static final String E_HOODIE_009 = "E.HOODIE.009";
     public static final String E_HOODIE_010 = "E.HOODIE.010";
+
+    // ========================
+    // HOODIE - CODES MASTER
+    // ========================
+    public static final String HOODIE_CODE_000113 = "HOODIE.CODE.000113";
 }

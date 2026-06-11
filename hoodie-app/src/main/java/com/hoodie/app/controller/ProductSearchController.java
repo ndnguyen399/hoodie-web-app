@@ -37,10 +37,6 @@ public class ProductSearchController {
     @PostMapping("/search")
     public BaseApiResponse<SearchResponse<ProductSearchDomainModel>> search(
             @RequestBody ProductSearchApplicationModel request) {
-        try {
-            return BaseApiResponse.success(productSearchService.search(request));
-        } catch (Exception e) {
-            return BaseApiResponse.fail(e.getMessage());
-        }
+        return BaseApiResponse.success(productSearchService.search(request));
     }
 }

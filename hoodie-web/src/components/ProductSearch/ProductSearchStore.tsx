@@ -48,30 +48,6 @@ export const useStore = (props: PageProps) => {
                 }));
             });
         },
-        // getRibbonItem: (): ICommandBarItemProps[] => [
-        //     {
-        //         key: 'home',
-        //         text: t("label-home"),
-        //         // iconProps: { iconName: "ArrowBackIos" },
-        //         onClick: () => action.toHomePage.execute()
-        //     },
-        //     {
-        //         key: 'back',
-        //         text: t("label-back"),
-        //         // iconProps: { iconName: 'ItalicIcon' },
-        //         onClick: () => action.back.execute()
-        //     }
-        // ],
-        // toHomePage: {
-        //     execute: () => {
-        //         navigate("/")
-        //     }
-        // },
-        // back: {
-        //     execute: () => {
-        //         navigate(-1)
-        //     }
-        // },
         searchCategory: {
             execute: async () => {
                 context.overlay
@@ -97,12 +73,11 @@ export const useStore = (props: PageProps) => {
                         setState(prev => ({ ...prev }));
 
                         const response = await new ProductSearchViewApi().search({
-                            keyword: stateRef.current.productSearchApplicationModel?.keyword!,
-                            categoryId: stateRef.current.productSearchApplicationModel?.categoryId!,
-                            colorId: stateRef.current.productSearchApplicationModel?.colorId!,
-                            sizeId: stateRef.current.productSearchApplicationModel?.sizeId!,
-                            minPrice: stateRef.current.productSearchApplicationModel?.minPrice!,
-                            maxPrice: stateRef.current.productSearchApplicationModel?.maxPrice!
+                            productId: stateRef.current.productSearchApplicationModel?.productId,
+                            categoryId: stateRef.current.productSearchApplicationModel?.categoryId,
+                            productName: stateRef.current.productSearchApplicationModel?.productName,
+                            minPrice: stateRef.current.productSearchApplicationModel?.minPrice,
+                            maxPrice: stateRef.current.productSearchApplicationModel?.maxPrice
                         });
 
                         setState(prev => ({
@@ -113,49 +88,25 @@ export const useStore = (props: PageProps) => {
             }
         },
         items: {
-            category: {
-                onChange: async (
-                    event: React.ChangeEvent<HTMLInputElement>
-                ) => {
-                    const target = (event.target as HTMLInputElement).value;
-                    const newValue = Number(target);
+            // category: {
+            //     onChange: async (
+            //         event: React.ChangeEvent<HTMLInputElement>
+            //     ) => {
+            //         const target = (event.target as HTMLInputElement).value;
+            //         const newValue = Number(target);
 
-                    if (isNaN(newValue)) {
-                        return;
-                    }
-                    setState(prev => ({
-                        ...prev,
-                        productSearchApplicationModel: {
-                            categoryId: newValue
-                        }
-                    }));
-                    action.searchProduct.execute();
-                }
-            },
-            color: {
-                onChange: async (
-                    event: React.ChangeEvent<HTMLInputElement>
-                ) => {
-                    const target = (event.target as HTMLInputElement).value;
-                    const newValue = Number(target);
-                    console.log("newValue1", newValue);
-                    
-                    if (isNaN(newValue)) {
-                        return;
-                    }
-                    
-                    setState(prev => ({
-                        ...prev,
-                        productSearchApplicationModel: {
-                            colorId: newValue
-                        }
-                    }));
-
-                    console.log("newValue5", stateRef.current.productSearchApplicationModel?.categoryId);
-                    console.log("newValue5", stateRef.current.productSearchApplicationModel?.colorId);
-                    // action.searchProduct.execute({});
-                }
-            }
+            //         if (isNaN(newValue)) {
+            //             return;
+            //         }
+            //         setState(prev => ({
+            //             ...prev,
+            //             productSearchApplicationModel: {
+            //                 categoryId: newValue
+            //             }
+            //         }));
+            //         action.searchProduct.execute();
+            //     }
+            // }
         }
     }), []);
 

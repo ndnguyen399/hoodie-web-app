@@ -1,38 +1,83 @@
 /**
- * @tbe duynguyen © 2025
+ * @author duynguyen © 2025
  */
 package com.hoodie.app.repository.custom.impl;
 
-import java.math.BigDecimal;
-//import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import static com.app.jooq.generated.tables.CodeMaster.CODE_MASTER;
+import static com.app.jooq.generated.tables.Categories.CATEGORIES;
+import static com.app.jooq.generated.tables.Products.PRODUCTS;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jooq.Condition;
+import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.StringUtils;
 
 import com.hoodie.app.application.model.ProductSearchApplicationModel;
+import com.hoodie.app.common.CheckLogic;
+import com.hoodie.app.constant.Constant;
 import com.hoodie.app.domain.model.ProductSearchDomainModel;
 import com.hoodie.app.dto.ConditionResult;
 import com.hoodie.app.dto.response.SearchResponse;
 import com.hoodie.app.repository.custom.ProductSearchRepositoryCustom;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 
 /**
- * ProductSearchRepositoryImpl class
+ * ProductSearchRepositoryCustomImpl class
  */
 @Repository
 @RequiredArgsConstructor
 public class ProductSearchRepositoryCustomImpl implements ProductSearchRepositoryCustom {
 
     /**
-     * EntityManager
+     * DSLContext
      */
-    private final EntityManager entityManager;
+    @Autowired
+    private DSLContext dsl;
+
+    /**
+     * com.app.jooq.generated.tables.Products
+     */
+    private static final com.app.jooq.generated.tables.Products T1 = PRODUCTS.as("t1");
+
+    /**
+     * com.app.jooq.generated.tables.Categories
+     */
+    private static final com.app.jooq.generated.tables.Categories T2 = CATEGORIES.as("t2");
+
+    /**
+     * com.app.jooq.generated.tables.CodeMaster
+     */
+    private static final com.app.jooq.generated.tables.CodeMaster T3 = CODE_MASTER.as("t3");
+
+    /**
+     * com.app.jooq.generated.tables.CodeMaster
+     */
+    private static final com.app.jooq.generated.tables.CodeMaster T4 = CODE_MASTER.as("t4");
+
+    /**
+     * com.app.jooq.generated.tables.CodeMaster
+     */
+    private static final com.app.jooq.generated.tables.CodeMaster T5 = CODE_MASTER.as("t5");
+
+    /**
+     * com.app.jooq.generated.tables.CodeMaster
+     */
+    private static final com.app.jooq.generated.tables.CodeMaster T6 = CODE_MASTER.as("t6");
+
+    /**
+     * com.app.jooq.generated.tables.CodeMaster
+     */
+    private static final com.app.jooq.generated.tables.CodeMaster T7 = CODE_MASTER.as("t7");
+
+    /**
+     * DEFAULT_DELETE_FLAG
+     */
+    private final String DEFAULT_DELETE_FLAG = "0";
 
     /**
      * Query SQL search all product
@@ -42,24 +87,14 @@ public class ProductSearchRepositoryCustomImpl implements ProductSearchRepositor
      */
     @Override
     public SearchResponse<ProductSearchDomainModel> search(ProductSearchApplicationModel request) {
-        ConditionResult conditions = buildConditions(request);
+        // conditions
+        List<Condition> conditions = buildConditions(request);
 
-        // ===== PHẦN SEARCH DATA =====
-        String dataSql = buildDataSql(conditions.getWhereClause());
-        Query dataQuery = entityManager.createNativeQuery(dataSql);
-        applyParameters(dataQuery, conditions.getParams());
-        // applyPagination(dataQuery, request.getPage(), request.getSize());
+        // search data
+        List<ProductSearchDomainModel> data = getSearchData(request, conditions);
 
-        @SuppressWarnings("unchecked")
-        List<Object[]> rows = dataQuery.getResultList();
-        List<ProductSearchDomainModel> data = mapToDomainModel(rows);
-
-        // ===== PHẦN COUNT =====
-        String countSql = buildCountSql(conditions.getWhereClause());
-        Query countQuery = entityManager.createNativeQuery(countSql);
-        applyParameters(countQuery, conditions.getParams());
-
-        long total = ((Number) countQuery.getSingleResult()).longValue();
+        // count data
+        long total = getCountData(request, conditions);
 
         return new SearchResponse<>(total, data);
     }
@@ -72,178 +107,65 @@ public class ProductSearchRepositoryCustomImpl implements ProductSearchRepositor
      * @param request
      * @return {@link ConditionResult}
      */
-    private ConditionResult buildConditions(ProductSearchApplicationModel request) {
-        StringBuilder where = new StringBuilder(" WHERE t.delete_flag = '0' ");
-        Map<String, Object> params = new HashMap<>();
+    private List<Condition> buildConditions(ProductSearchApplicationModel request) {
+        List<Condition> conditions = new ArrayList<>();
 
-        if (StringUtils.hasText(request.getKeyword())) {
-            where.append("""
-                    AND (
-                        t.product_name ILIKE :keyword
-                        OR t.product_description ILIKE :keyword
-                    )
-                    """);
-            params.put("keyword", "%" + request.getKeyword() + "%");
-        }
-        if (request.getCategoryId() != null) {
-            where.append(" AND t.category_id = :categoryId ");
-            params.put("categoryId", request.getCategoryId());
-        }
-        if (request.getColorId() != null) {
-            where.append(" AND t2.color_id = :colorId ");
-            params.put("colorId", request.getColorId());
-        }
-        if (request.getSizeId() != null) {
-            where.append(" AND t2.size_id = :sizeId ");
-            params.put("sizeId", request.getSizeId());
-        }
-        if (request.getMinPrice() != null) {
-            where.append(" AND COALESCE(t2.variant_price, t.product_price) >= :minPrice ");
-            params.put("minPrice", request.getMinPrice());
-        }
-        if (request.getMaxPrice() != null) {
-            where.append(" AND COALESCE(t2.variant_price, t.product_price) <= :maxPrice ");
-            params.put("maxPrice", request.getMaxPrice());
+        // getProductId
+        if (CheckLogic.isValidId(request.getProductId())) {
+            conditions.add(T1.PRODUCT_ID.eq(request.getProductId()));
         }
 
-        return new ConditionResult(where.toString(), params);
+        // getCategoryId
+        if (CheckLogic.isValidId(request.getCategoryId())) {
+            conditions.add(T1.CATEGORY_ID.eq(request.getCategoryId()));
+        }
+
+        // getProductName
+        if (CheckLogic.isNotEmpty(request.getProductName())) {
+            String likePattern = "%" + request.getProductName() + "%";
+            conditions.add(
+                    T1.PRODUCT_NAME.likeIgnoreCase(likePattern).or(T1.PRODUCT_DESCRIPTION.likeIgnoreCase(likePattern)));
+        }
+
+        conditions.add(T1.DELETE_FLAG.eq(DEFAULT_DELETE_FLAG));
+
+        return conditions;
     }
 
     /**
-     * buildDataSql
+     * getSearchData
      * 
-     * @param whereClause
-     * @return String
+     * @param request    {@link ProductSearchApplicationModel}
+     * @param conditions {@link List<Condition>}
+     * 
+     * @return {@link List<ProductSearchDomainModel>}
      */
-    private String buildDataSql(String whereClause) {
-        return """
-                SELECT
-                    t.product_id
-                    , t.product_name
-                    , e2.category_name
-                    , MIN(COALESCE(t2.variant_price, t.product_price)) AS display_price
-                    , t3.product_image_url
-                    , SUM(t2.stock) AS total_stock
-                    , t.created_at
-                FROM products t
-                INNER JOIN (
-                    SELECT product_id, MAX(product_history_no) as product_history_no
-                    FROM products
-                    GROUP BY product_id
-                ) e1
-                    ON e1.product_id = t.product_id
-                    AND e1.product_history_no = t.product_history_no
-                    AND t.delete_flag = '0'
-                INNER JOIN (
-                    SELECT c.category_id, c.category_history_no, c.category_name
-                    FROM categories c
-                    INNER JOIN (
-                        SELECT category_id, MAX(category_history_no) as category_history_no
-                        FROM categories
-                        GROUP BY category_id
-                    ) c1
-                        ON c1.category_id = c.category_id
-                        AND c1.category_history_no = c.category_history_no
-                    AND c.delete_flag = '0'
-                ) e2
-                    ON e2.category_id = t.category_id
-                    AND t.delete_flag = '0'
-                LEFT JOIN product_variants t2
-                    ON t2.product_id = t.product_id
-                    AND t2.delete_flag = '0'
-                LEFT JOIN product_images t3
-                    ON t3.product_id = t.product_id
-                    AND t3.is_primary = true
-                    AND t3.delete_flag = '0'
-                """ + whereClause + """
-                  GROUP BY
-                      t.product_id
-                      , t.product_name
-                      , e2.category_name
-                      , t3.product_image_url
-                      , t.created_at
-                      ORDER BY
-                      t.created_at DESC
-                """;
+    private List<ProductSearchDomainModel> getSearchData(ProductSearchApplicationModel request,
+            List<Condition> conditions) {
+        return dsl
+                .select(T1.PRODUCT_ID, T2.CATEGORY_ID, T1.PRODUCT_NAME, T1.PRODUCT_DESCRIPTION, T1.PRICE,
+                        T1.STOCK_QUANTITY, T1.SKILL_LOGIC, T3.CODE_VALUE.as("skillLogicName"), T1.SKILL_CREATIVE,
+                        T4.CODE_VALUE.as("skillCreativeName"), T1.SKILL_STEM, T5.CODE_VALUE.as("skillStemName"),
+                        T1.SKILL_MOTOR, T6.CODE_VALUE.as("skillMotorName"), T1.SKILL_SOCIAL,
+                        T7.CODE_VALUE.as("skillSocialName"), T1.RESERVE_ITEM01, T1.RESERVE_ITEM02, T1.RESERVE_ITEM03,
+                        T1.RESERVE_ITEM04, T1.RESERVE_ITEM05, T1.DELETE_FLAG, T1.CREATED_AT, T1.UPDATED_AT)
+                .from(T1).leftJoin(T2).on(T1.CATEGORY_ID.eq(T2.CATEGORY_ID)).leftJoin(T3)
+                .on(T1.SKILL_LOGIC.eq(T3.CODE_NAME).and(T3.CODE_CD.eq(Constant.HOODIE_CODE_000113))).leftJoin(T4)
+                .on(T1.SKILL_CREATIVE.eq(T4.CODE_NAME).and(T4.CODE_CD.eq(Constant.HOODIE_CODE_000113))).leftJoin(T5)
+                .on(T1.SKILL_STEM.eq(T5.CODE_NAME).and(T5.CODE_CD.eq(Constant.HOODIE_CODE_000113))).leftJoin(T6)
+                .on(T1.SKILL_SOCIAL.eq(T6.CODE_NAME).and(T6.CODE_CD.eq(Constant.HOODIE_CODE_000113))).leftJoin(T7)
+                .on(T1.SKILL_SOCIAL.eq(T7.CODE_NAME).and(T7.CODE_CD.eq(Constant.HOODIE_CODE_000113))).where(conditions)
+                .fetchInto(ProductSearchDomainModel.class);
     }
 
     /**
-     * buildCountSql
+     * getCountData
      * 
-     * @param whereClause
-     * @return String
+     * @param request    {@link ProductSearchApplicationModel}
+     * @param conditions {@link List<Condition>}
+     * @return {@link }
      */
-    private String buildCountSql(String whereClause) {
-        return """
-                SELECT COUNT(DISTINCT t.product_id)
-                FROM products t
-                INNER JOIN (
-                    SELECT product_id, MAX(product_history_no) as product_history_no
-                    FROM products
-                    GROUP BY product_id
-                ) e1
-                    ON e1.product_id = t.product_id
-                    AND e1.product_history_no = t.product_history_no
-                    AND t.delete_flag = '0'
-                INNER JOIN (
-                    SELECT c.category_id, c.category_history_no, c.category_name
-                    FROM categories c
-                    INNER JOIN (
-                        SELECT category_id, MAX(category_history_no) as category_history_no
-                        FROM categories
-                        GROUP BY category_id
-                    ) c1
-                        ON c1.category_id = c.category_id
-                        AND c1.category_history_no = c.category_history_no
-                    AND c.delete_flag = '0'
-                ) e2
-                    ON e2.category_id = t.category_id
-                    AND t.delete_flag = '0'
-                LEFT JOIN product_variants t2
-                    ON t2.product_id = t.product_id
-                    AND t2.delete_flag = '0'
-                LEFT JOIN product_images t3
-                    ON t3.product_id = t.product_id
-                    AND t3.is_primary = true
-                    AND t3.delete_flag = '0'
-                """ + whereClause;
-    }
-
-    /**
-     * applyParameters
-     * 
-     * @param query
-     * @param params
-     * @return void
-     */
-    private void applyParameters(Query query, Map<String, Object> params) {
-        params.forEach(query::setParameter);
-    }
-
-    /**
-     * applyPagination
-     * 
-     * @param query
-     * @param page
-     * @param size
-     * @return void
-     */
-//    private void applyPagination(Query query, int page, int size) {
-//        query.setFirstResult(page * size);
-//        query.setMaxResults(size);
-//    }
-
-    /**
-     * mapToDomainModel
-     * 
-     * @param rows
-     * @return List<ProductSearchDomainModel>
-     */
-    private List<ProductSearchDomainModel> mapToDomainModel(List<Object[]> rows) {
-        return rows.stream()
-                .map(r -> new ProductSearchDomainModel(((Number) r[0]).longValue(), (String) r[1], (String) r[2],
-                        r[3] == null ? null : (BigDecimal) r[3], // r[5] == null ? null : ((Number) r[5]).intValue(),
-                        (String) r[4]))
-                .toList();
+    public long getCountData(ProductSearchApplicationModel request, List<Condition> conditions) {
+        return dsl.select(DSL.countDistinct(T1.CATEGORY_ID)).from(T1).where(conditions).fetchOne().into(Long.class);
     }
 }

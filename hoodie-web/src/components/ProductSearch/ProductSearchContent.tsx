@@ -2,7 +2,7 @@
  * @author duynguyen © 2025
  */
 import { useEffect } from "react";
-import { Accordion, AccordionDetails, AccordionSummary, Box, Card, CardContent, CardMedia, CircularProgress, Container, Divider, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Card, CardContent, CardMedia, Chip, CircularProgress, Container, Divider, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, Typography } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TuneIcon from '@mui/icons-material/Tune';
 // import { CommandBar } from "@fluentui/react";
@@ -39,7 +39,7 @@ export const ProductSearchContent: React.FC<PageProps> = props => {
                     </Box>
                     <Divider sx={{ my: 1, fontWeight: 'bold' }} />
                     {/* category */}
-                    <Accordion defaultExpanded>
+                    {/* <Accordion defaultExpanded>
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}>
                             <FormLabel id="category-check-radio">{t("label-category")}</FormLabel>
@@ -62,9 +62,9 @@ export const ProductSearchContent: React.FC<PageProps> = props => {
                                 </RadioGroup>
                             </FormControl>
                         </AccordionDetails>
-                    </Accordion>
+                    </Accordion> */}
                     {/* color */}
-                    <Accordion>
+                    {/* <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                             <FormLabel id="category-check-radio">{t("label-color")}</FormLabel>
                         </AccordionSummary>
@@ -82,9 +82,9 @@ export const ProductSearchContent: React.FC<PageProps> = props => {
                                 </RadioGroup>
                             </FormControl>
                         </AccordionDetails>
-                    </Accordion>
+                    </Accordion> */}
                     {/* size */}
-                    <Accordion>
+                    {/* <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                             <FormLabel id="size-check-radio">{t("label-size")}</FormLabel>
                         </AccordionSummary>
@@ -101,9 +101,9 @@ export const ProductSearchContent: React.FC<PageProps> = props => {
                                 </RadioGroup>
                             </FormControl>
                         </AccordionDetails>
-                    </Accordion>
+                    </Accordion> */}
                     {/* price */}
-                    <Accordion>
+                    {/* <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                             <FormLabel id="price-check-radio">{t("label-price")}</FormLabel>
                         </AccordionSummary>
@@ -121,54 +121,105 @@ export const ProductSearchContent: React.FC<PageProps> = props => {
                                 </RadioGroup>
                             </FormControl>
                         </AccordionDetails>
-                    </Accordion>
+                    </Accordion> */}
                 </Box>
                 {/* product */}
                 <Container maxWidth={false} sx={{ py: 4 }}>
                     <Grid container spacing={1}>
                         {state.productSearchDomainModel?.search && state.productSearchDomainModel.search.length > 0 ? (
-                            state.productSearchDomainModel.search.map((item) => (
-                                <Grid key={item.productId} size={3}>
-                                    <Card
-                                        sx={{
-                                            height: "100%",
-                                            display: "flex",
-                                            flexDirection: "column",
-                                            cursor: "pointer",
-                                            transition: "transform 0.2s",
-                                            "&:hover": { transform: "scale(1.03)" },
-                                        }}
-                                    >
-                                        <CardMedia>
-                                            <Image
-                                                loading="lazy"
-                                                alt={`alt-image-product-${item.productId}`}
-                                                src={item.primaryImageUrl!}
-                                                srcSet={item.primaryImageUrl!}
-                                                width={0}
-                                                height={0}
-                                                sizes="100vw"
-                                                style={{
-                                                    width: "100%",
-                                                    height: "300px",
-                                                    objectFit: "cover",
-                                                }}
-                                            />
-                                        </CardMedia>
-                                        <CardContent sx={{ flexGrow: 1 }}>
-                                            <Typography gutterBottom variant="h6" component="div">
-                                                {item.productName}
-                                                <Typography gutterBottom variant="h6" component="div" sx={{color: 'gray', fontSize: '14px'}}>
-                                                    {item.categoryName}
+                            state.productSearchDomainModel.search.map((item) => {
+                                const primaryImage = item.listImages?.find(img => img.isPrimary);
+            
+                                return (
+                                    <Grid key={item.productId} size={3}>
+                                        <Card
+                                            sx={{
+                                                height: "100%",
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                cursor: "pointer",
+                                                transition: "transform 0.2s",
+                                                "&:hover": { transform: "scale(1.03)" },
+                                            }}
+                                        >
+                                            <CardMedia>
+                                                <Image
+                                                    loading="lazy"
+                                                    alt={`alt-image-product-${item.productId}`}
+                                                    src={
+                                                        primaryImage?.imageUrl ??
+                                                        "/images/no-image.png"
+                                                    }
+                                                    width={0}
+                                                    height={0}
+                                                    sizes="100vw"
+                                                    style={{
+                                                        width: "100%",
+                                                        height: "300px",
+                                                        objectFit: "cover",
+                                                    }}
+                                                />
+                                            </CardMedia>
+                                            <CardContent sx={{ flexGrow: 1 }}>
+                                                <Typography gutterBottom variant="h5">
+                                                    {item.productName}
                                                 </Typography>
-                                            </Typography>
-                                            <Typography variant="body2" color="text.secondary">
-                                                {`${t('label-price')}:`} {item.displayPrice}
-                                            </Typography>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                            ))
+                                                <Typography
+                                                    variant="body2"
+                                                    color={item.stockQuantity! > 0 ? "green" : "red"}
+                                                >
+                                                    {item.stockQuantity! > 0 ? t('label-inStock') : t('label-outStock')}
+                                                </Typography>
+                                                <Typography
+                                                    variant="body2"
+                                                    color="gray"
+                                                    sx={{ mb: 2 }}
+                                                >
+                                                    {`${t("label-price")}: ${item.price} ${t('label-currencyUnit')}`}
+                                                </Typography>
+                                                <Box
+                                                    sx={{
+                                                        display: "flex",
+                                                        flexWrap: "wrap",
+                                                        gap: 0.5,
+                                                    }}
+                                                >
+                                                    <Chip
+                                                        label={`${t("label-skillLogic")} ${item.skillLogicName}`}
+                                                        size="small"
+                                                        color="primary"
+                                                        variant="outlined"
+                                                    />
+                                                    <Chip
+                                                        label={`${t("label-skillCreative")} ${item.skillCreativeName}`}
+                                                        size="small"
+                                                        color="primary"
+                                                        variant="outlined"
+                                                    />
+                                                    <Chip
+                                                        label={`${t("label-skillStem")} ${item.skillStemName}`}
+                                                        size="small"
+                                                        color="primary"
+                                                        variant="outlined"
+                                                    />
+                                                    <Chip
+                                                        label={`${t("label-skillMotor")} ${item.skillMotorName}`}
+                                                        size="small"
+                                                        color="primary"
+                                                        variant="outlined"
+                                                    />
+                                                    <Chip
+                                                        label={`${t("label-skillSocial")} ${item.skillSocialName}`}
+                                                        size="small"
+                                                        color="primary"
+                                                        variant="outlined"
+                                                    />
+                                                </Box>
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                );
+                            })
                         ) : (
                             <Grid size={12}>
                                 <Typography
