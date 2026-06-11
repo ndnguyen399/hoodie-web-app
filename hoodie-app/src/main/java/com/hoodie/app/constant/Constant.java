@@ -52,6 +52,7 @@ public final class Constant {
     public static final String PASSWORD_NOT_BLANK = "Mật khẩu không được để trống";
     public static final String PHONE_INVALID = "Số điện thoại không hợp lệ";
     public static final String REQUEST_TYPE_NOT_BLANK = "Request Type Không được để trống";
+    public static final String MODEL_NOT_BLANK = "Model Không được để trống";
     public static final String REQUEST_TYPE_NOT_VALID = "Bạn không thể xóa";
 
     // ========================
@@ -97,6 +98,14 @@ public final class Constant {
     public static final String PRODUCT_OUT_OF_STOCK_MESSAGE = "Sản phẩm đã hết hàng";
     public static final String PRODUCT_INSUFFICIENT_STOCK_MESSAGE = "Số lượng sản phẩm trong kho không đủ";
     public static final String PRODUCT_ALREADY_EXISTS_MESSAGE = "Sản phẩm đã tồn tại";
+    public static final String PRODUCT_NOT_NULL_MESSAGE = "Sản phẩm không được để trống";
+    public static final String PRICE_NOT_NULL_MESSAGE = "Giá không được để trống";
+    public static final String STOCK_NOT_NULL_MESSAGE = "Số lượng không được để trống";
+    public static final String SKILL_LOGIC_NOT_NULL_MESSAGE = "Chỉ số tư duy không được để trống";
+    public static final String SKILL_CREATIVE_NOT_NULL_MESSAGE = "Chỉ số sáng tạo không được để trống";
+    public static final String SKILL_STEM_NOT_NULL_MESSAGE = "Chỉ số STEM không được để trống";
+    public static final String SKILL_MOTOR_NOT_NULL_MESSAGE = "Chỉ số vận động không được để trống";
+    public static final String SKILL_SOCIAL_NOT_NULL_MESSAGE = "Chỉ số xã hội không được để trống";
 
     // ========================
     // DANH MỤC
@@ -188,6 +197,7 @@ public final class Constant {
     public static final String FILE_SIZE_EXCEEDED_MESSAGE = "Kích thước file vượt quá giới hạn cho phép";
     public static final String FILE_TYPE_NOT_SUPPORTED_MESSAGE = "Định dạng file không được hỗ trợ";
     public static final String FILE_DELETED_SUCCESS_MESSAGE = "Xóa file thành công";
+    public static final String IMAGE_NOT_NULL_MESSAGE = "Hình ảnh không được để trống";
 
     // ========================
     // CHUNG

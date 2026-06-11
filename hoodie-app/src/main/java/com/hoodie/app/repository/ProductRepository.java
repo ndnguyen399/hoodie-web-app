@@ -11,6 +11,6 @@ import com.hoodie.app.repository.custom.ProductSearchRepositoryCustom;
 /**
  * ProductRepository class
  */
-public interface ProductRepository extends JpaRepository<Product, Long>, ProductSearchRepositoryCustom {
-
+public interface ProductRepository extends JpaRepository<Product, Integer>, ProductSearchRepositoryCustom {
+    Product findByProductNameAndDeleteFlag(String productName, String deleteFlag);
 }

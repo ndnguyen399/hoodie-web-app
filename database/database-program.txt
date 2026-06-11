@@ -124,11 +124,11 @@ CREATE TABLE products (
     price           NUMERIC(15,2)   NOT NULL CHECK (price >= 0),
     stock_quantity  INT             NOT NULL DEFAULT 0 CHECK (stock_quantity >= 0),
     -- Chỉ số kỹ năng (skill_impact_index) — 0.00 đến 10.00
-    skill_logic     NUMERIC(4,2)    NOT NULL DEFAULT 0 CHECK (skill_logic     BETWEEN 0 AND 10),
-    skill_creative  NUMERIC(4,2)    NOT NULL DEFAULT 0 CHECK (skill_creative  BETWEEN 0 AND 10),
-    skill_stem      NUMERIC(4,2)    NOT NULL DEFAULT 0 CHECK (skill_stem      BETWEEN 0 AND 10),
-    skill_motor     NUMERIC(4,2)    NOT NULL DEFAULT 0 CHECK (skill_motor     BETWEEN 0 AND 10),
-    skill_social    NUMERIC(4,2)    NOT NULL DEFAULT 0 CHECK (skill_social    BETWEEN 0 AND 10),
+    skill_logic     VARCHAR(2)    NOT NULL DEFAULT 0,
+    skill_creative  VARCHAR(2)    NOT NULL DEFAULT 0,
+    skill_stem      VARCHAR(2)    NOT NULL DEFAULT 0,
+    skill_motor     VARCHAR(2)    NOT NULL DEFAULT 0,
+    skill_social    VARCHAR(2)    NOT NULL DEFAULT 0,
     -- Độ tuổi phù hợp
     --age_min         INT             NOT NULL DEFAULT 0,  -- tuổi tối thiểu (tháng)
     --age_max         INT             NOT NULL DEFAULT 144, -- tuổi tối đa (tháng)

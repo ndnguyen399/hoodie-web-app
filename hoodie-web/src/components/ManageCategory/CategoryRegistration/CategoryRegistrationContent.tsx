@@ -3,16 +3,11 @@
  */
 import React, { useEffect } from "react";
 import { Autocomplete, Box, Button, CircularProgress, FormControl, FormGroup, Grid, Stack, TextField } from "@mui/material";
-// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 // import { CommandBar } from "@fluentui/react";
 import type { PageProps } from "./CategoryRegistration.types";
 import { useStore } from "./CategoryRegistrationStore";
 import PageContainer from "../PageContainer";
-// import { useNavigate } from "react-router-dom";
-// import dayjs, { Dayjs } from "dayjs";
 import Constants from "../../common/Constants";
 // import Image from "../../templates/Image";
 
@@ -121,7 +116,7 @@ export const CategoryRegistrationContent: React.FC<PageProps> = props => {
                         </FormControl>
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex' }}>
-                        <FormControl fullWidth> {/* error={!!formErrors.role} */}
+                        <FormControl fullWidth>
                             <Autocomplete
                                 disablePortal
                                 disableClearable={false}
@@ -197,27 +192,3 @@ export const CategoryRegistrationContent: React.FC<PageProps> = props => {
         </>
     );
 };
-
-// const INITIAL_FORM_VALUES: Partial<EmployeeFormState['values']> = {
-//   role: 'Market',
-//   isFullTime: true,
-// };
-
-// export interface EmployeeFormState {
-//   values: Partial<Omit<Employee, 'id'>>;
-//   errors: Partial<Record<keyof EmployeeFormState['values'], string>>;
-// }
-
-// export type FormFieldValue = string | string[] | number | boolean | File | null;
-
-// export interface EmployeeFormProps {
-//   formState: EmployeeFormState;
-//   onFieldChange: (
-//     name: keyof EmployeeFormState['values'],
-//     value: FormFieldValue,
-//   ) => void;
-//   onSubmit: (formValues: Partial<EmployeeFormState['values']>) => Promise<void>;
-//   onReset?: (formValues: Partial<EmployeeFormState['values']>) => void;
-//   submitButtonLabel: string;
-//   backButtonPath?: string;
-// }

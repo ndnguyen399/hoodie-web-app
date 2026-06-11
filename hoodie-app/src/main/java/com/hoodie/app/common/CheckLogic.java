@@ -3,6 +3,7 @@
  */
 package com.hoodie.app.common;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -243,6 +244,13 @@ public class CheckLogic {
     }
 
     // ==================== ID / KEY CHECKS ====================
+
+    /**
+     * Checks if a Long ID is valid (not null and > 0).
+     */
+    public static boolean isValidId(BigDecimal id) {
+        return id != null;
+    }
 
     /**
      * Checks if a Long ID is valid (not null and > 0).

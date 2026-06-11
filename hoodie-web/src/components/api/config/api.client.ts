@@ -1,6 +1,7 @@
 /**
  * @author duynguyen © 2025
  */
+import type { AxiosRequestConfig } from 'axios';
 import { axiosInstance } from './axios.instance';
 
 /**
@@ -25,5 +26,18 @@ export const ApiClient = {
   delete<T>(url: string) {
     return axiosInstance.delete<T>(url)
       .then(res => res.data);
+  },
+
+  postContainFile<T>(
+    url: string,
+    body?: any,
+    config?: AxiosRequestConfig
+  ) {
+    return axiosInstance.post<T>(
+        url,
+        body,
+        config
+    )
+    .then(res => res.data);
   }
 };

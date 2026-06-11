@@ -33,13 +33,10 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
-    private Long productId;
-
-    @Column(name = "product_history_no", unique = true, nullable = false)
-    private Integer productHistoryNo;
+    private Integer productId;
 
     @Column(name = "category_id")
-    private Long categoryId;
+    private Integer categoryId;
 
     @Column(name = "product_name", nullable = false, length = 255)
     private String productName;
@@ -47,11 +44,41 @@ public class Product {
     @Column(name = "product_description", length = 255)
     private String productDescription;
 
-    @Column(name = "product_price", nullable = false, precision = 10, scale = 2)
-    private BigDecimal productPrice;
+    @Column(name = "price", nullable = false, precision = 15, scale = 2)
+    private BigDecimal price;
 
-    @Column(name = "image_url", length = 255)
-    private String imageUrl;
+    @Column(name = "stock_quantity", nullable = false, length = 2)
+    private Integer stockQuantity;
+
+    @Column(name = "skill_logic", nullable = false, length = 2)
+    private String skillLogic;
+
+    @Column(name = "skill_creative", nullable = false, length = 2)
+    private String skillCreative;
+
+    @Column(name = "skill_stem", nullable = false, length = 2)
+    private String skillStem;
+
+    @Column(name = "skill_motor", nullable = false, length = 2)
+    private String skillMotor;
+
+    @Column(name = "skill_social", nullable = false, length = 2)
+    private String skillSocial;
+
+    @Column(name = "reserve_item01", length = 255)
+    private String reserveItem01;
+
+    @Column(name = "reserve_item02", length = 255)
+    private String reserveItem02;
+
+    @Column(name = "reserve_item03", length = 255)
+    private String reserveItem03;
+
+    @Column(name = "reserve_item04", length = 255)
+    private String reserveItem04;
+
+    @Column(name = "reserve_item05", length = 255)
+    private String reserveItem05;
 
     @Column(name = "delete_flag", nullable = false, length = 1)
     private String deleteFlag;

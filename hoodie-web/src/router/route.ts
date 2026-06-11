@@ -7,11 +7,13 @@ import type { ComponentType } from 'react';
 // Page Public hiện tại
 import { GuestLayout, HomeLayout } from '../layouts';
 import { Introduction } from '../components/Introduction';
-import { ProductSearch } from '../components/ProductSearch/ProductSearch';
+// import { ProductSearch } from '../components/ProductSearch/ProductSearch';
 import { Register } from '../components/Register';
 import { Login } from '../components/Login';
 import { CategorySearch } from '../components/ManageCategory/CategorySearch';
 import { CategoryRegistration } from '../components/ManageCategory/CategoryRegistration';
+import { ProductSearch } from '../components/ManageProduct/ProductSearch';
+import { ProductRegistration } from '../components/ManageProduct/ProductRegistration';
 
 // Page Private
 // import CategoryPage from '~/views/Category';
@@ -35,11 +37,11 @@ const PublicRoutes: RouteItem[] = [
     component: Introduction,
     layout: GuestLayout,
   },
-  {
-    path: '/product',
-    component: ProductSearch,
-    layout: GuestLayout,
-  },
+  // {
+  //   path: '/product',
+  //   component: ProductSearch,
+  //   layout: GuestLayout,
+  // },
   {
     path: '/sign-in',
     component: Login,
@@ -70,6 +72,16 @@ const PrivateRoutes: RouteItem[] = [
   {
     path: '/manage-category-registration',
     component: CategoryRegistration,
+    layout: HomeLayout,
+  },
+  {
+    path: '/manage-product-search',
+    component: ProductSearch,
+    layout: HomeLayout,
+  },
+  {
+    path: '/manage-product-registration',
+    component: ProductRegistration,
     layout: HomeLayout,
   },
 ];

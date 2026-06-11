@@ -424,3 +424,72 @@ export interface CodeSearchApplicationModel {
      */
     codeCd?: string;
 }
+/**
+ * ProductSubmitApplicationModel
+ */
+export interface ProductSubmitApplicationModel {
+    /**
+     * productId
+     */
+    productId?: number;
+    /**
+     * categorytId
+     */
+    categoryId?: number;
+    /**
+     * productName
+     */
+    productName?: string;
+    /**
+     * productDescription
+     */
+    productDescription?: string;
+    /**
+     * price
+     */
+    price?: number;
+    /**
+     * stock quantity
+     */
+    stockQuantity?: number;
+    /**
+     * skill logic
+     */
+    skillLogic?: string;
+    /**
+     * skill creative
+     */
+    skillCreative?: string;
+    /**
+     * skill stem
+     */
+    skillStem?: string;
+    /**
+     * skill motor
+     */
+    skillMotor?: string;
+    /**
+     * skill social
+     */
+    skillSocial?: string;
+    /**
+     * reserveItem01
+     */
+    reserveItem01?: string;
+    /**
+     * reserveItem02
+     */
+    reserveItem02?: string;
+    /**
+     * reserveItem03
+     */
+    reserveItem03?: string;
+    /**
+     * reserveItem04
+     */
+    reserveItem04?: string;
+    /**
+     * reserveItem05
+     */
+    reserveItem05?: string;
+}

@@ -32,22 +32,37 @@ public class ProductImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "image_id")
-    private Long imageId;
-
-    @Column(name = "image_history_no", unique = true, nullable = false)
-    private Integer imageHistoryNo;
+    private Integer imageId;
 
     @Column(name = "product_id")
-    private Long productId;
+    private Integer productId;
 
-    @Column(name = "product_image_url", nullable = false, length = 255)
-    private String productImageUrl;
+    @Column(name = "image_url", nullable = false, length = 500)
+    private String imageUrl;
 
-    @Column(name = "is_primary")
-    private boolean isPrimary = false;
+    @Column(name = "alt_text", length = 255)
+    private String altText;
 
-    @Column(name = "product_image_alt_text", length = 255)
-    private String productImageAltText;
+    @Column(name = "display_order", nullable = false)
+    private Integer displayOrder;
+
+    @Column(name = "is_primary", nullable = false)
+    private Boolean isPrimary;
+
+    @Column(name = "reserve_item01", length = 255)
+    private String reserveItem01;
+
+    @Column(name = "reserve_item02", length = 255)
+    private String reserveItem02;
+
+    @Column(name = "reserve_item03", length = 255)
+    private String reserveItem03;
+
+    @Column(name = "reserve_item04", length = 255)
+    private String reserveItem04;
+
+    @Column(name = "reserve_item05", length = 255)
+    private String reserveItem05;
 
     @Column(name = "delete_flag", nullable = false, length = 1)
     private String deleteFlag;
