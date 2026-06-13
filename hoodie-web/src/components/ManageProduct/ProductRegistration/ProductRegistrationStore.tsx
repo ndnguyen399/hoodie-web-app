@@ -59,16 +59,17 @@ export const useStore = (props: PageProps) => {
                 action.items.skillSocial.handleOpen();
                 action.items.category.handleOpen();
                 try {
-                    // const response = await new CategorySubmitViewApi().initial({
-                    //     requestType: stateRef.current.requestType,
-                    //     model: {
-                    //         categoryId: Number(params.get("categoryId"))!
-                    //     }
-                    // });
-                    // setState(prev => ({
-                    //     ...prev,
-                    //     categorySubmitApplicationModel: response.data?.search?.[0]
-                    // }));
+                    const response = await new ProductSubmitViewApi().initial({
+                        requestType: stateRef.current.requestType,
+                        model: {
+                            productId: Number(params.get("productId"))!
+                        }
+                    });
+                    setState(prev => ({
+                        ...prev,
+                        productSubmitApplicationModel: response.data?.search?.[0],
+                        images: [...(response.data?.search?.[0]?.listImages || [])]
+                    }));
                 } catch (error: any) {
                     const responseData = error?.payload;
                     if (responseData) {
@@ -104,9 +105,6 @@ export const useStore = (props: PageProps) => {
                 ...prev,
                 [item]: [...(prev.images || []), ...newValue]
             }));
-
-            console.log("before images: ", stateRef.current.images)
-            console.log("current images: ", newValue)
         },
         back: {
             execute: () => {

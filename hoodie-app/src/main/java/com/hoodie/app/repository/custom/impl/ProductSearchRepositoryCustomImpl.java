@@ -143,7 +143,7 @@ public class ProductSearchRepositoryCustomImpl implements ProductSearchRepositor
     private List<ProductSearchDomainModel> getSearchData(ProductSearchApplicationModel request,
             List<Condition> conditions) {
         return dsl
-                .select(T1.PRODUCT_ID, T2.CATEGORY_ID, T1.PRODUCT_NAME, T1.PRODUCT_DESCRIPTION, T1.PRICE,
+                .select(T1.PRODUCT_ID, T1.CATEGORY_ID, T2.CATEGORY_NAME, T1.PRODUCT_NAME, T1.PRODUCT_DESCRIPTION, T1.PRICE,
                         T1.STOCK_QUANTITY, T1.SKILL_LOGIC, T3.CODE_VALUE.as("skillLogicName"), T1.SKILL_CREATIVE,
                         T4.CODE_VALUE.as("skillCreativeName"), T1.SKILL_STEM, T5.CODE_VALUE.as("skillStemName"),
                         T1.SKILL_MOTOR, T6.CODE_VALUE.as("skillMotorName"), T1.SKILL_SOCIAL,
@@ -166,6 +166,6 @@ public class ProductSearchRepositoryCustomImpl implements ProductSearchRepositor
      * @return {@link }
      */
     public long getCountData(ProductSearchApplicationModel request, List<Condition> conditions) {
-        return dsl.select(DSL.countDistinct(T1.CATEGORY_ID)).from(T1).where(conditions).fetchOne().into(Long.class);
+        return dsl.select(DSL.countDistinct(T1.PRODUCT_ID)).from(T1).where(conditions).fetchOne().into(Long.class);
     }
 }

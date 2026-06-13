@@ -2,6 +2,7 @@
  * @author duynguyen © 2025
  */
 import type { GridColDef, GridFilterModel, GridPaginationModel, GridSortModel } from "@mui/x-data-grid";
+import type { ProductSearchApplicationModel, ProductSearchDomainModel, SearchResponse } from "../../common/Models";
 
 export interface PageProps {
   isPanel?: boolean;
@@ -9,9 +10,9 @@ export interface PageProps {
 }
 
 export interface PageState {
-//   productSearchApplicationModel?: ProductSearchApplicationModel;
+  productSearchApplicationModel?: ProductSearchApplicationModel;
   // categorySearchApplicationModel?: CategorySearchApplicationModel;
-//   productSearchDomainModel: SearchResponse<ProductSearchDomainModel>;
+  productSearchDomainModel: SearchResponse<ProductSearchDomainModel>;
   pagination: any;
   paginationModel: GridPaginationModel;
   sortModel: GridSortModel;

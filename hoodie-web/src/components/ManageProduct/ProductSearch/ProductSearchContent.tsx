@@ -64,9 +64,9 @@ export const ProductSearchContent: React.FC<PageProps> = props => {
             >
               <Box sx={{ flex: 1, width: '100%' }}>
                   <DataGrid
-                      getRowId={(row) => row.categoryId}
-                    //   rows={state.categorySearchDomainModel?.search}
-                    //   rowCount={state.categorySearchDomainModel.info?.total}
+                      getRowId={(row) => row.productId}
+                      rows={state.productSearchDomainModel?.search}
+                      rowCount={state.productSearchDomainModel.info?.total}
                       columns={state.columns}
                       pagination
                       sortingMode="server"

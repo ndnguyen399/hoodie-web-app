@@ -90,6 +90,31 @@ export interface SubmitRequest<T = any> {
 }
 // -----------------------[end commons]----------------------- //
 /**
+ * ProductInitialApplicationModel
+ */
+export interface ProductInitialApplicationModel {
+    /**
+     * productId
+     */
+    productId?: number;
+    /**
+     * categoryId
+     */
+    categoryId?: number;
+    /**
+     * productName
+     */
+    productName?: string;
+    /**
+     * minPrice
+     */
+    minPrice?: number;
+    /**
+     * maxPrice
+     */
+    maxPrice?: number;
+}
+/**
  * ProductSearchApplicationModel
  */
 export interface ProductSearchApplicationModel {
@@ -126,6 +151,10 @@ export interface ProductSearchDomainModel {
      * category Id
      */
     categoryId?: number;
+    /**
+     * category Name
+     */
+    categoryName?: string;
     /**
      * product Name
      */

@@ -8,7 +8,7 @@ import { useApplicationContext } from "../../../hooks/useApplicationContext";
 import { useTranslation } from "../../../hooks/useTranslation";
 import type { PageProps, PageState } from "./CategorySearch.types";
 import Constants from "../../common/Constants";
-import { GridActionsCellItem, type GridColDef, type GridFilterModel, type GridPaginationModel, type GridRowParams, type GridSortModel } from "@mui/x-data-grid";
+import { GridActionsCellItem, type GridColDef, type GridFilterModel, type GridPaginationModel, type GridSortModel } from "@mui/x-data-grid";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import type { CategorySearchDomainModel } from "../../common/Models";
@@ -320,7 +320,31 @@ export const useStore = (props: PageProps) => {
         columns: {
             build: (): GridColDef<CategorySearchDomainModel>[] => {
                 return [
-                    { field: 'categoryId', headerName: 'ID' },
+                    {
+                        field: 'actions',
+                        type: 'actions',
+                        // flex: 1,
+                        align: 'right',
+                        width: 110,
+                        getActions: ({ row }) => [
+                            <GridActionsCellItem
+                                key='edit-item'
+                                icon={<EditIcon sx={{color: 'orange'}} />}
+                                label='Edit'
+                                onClick={() => action.grid.onRowEdit(row)}
+                            />,
+                            <GridActionsCellItem
+                                key='delete-item'
+                                icon={<DeleteIcon sx={{color: 'red'}} />}
+                                label='Delete'
+                                onClick={() => action.grid.onRowDelete(row)}
+                            />
+                        ]
+                    },
+                    { 
+                        field: 'categoryId', 
+                        headerName: t('label-id'), 
+                    },
                     {
                         field: 'categoryName',
                         headerName: t('label-categoryName'),
@@ -350,8 +374,26 @@ export const useStore = (props: PageProps) => {
                         field: 'categoryDescription',
                         headerName: t('label-categoryDescription'),
                         width: 240,
-                        // type: 'number',
                     },
+                    {
+                        field: 'createdAt',
+                        headerName: t('label-createdAt'),
+                        type: 'date',
+                        valueGetter: value => value && new Date(value),
+                        width: 140,
+                    },
+                    {
+                        field: 'updatedAt',
+                        headerName: t('label-updatedAt'),
+                        type: 'date',
+                        valueGetter: value => value && new Date(value),
+                        width: 140,
+                    },
+                    {
+                        field: 'deleteFlag',
+                        headerName: t('label-deleteFlag'),
+                        type: 'boolean',
+                    }
                     // {
                     //     field: 'joinDate',
                     //     headerName: 'Join date',
@@ -376,26 +418,6 @@ export const useStore = (props: PageProps) => {
                     //     headerName: 'Full-time',
                     //     type: 'boolean',
                     // },
-                    {
-                        field: 'actions',
-                        type: 'actions',
-                        flex: 1,
-                        align: 'right',
-                        getActions: ({ row }) => [
-                            <GridActionsCellItem
-                                key='edit-item'
-                                icon={<EditIcon sx={{color: 'orange'}} />}
-                                label='Edit'
-                                onClick={() => action.grid.onRowEdit(row)}
-                            />,
-                            <GridActionsCellItem
-                                key='delete-item'
-                                icon={<DeleteIcon sx={{color: 'red'}} />}
-                                label='Delete'
-                                onClick={() => action.grid.onRowDelete(row)}
-                            />
-                        ]
-                    }
                 ];
             }
         }

@@ -29,6 +29,11 @@ public class ProductSearchDomainModel {
     private Integer categoryId;
 
     /**
+     * category Name
+     */
+    private String categoryName;
+    
+    /**
      * product Name
      */
     private String productName;

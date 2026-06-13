@@ -10,18 +10,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.hoodie.app.application.model.ProductInitialApplicationModel;
+import com.hoodie.app.application.model.ProductSearchApplicationModel;
 import com.hoodie.app.application.model.ProductSubmitApplicationModel;
 import com.hoodie.app.common.CheckLogic;
 import com.hoodie.app.constant.Constant;
+import com.hoodie.app.domain.model.ProductSearchDomainModel;
 import com.hoodie.app.dto.SubmitRequestModel;
 import com.hoodie.app.dto.SubmitResponseModel;
+import com.hoodie.app.dto.response.SearchResponse;
 import com.hoodie.app.dto.response.error.ValidationErrorItem;
 import com.hoodie.app.entity.Product;
 import com.hoodie.app.entity.ProductImage;
 import com.hoodie.app.exception.BusinessValidationException;
+import com.hoodie.app.mapper.ProductMapper;
 import com.hoodie.app.repository.ProductImageRepository;
 import com.hoodie.app.repository.ProductRepository;
 import com.hoodie.app.service.CloudinaryService;
+import com.hoodie.app.service.ProductSearchService;
 import com.hoodie.app.service.ProductService;
 
 import jakarta.transaction.Transactional;
@@ -35,6 +41,12 @@ import lombok.RequiredArgsConstructor;
 public class ProductServiceImpl implements ProductService {
 
     private static final long MAX_FILE_SIZE = 5 * 1024 * 1024;
+
+    /**
+     * ProductSearchService
+     */
+    @Autowired
+    private ProductSearchService productSearchService;
 
     /**
      * ProductRepository
@@ -53,6 +65,46 @@ public class ProductServiceImpl implements ProductService {
      */
     @Autowired
     private CloudinaryService cloudinaryService;
+
+    /**
+     * ProductMapper
+     */
+    @Autowired
+    private ProductMapper productMapper;
+
+    /**
+     * initial
+     * 
+     * @param request
+     * @return SearchResponse<ProductSearchDomainModel>
+     */
+    @Override
+    public SearchResponse<ProductSearchDomainModel> initialProduct(
+            SubmitRequestModel<ProductInitialApplicationModel> request) {
+        List<ProductSearchDomainModel> listModel = new ArrayList<ProductSearchDomainModel>();
+        SearchResponse<ProductSearchDomainModel> results = new SearchResponse<ProductSearchDomainModel>(0, listModel);
+        // check validate
+        List<ValidationErrorItem> errors = this.checkValidateInit(request.getModel(), request.getRequestType());
+        if (!errors.isEmpty()) {
+            throw new BusinessValidationException(errors);
+        }
+
+        String requestType = request.getRequestType();
+        ProductSearchApplicationModel productSearchApplicationModel = productMapper.map(request.getModel());
+
+        switch (requestType) {
+        case Constant.CONSTANT_SUBMIT_REQUEST_TYPE_INITIAL:
+            break;
+        case Constant.CONSTANT_SUBMIT_REQUEST_TYPE_CREATE:
+            break;
+        case Constant.CONSTANT_SUBMIT_REQUEST_TYPE_UPDATE:
+            results = productSearchService.search(productSearchApplicationModel);
+            break;
+        default:
+            break;
+        }
+        return results;
+    }
 
     /**
      * submitProduct
@@ -236,4 +288,25 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    /**
+     * checkValidateInit
+     * 
+     * @param request
+     * @return List<ValidationErrorItem>
+     */
+    public List<ValidationErrorItem> checkValidateInit(ProductInitialApplicationModel request, String requestType) {
+        List<ValidationErrorItem> errors = new ArrayList<>();
+        // check NULL requestType
+        if (CheckLogic.isEmpty(requestType)) {
+            errors.add(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.REQUEST_TYPE_NOT_BLANK));
+        }
+        // case update
+        if (Constant.CONSTANT_SUBMIT_REQUEST_TYPE_UPDATE.equals(requestType)) {
+            // check NULL CategoryId
+            if (!CheckLogic.isValidId(request.getProductId())) {
+                errors.add(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.PRODUCT_NOT_FOUND_MESSAGE));
+            }
+        }
+        return errors;
+    }
 }

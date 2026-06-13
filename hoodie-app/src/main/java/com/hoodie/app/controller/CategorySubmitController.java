@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hoodie.app.application.model.CategoryInitialApplicationModel;
+import com.hoodie.app.application.model.CategorySearchApplicationModel;
 import com.hoodie.app.application.model.CategorySubmitApplicationModel;
 import com.hoodie.app.application.model.CategorySubmitDeleteApplicationModel;
-import com.hoodie.app.application.model.ProductSearchApplicationModel;
 import com.hoodie.app.domain.model.CategorySearchDomainModel;
 import com.hoodie.app.dto.SubmitRequestModel;
 import com.hoodie.app.dto.SubmitResponseModel;
@@ -41,8 +41,8 @@ public class CategorySubmitController {
     /**
      * initial
      * 
-     * @param request {@link ProductSearchApplicationModel}
-     * @return {@link BaseApiResponse<SearchResponse<ProductSearchDomainModel>>}
+     * @param request {@link CategorySearchApplicationModel}
+     * @return {@link BaseApiResponse<SearchResponse<CategorySearchDomainModel>>}
      */
     @PostMapping("/initial")
     public BaseApiResponse<SearchResponse<CategorySearchDomainModel>> initial(

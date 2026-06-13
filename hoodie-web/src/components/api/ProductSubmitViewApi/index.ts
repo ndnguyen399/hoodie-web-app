@@ -1,13 +1,23 @@
 /**
  * @author duynguyen © 2025
  */
-import type { BaseApiResponse, ProductSubmitApplicationModel, SubmitRequest } from '../../common/Models';
+import type { BaseApiResponse, ProductInitialApplicationModel, ProductSubmitApplicationModel, SubmitRequest } from '../../common/Models';
 import { ApiClient } from '../config/api.client';
 
 /**
  * productSubmitViewApi
  */
 export class ProductSubmitViewApi {
+
+    /**
+     * initial
+     * 
+     * @param request {@link ProductInitialApplicationModel}
+     * @returns response {@link BaseApiResponse}
+     */
+    initial(request: SubmitRequest<ProductInitialApplicationModel>) {
+        return ApiClient.post<BaseApiResponse>('/api/v1/product/initial', request);
+    }
 
     /**
      * submit
