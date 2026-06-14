@@ -153,7 +153,7 @@ public class ProductSearchRepositoryCustomImpl implements ProductSearchRepositor
                 .on(T1.SKILL_LOGIC.eq(T3.CODE_NAME).and(T3.CODE_CD.eq(Constant.HOODIE_CODE_000113))).leftJoin(T4)
                 .on(T1.SKILL_CREATIVE.eq(T4.CODE_NAME).and(T4.CODE_CD.eq(Constant.HOODIE_CODE_000113))).leftJoin(T5)
                 .on(T1.SKILL_STEM.eq(T5.CODE_NAME).and(T5.CODE_CD.eq(Constant.HOODIE_CODE_000113))).leftJoin(T6)
-                .on(T1.SKILL_SOCIAL.eq(T6.CODE_NAME).and(T6.CODE_CD.eq(Constant.HOODIE_CODE_000113))).leftJoin(T7)
+                .on(T1.SKILL_MOTOR.eq(T6.CODE_NAME).and(T6.CODE_CD.eq(Constant.HOODIE_CODE_000113))).leftJoin(T7)
                 .on(T1.SKILL_SOCIAL.eq(T7.CODE_NAME).and(T7.CODE_CD.eq(Constant.HOODIE_CODE_000113))).where(conditions)
                 .fetchInto(ProductSearchDomainModel.class);
     }

@@ -62,7 +62,7 @@ public class ProductSubmitController {
     @Transactional
     public BaseApiResponse<List<SubmitResponseModel>> submit(
             @RequestPart @Valid SubmitRequestModel<ProductSubmitApplicationModel> request,
-            @RequestPart("images") @Valid List<MultipartFile> images) throws Exception {
+            @RequestPart(value = "images", required = false) List<MultipartFile> images) throws Exception {
         List<SubmitResponseModel> lists = new ArrayList<>();
         SubmitResponseModel response = productService.submitProduct(request, images);
         lists.add(response);

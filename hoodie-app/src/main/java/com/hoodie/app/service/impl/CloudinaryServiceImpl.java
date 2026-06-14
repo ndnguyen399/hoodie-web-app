@@ -5,6 +5,8 @@ package com.hoodie.app.service.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.hoodie.app.constant.Constant;
+import com.hoodie.app.dto.UploadResult;
 import com.hoodie.app.service.CloudinaryService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,10 +33,20 @@ public class CloudinaryServiceImpl implements CloudinaryService {
     /**
      * uploadFile
      */
-    @Override
-    public String uploadFile(MultipartFile file) throws Exception {
-        Map uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.asMap("folder", "products"));
-        return uploadResult.get("secure_url").toString();
+    public UploadResult upload(MultipartFile file, String folder) throws Exception {
+        Map<?, ?> uploadResult = cloudinary.uploader().upload(file.getBytes(),
+                ObjectUtils.asMap(Constant.FOLDER, folder));
+        return new UploadResult(uploadResult.get("secure_url").toString(), uploadResult.get("public_id").toString());
     }
 
+    /**
+     * deleteImage
+     * 
+     * @param publicId
+     * @throws Exception
+     */
+    @Override
+    public void deleteImage(String publicId, String folder) throws Exception {
+        cloudinary.uploader().destroy(publicId, ObjectUtils.asMap(Constant.FOLDER, folder));
+    }
 }

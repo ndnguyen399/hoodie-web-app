@@ -382,7 +382,8 @@ export const ProductRegistrationContent: React.FC<PageProps> = props => {
                                         });
 
                                         if (validFiles.length > 0) {
-                                            action.onChangeFile("images", validFiles);
+                                            // action.onChangeFile("images", validFiles);
+                                            action.onChangeFile(validFiles);
                                         }
                                         
                                         // Reset input để có thể chọn lại cùng một file nếu cần

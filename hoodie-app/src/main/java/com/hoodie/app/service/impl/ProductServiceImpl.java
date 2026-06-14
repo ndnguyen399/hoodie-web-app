@@ -18,6 +18,7 @@ import com.hoodie.app.constant.Constant;
 import com.hoodie.app.domain.model.ProductSearchDomainModel;
 import com.hoodie.app.dto.SubmitRequestModel;
 import com.hoodie.app.dto.SubmitResponseModel;
+import com.hoodie.app.dto.UploadResult;
 import com.hoodie.app.dto.response.SearchResponse;
 import com.hoodie.app.dto.response.error.ValidationErrorItem;
 import com.hoodie.app.entity.Product;
@@ -115,8 +116,8 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public SubmitResponseModel submitProduct(SubmitRequestModel<ProductSubmitApplicationModel> request,
             List<MultipartFile> images) throws Exception {
-        // validate images
-        validateImages(images);
+//        // validate images
+//        validateImages(images);
 
         // check validate
         List<ValidationErrorItem> errors = this.checkValidate(request.getModel(), request.getRequestType());
@@ -127,13 +128,82 @@ public class ProductServiceImpl implements ProductService {
         SubmitResponseModel submitResponseModel = new SubmitResponseModel();
         // submit create
         if (CheckLogic.isSubmitEntry(request.getRequestType())) {
+            // validate images
+            validateImages(images);
             submitResponseModel = create(request.getModel(), images);
         } else {
             // submit update
-//            submitResponseModel = update(request.getModel());
+            if (images != null && !images.isEmpty()) {
+                validateImages(images);
+            }
+            submitResponseModel = update(request.getModel(), images);
         }
 
         return submitResponseModel;
+    }
+
+    /**
+     * update
+     * 
+     * @param request
+     * @return SubmitResponseModel
+     * @throws Exception
+     */
+    private SubmitResponseModel update(ProductSubmitApplicationModel request, List<MultipartFile> images)
+            throws Exception {
+        Product product = productRepository.findByProductIdAndDeleteFlag(request.getProductId(),
+                Constant.DELETE_FLAG_ZERO);
+
+        productMapper.updateEntity(request, product);
+        productRepository.save(product);
+
+        if (CheckLogic.isChangeImage(request.getChangeImageFlag())) {
+            if (images != null && !images.isEmpty()) {
+                replaceImages(product.getProductId(), images);
+            }
+        }
+
+        SubmitResponseModel response = new SubmitResponseModel();
+        response.setCode(Constant.NO_ERROR);
+        response.setMessage(Constant.INFO_UPDATE_SUCCESS);
+        return response;
+    }
+
+    /**
+     * replaceImages
+     * 
+     * @param productId
+     * @param images
+     * @throws Exception
+     */
+    private void replaceImages(Integer productId, List<MultipartFile> images) throws Exception {
+
+        List<ProductImage> oldImages = productImageRepository.findByProductIdAndDeleteFlag(productId,
+                Constant.DELETE_FLAG_ZERO);
+
+        for (ProductImage image : oldImages) {
+            cloudinaryService.deleteImage(image.getPublicId(), Constant.PRODUCTS);
+        }
+
+        productImageRepository.deleteAll(oldImages);
+
+        for (int i = 0; i < images.size(); i++) {
+            MultipartFile file = images.get(i);
+
+            UploadResult upload = cloudinaryService.upload(file, Constant.PRODUCTS);
+
+            ProductImage productImage = new ProductImage();
+
+            productImage.setProductId(productId);
+            productImage.setPublicId(upload.getPublicId());
+            productImage.setImageUrl(upload.getUrl());
+            productImage.setAltText(file.getOriginalFilename());
+            productImage.setDisplayOrder(i);
+            productImage.setIsPrimary(i == 0);
+            productImage.setDeleteFlag(Constant.DELETE_FLAG_ZERO);
+
+            productImageRepository.save(productImage);
+        }
     }
 
     /**
@@ -146,38 +216,32 @@ public class ProductServiceImpl implements ProductService {
     private SubmitResponseModel create(ProductSubmitApplicationModel request, List<MultipartFile> images)
             throws Exception {
         Product product = new Product();
-
         product.setCategoryId(request.getCategoryId());
         product.setProductName(request.getProductName());
         product.setProductDescription(request.getProductDescription());
         product.setPrice(request.getPrice());
         product.setStockQuantity(request.getStockQuantity());
-
         product.setSkillLogic(request.getSkillLogic());
         product.setSkillCreative(request.getSkillCreative());
         product.setSkillStem(request.getSkillStem());
         product.setSkillMotor(request.getSkillMotor());
         product.setSkillSocial(request.getSkillSocial());
-
         product.setDeleteFlag(Constant.DELETE_FLAG_ZERO);
-
         product = productRepository.save(product);
 
         for (int i = 0; i < images.size(); i++) {
-
             MultipartFile image = images.get(i);
 
-            String imageUrl = cloudinaryService.uploadFile(image);
+            UploadResult upload = cloudinaryService.upload(image, Constant.PRODUCTS);
 
             ProductImage productImage = new ProductImage();
-
             productImage.setProductId(product.getProductId());
-            productImage.setImageUrl(imageUrl);
-            productImage.setAltText("image-alt-" + product.getProductId());
+            productImage.setPublicId(upload.getPublicId());
+            productImage.setImageUrl(upload.getUrl());
+            productImage.setAltText(image.getOriginalFilename());
             productImage.setDisplayOrder(i);
             productImage.setIsPrimary(i == 0);
             productImage.setDeleteFlag(Constant.DELETE_FLAG_ZERO);
-
             productImageRepository.save(productImage);
         }
 
@@ -243,6 +307,11 @@ public class ProductServiceImpl implements ProductService {
             if (!CheckLogic.isValidId(request.getProductId())) {
                 errors.add(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.PRODUCT_NOT_FOUND_MESSAGE));
             }
+            Product product = productRepository.findByProductIdAndDeleteFlag(request.getProductId(),
+                    Constant.DELETE_FLAG_ZERO);
+            if (CheckLogic.isNull(product)) {
+                errors.add(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.PRODUCT_NOT_FOUND_MESSAGE));
+            }
             // check EXISTS CategoryName
 //            Category category = categoryRepository.findByCategoryNameAndDeleteFlag(request.getCategoryName(),
 //                    Constant.DELETE_FLAG_ZERO);
@@ -250,7 +319,6 @@ public class ProductServiceImpl implements ProductService {
 //                errors.add(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.CATEGORY_ALREADY_EXISTS_MESSAGE));
 //            }
         }
-
         return errors;
     }
 
@@ -267,17 +335,13 @@ public class ProductServiceImpl implements ProductService {
         }
 
         for (MultipartFile file : images) {
-
             if (file.isEmpty()) {
                 errors.add(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.FILE_NOT_FOUND_MESSAGE));
             }
-
             if (file.getSize() > MAX_FILE_SIZE) {
                 errors.add(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.FILE_SIZE_EXCEEDED_MESSAGE));
             }
-
             String contentType = file.getContentType();
-
             if (!("image/jpeg".equals(contentType)) && !("image/png".equals(contentType))) {
                 errors.add(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.FILE_TYPE_NOT_SUPPORTED_MESSAGE));
             }

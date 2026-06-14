@@ -14,6 +14,10 @@ import java.util.regex.Pattern;
  */
 public class CheckLogic {
 
+    // Change Image
+    public static final String FLAG_CHANGE_IMAGE_YES = "01";
+    public static final String FLAG_CHANGE_IMAGE_NO = "02";
+
     private static final String CONSTANT_SUBMIT_REQUEST_TYPE_INITIAL = "01";
     private static final String CONSTANT_SUBMIT_REQUEST_TYPE_CREATE = "02";
     private static final String CONSTANT_SUBMIT_REQUEST_TYPE_UPDATE = "03";
@@ -316,6 +320,17 @@ public class CheckLogic {
      */
     public static boolean isSubmitEntry(String requestType) {
         if (CONSTANT_SUBMIT_REQUEST_TYPE_CREATE.equals(requestType)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Null-safe inequality check between two objects.
+     */
+    public static boolean isChangeImage(String changeImageFlag) {
+        if (FLAG_CHANGE_IMAGE_YES.equals(changeImageFlag)) {
             return true;
         } else {
             return false;

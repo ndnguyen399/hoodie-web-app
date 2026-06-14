@@ -18,5 +18,7 @@ const Constants : any= {
     REUEST_TYPE_CREATE: "02",
     REUEST_TYPE_UPDATE: "03",
     REUEST_TYPE_DELETE: "04",
+    FLAG_CHANGE_IMAGE_YES: "01",
+    FLAG_CHANGE_IMAGE_NO: "02",
 };
 export default Constants;

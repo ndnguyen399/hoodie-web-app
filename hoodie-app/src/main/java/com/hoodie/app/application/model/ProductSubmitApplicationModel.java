@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import com.hoodie.app.constant.Constant;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,14 +19,14 @@ import lombok.Setter;
 @Setter
 public class ProductSubmitApplicationModel {
     private Integer productId;
-    @NotBlank(message = Constant.CATEGORY_ID_NOT_NULL_MESSAGE)
+    @NotNull(message = Constant.CATEGORY_ID_NOT_NULL_MESSAGE)
     private Integer categoryId;
     @NotBlank(message = Constant.PRODUCT_NOT_NULL_MESSAGE)
     private String productName;
     private String productDescription;
-    @NotBlank(message = Constant.PRICE_NOT_NULL_MESSAGE)
+    @NotNull(message = Constant.PRICE_NOT_NULL_MESSAGE)
     private BigDecimal price;
-    @NotBlank(message = Constant.STOCK_NOT_NULL_MESSAGE)
+    @NotNull(message = Constant.STOCK_NOT_NULL_MESSAGE)
     private Integer stockQuantity;
     @NotBlank(message = Constant.SKILL_LOGIC_NOT_NULL_MESSAGE)
     private String skillLogic;
@@ -37,4 +38,5 @@ public class ProductSubmitApplicationModel {
     private String skillMotor;
     @NotBlank(message = Constant.SKILL_SOCIAL_NOT_NULL_MESSAGE)
     private String skillSocial;
+    private String changeImageFlag;
 }

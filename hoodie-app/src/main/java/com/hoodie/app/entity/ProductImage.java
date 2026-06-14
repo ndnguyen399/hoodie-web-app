@@ -37,6 +37,9 @@ public class ProductImage {
     @Column(name = "product_id")
     private Integer productId;
 
+    @Column(name = "public_id", nullable = false, length = 500)
+    private String publicId;
+
     @Column(name = "image_url", nullable = false, length = 500)
     private String imageUrl;
 

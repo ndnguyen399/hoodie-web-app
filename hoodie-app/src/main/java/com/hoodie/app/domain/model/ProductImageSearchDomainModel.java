@@ -25,6 +25,11 @@ public class ProductImageSearchDomainModel {
     private Integer productId;
 
     /**
+     * publicId
+     */
+    private String publicId;
+
+    /**
      * image url
      */
     private String imageUrl;

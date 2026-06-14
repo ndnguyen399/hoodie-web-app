@@ -65,10 +65,21 @@ export const useStore = (props: PageProps) => {
                             productId: Number(params.get("productId"))!
                         }
                     });
+                    const images = response.data?.search?.[0]?.listImages?.map((item: any) => ({
+                        imageId: item.imageId,
+                        imageUrl: item.imageUrl,
+                        name:
+                            item.altText ||
+                            item.imageUrl?.split('/').pop() ||
+                            '',
+                        isNew: false
+                    })) || [];
+                        
                     setState(prev => ({
                         ...prev,
                         productSubmitApplicationModel: response.data?.search?.[0],
-                        images: [...(response.data?.search?.[0]?.listImages || [])]
+                        // images: [...(response.data?.search?.[0]?.listImages || [])]
+                        images
                     }));
                 } catch (error: any) {
                     const responseData = error?.payload;
@@ -100,10 +111,29 @@ export const useStore = (props: PageProps) => {
                 productSubmitApplicationModel
             }));
         },
-        onChangeFile: (item: string, newValue: File[]) => {
+        // onChangeFile: (item: string, newValue: File[]) => {
+        //     setState(prev => ({
+        //         ...prev,
+        //         [item]: [...(prev.images || []), ...newValue]
+        //     }));
+        // },
+        onChangeFile: (files: File[]) => {
+            const newImages = files.map(file => ({
+                file,
+                name: file.name,
+                isNew: true
+            }));
+
             setState(prev => ({
                 ...prev,
-                [item]: [...(prev.images || []), ...newValue]
+                images: [
+                    ...(prev.images || []),
+                    ...newImages
+                ],
+                productSubmitApplicationModel: {
+                    ...prev.productSubmitApplicationModel!,
+                    changeImageFlag: Constants.FLAG_CHANGE_IMAGE_YES
+                }
             }));
         },
         back: {
@@ -129,10 +159,18 @@ export const useStore = (props: PageProps) => {
                     event.preventDefault();
                     setState(prev => ({ ...prev, isSubmitting: true }));
                     try {
+                        const uploadFiles = stateRef.current.images
+                            ?.filter(image => image.isNew)
+                            .map(image => image.file!)
+                        ?? [];
+                        
                         const result = await new ProductSubmitViewApi().submit({
                             requestType: stateRef.current.requestType,
                             model: stateRef.current.productSubmitApplicationModel!
-                        }, stateRef.current.images?? []);
+                            }, 
+                            // stateRef.current.images?? []
+                            uploadFiles
+                        );
                         const resultModel = result.data;
                         let message = '';
                         for (const item of resultModel) {

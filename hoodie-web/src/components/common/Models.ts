@@ -639,6 +639,10 @@ export interface ProductSubmitApplicationModel {
      */
     skillSocial?: string;
     /**
+     * changeImageFlag
+     */
+    changeImageFlag?: string;
+    /**
      * reserveItem01
      */
     reserveItem01?: string;

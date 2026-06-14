@@ -10,6 +10,14 @@ public final class Constant {
     private Constant() {
     }
 
+    // Change Image
+    public static final String FLAG_CHANGE_IMAGE_YES = "01";
+    public static final String FLAG_CHANGE_IMAGE_NO = "02";
+    
+    // Cloudinary
+    public static final String FOLDER = "folder";
+    public static final String PRODUCTS = "products";
+
     // reuqest type
     public static final String CONSTANT_SUBMIT_REQUEST_TYPE_INITIAL = "01";
     public static final String CONSTANT_SUBMIT_REQUEST_TYPE_CREATE = "02";

@@ -13,5 +13,9 @@ import com.hoodie.app.entity.ProductImage;
  * ProductImageRepository class
  */
 public interface ProductImageRepository extends JpaRepository<ProductImage, Integer> {
+    // find in id
     List<ProductImage> findByProductIdInAndDeleteFlag(List<Integer> productIds, String deleteFlag);
+
+    // find id
+    List<ProductImage> findByProductIdAndDeleteFlag(Integer productIds, String deleteFlag);
 }

@@ -10,7 +10,8 @@ export interface PageProps {
 
 export interface PageState {
   productSubmitApplicationModel?: ProductSubmitApplicationModel;
-  images?: File[];
+  // images?: File[];
+  images?: ProductImageViewModel[];
   skillLogicAC?: SearchResponse<CodeSearchDomainModel>;
   skillCreativeAC?: SearchResponse<CodeSearchDomainModel>;
   skillStemAC?: SearchResponse<CodeSearchDomainModel>;
@@ -21,4 +22,12 @@ export interface PageState {
   isSubmitting: boolean;
   requestType: string;
   // ribbonItem: any[];
+}
+
+export interface ProductImageViewModel {
+    imageId?: number;
+    imageUrl?: string;
+    file?: File;
+    name: string;
+    isNew: boolean;
 }
