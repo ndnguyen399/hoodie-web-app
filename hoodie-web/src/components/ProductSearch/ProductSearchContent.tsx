@@ -1,11 +1,36 @@
 /**
  * @author duynguyen © 2025
  */
-import { useEffect } from "react";
-import { Accordion, AccordionDetails, AccordionSummary, Box, Card, CardContent, CardMedia, Chip, CircularProgress, Container, Divider, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import {
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
+    Box,
+    Card,
+    CardContent,
+    CardMedia,
+    Checkbox,
+    CircularProgress,
+    Container,
+    Divider,
+    FormControlLabel,
+    Grid,
+    IconButton,
+    MenuItem,
+    Select,
+    Slider,
+    TextField,
+    Typography,
+    useMediaQuery,
+    useTheme,
+    type SelectChangeEvent,
+} from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TuneIcon from '@mui/icons-material/Tune';
-// import { CommandBar } from "@fluentui/react";
+import ViewModuleIcon from '@mui/icons-material/ViewModule';
+import ViewListIcon from '@mui/icons-material/ViewList';
+import SearchIcon from '@mui/icons-material/Search';
 import type { PageProps } from "./ProductSearch.types";
 import { useStore } from "./ProductSearchStore";
 import Image from "../../templates/Image";
@@ -16,205 +41,169 @@ import Image from "../../templates/Image";
  * @param props 
  * @returns ProductSearchContent
  */
-export const ProductSearchContent: React.FC<PageProps> = props => {
+export const ProductSearchContent: React.FC<PageProps> = (props) => {
     const { t, state, action } = useStore(props);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+    const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+    const [sortBy, setSortBy] = useState<string>('newest');
+    const [showFilters, setShowFilters] = useState(!isMobile);
+
+    const { filters, filteredProducts, allProducts } = state;
+    const totalResults = filteredProducts.length;
 
     useEffect(() => {
         action.load();
     }, []);
 
     if (state.loading) {
-        return <CircularProgress />
+        return <Box sx={{ display: 'flex', justifyContent: 'center', py: 10 }}><CircularProgress /></Box>;
     }
 
-    return (
-        <>
-            {/* <CommandBar items={state.ribbonItem} /> */}
+    const handlePriceChange = (event: Event, newValue: number | number[]) => {
+        const [min, max] = newValue as number[];
+        action.updateFilters({ minPrice: min, maxPrice: max });
+    };
 
-            <Box sx={{ mx: 3, display: "flex" }}>
-                <Box sx={{ width: "30%" }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: 'gray', fontWeight: 'bold' }}>
-                        <Typography sx={{ display: 'flex', justifyContent: 'center' }}><TuneIcon sx={{ mr: 1 }} />{t("label-filter")}</Typography>
-                        <Typography sx={{ display: 'flex', justifyContent: 'center' }}>{state.productSearchDomainModel?.info?.total! || 0} {t("label-results")}</Typography>
+    const handleCategoryChange = (categoryId: number) => {
+        const current = filters.selectedCategoryIds;
+        const newSelected = current.includes(categoryId)
+            ? current.filter(id => id !== categoryId)
+            : [...current, categoryId];
+
+        action.updateFilters({ selectedCategoryIds: newSelected });
+    };
+
+    const handleSearchText = (text: string) => {
+        action.searchText(text);
+    };
+
+    return (
+        <Container maxWidth="xl" sx={{ py: 3 }}>
+            {/* Top Bar */}
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3, flexWrap: 'wrap', gap: 2 }}>
+                <Typography variant="h5" fontWeight="bold">
+                    Kết quả: <strong>{totalResults}</strong> sản phẩm
+                </Typography>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
+                    <TextField
+                        size="small"
+                        placeholder="Tìm kiếm trong kết quả..."
+                        InputProps={{
+                            startAdornment: <SearchIcon sx={{ mr: 1, color: 'text.secondary' }} />,
+                        }}
+                        sx={{ width: 300 }}
+                        onChange={(e) => handleSearchText(e.target.value)}
+                    />
+
+                    <Box sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1 }}>
+                        <IconButton onClick={() => setViewMode('grid')} color={viewMode === 'grid' ? 'primary' : 'default'}>
+                            <ViewModuleIcon />
+                        </IconButton>
+                        <IconButton onClick={() => setViewMode('list')} color={viewMode === 'list' ? 'primary' : 'default'}>
+                            <ViewListIcon />
+                        </IconButton>
                     </Box>
-                    <Divider sx={{ my: 1, fontWeight: 'bold' }} />
-                    {/* category */}
-                    {/* <Accordion defaultExpanded>
-                        <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}>
-                            <FormLabel id="category-check-radio">{t("label-category")}</FormLabel>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <FormControl>
-                                <RadioGroup
-                                    aria-labelledby="category-check-radio"
-                                    defaultValue=""
-                                    name="category-check-radio"
-                                    onChange={action.items.category.onChange}
-                                >
-                                    {state.categorySearchDomainModel?.search && state.categorySearchDomainModel.search.length > 0 ? (
-                                        state.categorySearchDomainModel.search.map((item) => (
-                                            <FormControlLabel key={item.categoryId} value={item.categoryId} control={<Radio />} label={item.categoryName} />
-                                        ))
-                                    ) : (
-                                        <Typography sx={{ display: 'flex', justifyContent: 'center' }}>{t('label-noCategory')}</Typography>
-                                    )}
-                                </RadioGroup>
-                            </FormControl>
-                        </AccordionDetails>
-                    </Accordion> */}
-                    {/* color */}
-                    {/* <Accordion>
-                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                            <FormLabel id="category-check-radio">{t("label-color")}</FormLabel>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <FormControl>
-                                <RadioGroup
-                                    aria-labelledby="color-check-radio"
-                                    defaultValue=""
-                                    name="color-check-radio"
-                                    onChange={action.items.color.onChange}
-                                >
-                                    <FormControlLabel value={1} control={<Radio />} label="green" />
-                                    <FormControlLabel value={2} control={<Radio />} label="black" />
-                                    <FormControlLabel value={3} control={<Radio />} label="white" />
-                                </RadioGroup>
-                            </FormControl>
-                        </AccordionDetails>
-                    </Accordion> */}
-                    {/* size */}
-                    {/* <Accordion>
-                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                            <FormLabel id="size-check-radio">{t("label-size")}</FormLabel>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <FormControl>
-                                <RadioGroup
-                                    aria-labelledby="size-check-radio"
-                                    defaultValue=""
-                                    name="size-check-radio"
-                                >
-                                    <FormControlLabel value="X" control={<Radio />} label="X" />
-                                    <FormControlLabel value="M" control={<Radio />} label="M" />
-                                    <FormControlLabel value="L" control={<Radio />} label="L" />
-                                </RadioGroup>
-                            </FormControl>
-                        </AccordionDetails>
-                    </Accordion> */}
-                    {/* price */}
-                    {/* <Accordion>
-                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                            <FormLabel id="price-check-radio">{t("label-price")}</FormLabel>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <FormControl>
-                                <RadioGroup
-                                    aria-labelledby="price-check-radio"
-                                    defaultValue=""
-                                    name="price-check-radio"
-                                >
-                                    <FormControlLabel value="X" control={<Radio />} label="0 - 200.000" />
-                                    <FormControlLabel value="M" control={<Radio />} label="200.000 - 500.000" />
-                                    <FormControlLabel value="L" control={<Radio />} label="500.000 - 1.000.000" />
-                                    <FormControlLabel value="XL" control={<Radio />} label="> 1.000.000" />
-                                </RadioGroup>
-                            </FormControl>
-                        </AccordionDetails>
-                    </Accordion> */}
+
+                    {isMobile && (
+                        <IconButton onClick={() => setShowFilters(!showFilters)}>
+                            <TuneIcon />
+                        </IconButton>
+                    )}
                 </Box>
-                {/* product */}
-                <Container maxWidth={false} sx={{ py: 4 }}>
-                    <Grid container spacing={1}>
-                        {state.productSearchDomainModel?.search && state.productSearchDomainModel.search.length > 0 ? (
-                            state.productSearchDomainModel.search.map((item) => {
-                                const primaryImage = item.listImages?.find(img => img.isPrimary);
-            
+            </Box>
+
+            <Box sx={{ display: 'flex', gap: 3 }}>
+                {/* Filter Sidebar */}
+                {(showFilters || !isMobile) && (
+                    <Box sx={{ width: { xs: '100%', md: 280 }, flexShrink: 0, alignSelf: 'flex-start' }}>
+                        <Typography variant="h6" fontWeight="bold" gutterBottom>
+                            Bộ lọc
+                        </Typography>
+                        <Divider sx={{ mb: 3 }} />
+
+                        {/* Price */}
+                        <Accordion defaultExpanded>
+                            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                                <Typography fontWeight="medium">Khoảng giá</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <Slider
+                                    value={[filters.minPrice, filters.maxPrice]}
+                                    onChange={handlePriceChange}
+                                    valueLabelDisplay="auto"
+                                    min={0}
+                                    max={5000000}
+                                    step={50000}
+                                />
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1 }}>
+                                    <Typography variant="body2">{filters.minPrice.toLocaleString('vi-VN')}đ</Typography>
+                                    <Typography variant="body2">{filters.maxPrice.toLocaleString('vi-VN')}đ</Typography>
+                                </Box>
+                            </AccordionDetails>
+                        </Accordion>
+
+                        {/* Category */}
+                        <Accordion defaultExpanded>
+                            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                                <Typography fontWeight="medium">Danh mục</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                {state.categorySearchDomainModel?.search?.map((cat: any) => (
+                                    <FormControlLabel
+                                        key={cat.categoryId}
+                                        control={
+                                            <Checkbox
+                                                checked={filters.selectedCategoryIds.includes(cat.categoryId)}
+                                                onChange={() => handleCategoryChange(cat.categoryId)}
+                                            />
+                                        }
+                                        label={cat.categoryName}
+                                    />
+                                ))}
+                            </AccordionDetails>
+                        </Accordion>
+                    </Box>
+                )}
+
+                {/* Products */}
+                <Box sx={{ flexGrow: 1 }}>
+                    <Grid container spacing={3} columns={{ xs: 2, sm: 3, md: viewMode === 'grid' ? 4 : 12 }}>
+                        {filteredProducts.length > 0 ? (
+                            filteredProducts.map((item: any) => {
+                                const primaryImage = item.listImages?.find((img: any) => img.isPrimary);
+
                                 return (
-                                    <Grid key={item.productId} size={3}>
-                                        <Card
-                                            sx={{
-                                                height: "100%",
-                                                display: "flex",
-                                                flexDirection: "column",
-                                                cursor: "pointer",
-                                                transition: "transform 0.2s",
-                                                "&:hover": { transform: "scale(1.03)" },
-                                            }}
-                                        >
+                                    <Grid key={item.productId} size={1}>
+                                        <Card sx={{
+                                            height: '100%',
+                                            borderRadius: 2,
+                                            boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                                            transition: 'all 0.25s',
+                                            '&:hover': { transform: 'translateY(-6px)', boxShadow: '0 12px 24px rgba(0,0,0,0.15)' }
+                                        }}>
                                             <CardMedia>
                                                 <Image
                                                     loading="lazy"
-                                                    alt={`alt-image-product-${item.productId}`}
-                                                    src={
-                                                        primaryImage?.imageUrl ??
-                                                        "/images/no-image.png"
-                                                    }
-                                                    width={0}
-                                                    height={0}
-                                                    sizes="100vw"
-                                                    style={{
-                                                        width: "100%",
-                                                        height: "300px",
-                                                        objectFit: "cover",
-                                                    }}
+                                                    alt={item.productName}
+                                                    src={primaryImage?.imageUrl ?? "/images/no-image.png"}
+                                                    style={{ width: '100%', height: viewMode === 'grid' ? 260 : 220, objectFit: 'cover' }}
                                                 />
                                             </CardMedia>
-                                            <CardContent sx={{ flexGrow: 1 }}>
-                                                <Typography gutterBottom variant="h5">
+                                            <CardContent>
+                                                <Typography variant="subtitle1" fontWeight={600} gutterBottom noWrap>
                                                     {item.productName}
                                                 </Typography>
-                                                <Typography
-                                                    variant="body2"
-                                                    color={item.stockQuantity! > 0 ? "green" : "red"}
-                                                >
-                                                    {item.stockQuantity! > 0 ? t('label-inStock') : t('label-outStock')}
+
+                                                <Typography variant="h6" color="primary" fontWeight="bold">
+                                                    {item.price?.toLocaleString('vi-VN')}đ
                                                 </Typography>
-                                                <Typography
-                                                    variant="body2"
-                                                    color="gray"
-                                                    sx={{ mb: 2 }}
-                                                >
-                                                    {`${t("label-price")}: ${item.price} ${t('label-currencyUnit')}`}
+
+                                                <Typography variant="body2" color={item.stockQuantity > 0 ? "success.main" : "error.main"} sx={{ mt: 1 }}>
+                                                    {item.stockQuantity > 0 ? "Còn hàng" : "Hết hàng"}
                                                 </Typography>
-                                                <Box
-                                                    sx={{
-                                                        display: "flex",
-                                                        flexWrap: "wrap",
-                                                        gap: 0.5,
-                                                    }}
-                                                >
-                                                    <Chip
-                                                        label={`${t("label-skillLogic")} ${item.skillLogicName}`}
-                                                        size="small"
-                                                        color="primary"
-                                                        variant="outlined"
-                                                    />
-                                                    <Chip
-                                                        label={`${t("label-skillCreative")} ${item.skillCreativeName}`}
-                                                        size="small"
-                                                        color="primary"
-                                                        variant="outlined"
-                                                    />
-                                                    <Chip
-                                                        label={`${t("label-skillStem")} ${item.skillStemName}`}
-                                                        size="small"
-                                                        color="primary"
-                                                        variant="outlined"
-                                                    />
-                                                    <Chip
-                                                        label={`${t("label-skillMotor")} ${item.skillMotorName}`}
-                                                        size="small"
-                                                        color="primary"
-                                                        variant="outlined"
-                                                    />
-                                                    <Chip
-                                                        label={`${t("label-skillSocial")} ${item.skillSocialName}`}
-                                                        size="small"
-                                                        color="primary"
-                                                        variant="outlined"
-                                                    />
-                                                </Box>
                                             </CardContent>
                                         </Card>
                                     </Grid>
@@ -222,22 +211,14 @@ export const ProductSearchContent: React.FC<PageProps> = props => {
                             })
                         ) : (
                             <Grid size={12}>
-                                <Typography
-                                    variant="h6"
-                                    sx={{
-                                        textAlign: "center",
-                                        width: "100%",
-                                        py: 8,
-                                        color: "text.secondary",
-                                    }}
-                                >
-                                    {t("label-noProduct")}
+                                <Typography align="center" variant="h6" sx={{ py: 8, color: 'text.secondary' }}>
+                                    Không tìm thấy sản phẩm phù hợp
                                 </Typography>
                             </Grid>
                         )}
                     </Grid>
-                </Container>
+                </Box>
             </Box>
-        </>
+        </Container>
     );
 };

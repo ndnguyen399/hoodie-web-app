@@ -11,7 +11,7 @@
     "label-home": "home",
     "label-back": "back",
     "label-filter": "Filter",
-    "label-results": "Results",
+    "label-results": "Sản phẩm",
     "label-noProduct": "No products were found.",
     "label-noImage": "No images were found.",
     "label-noCategory": "No Categories were found.",
@@ -74,5 +74,6 @@
     "label-outStock": "Hết hàng",
     "label-deleteFlag": "Cờ xóa",
     "label-createdAt": "Ngày tạo",
-    "label-updatedAt": "Ngày cập nhật"
+    "label-updatedAt": "Ngày cập nhật",
+    "label-searchInResults": "Tìm kiếm..."
 }

@@ -46,8 +46,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/refresh-token").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/product/search").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/category/search").permitAll()
                         // ADMIN APIs
-                        .requestMatchers(HttpMethod.POST, "/api/v1/category/**").hasRole("ADMIN")
+//                        .requestMatchers(HttpMethod.POST, "/api/v1/category/**").hasRole("ADMIN")
                         // CUSTOMER APIs
 //                        .requestMatchers("/api/v1/customer/**").hasAnyRole("CUSTOMER", "ADMIN")
                         // DEFAULT

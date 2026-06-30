@@ -34,14 +34,15 @@ interface RouteItem {
 const PublicRoutes: RouteItem[] = [
   {
     path: '/',
-    component: Introduction,
-    layout: GuestLayout,
-  },
-  {
-    path: '/product',
     component: ProductSearchView,
+    // component: Introduction,
     layout: GuestLayout,
   },
+  // {
+  //   path: '/product',
+  //   component: ProductSearchView,
+  //   layout: GuestLayout,
+  // },
   {
     path: '/sign-in',
     component: Login,
