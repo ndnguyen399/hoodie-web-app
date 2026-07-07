@@ -7,6 +7,7 @@ import {
     AccordionDetails,
     AccordionSummary,
     Box,
+    Button,
     Card,
     CardContent,
     CardMedia,
@@ -17,20 +18,18 @@ import {
     FormControlLabel,
     Grid,
     IconButton,
-    MenuItem,
-    Select,
     Slider,
     TextField,
     Typography,
     useMediaQuery,
     useTheme,
-    type SelectChangeEvent,
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TuneIcon from '@mui/icons-material/Tune';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import SearchIcon from '@mui/icons-material/Search';
+import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
 import type { PageProps } from "./ProductSearch.types";
 import { useStore } from "./ProductSearchStore";
 import Image from "../../templates/Image";
@@ -201,9 +200,26 @@ export const ProductSearchContent: React.FC<PageProps> = (props) => {
                                                     {item.price?.toLocaleString('vi-VN')}đ
                                                 </Typography>
 
-                                                <Typography variant="body2" color={item.stockQuantity > 0 ? "success.main" : "error.main"} sx={{ mt: 1 }}>
-                                                    {item.stockQuantity > 0 ? "Còn hàng" : "Hết hàng"}
-                                                </Typography>
+                                                <Box sx={{
+                                                    display: 'flex', justifyContent: 'space-between'
+                                                }}>
+                                                    <Typography variant="body2" color={item.stockQuantity > 0 ? "success.main" : "error.main"} sx={{ mt: 1 }}>
+                                                        {item.stockQuantity > 0 ? "Còn hàng" : "Hết hàng"}
+                                                    </Typography>
+                                                    <Button
+                                                        disabled={item.stockQuantity <= 0}
+                                                        onClick={() => action.submitCart.execute(item.productId)}
+                                                        sx={{
+                                                            borderRadius: '20px', 
+                                                            ":hover": {backgroundColor: 'gray'},
+                                                            // Thêm style cho trạng thái disabled nếu cần
+                                                            "&.Mui-disabled": { opacity: 0.5 }
+                                                        }}
+                                                        loading={state.isSubmitting}
+                                                    >
+                                                        <AddShoppingCartOutlinedIcon sx={{color: 'orange'}}/>
+                                                    </Button>
+                                                </Box>
                                             </CardContent>
                                         </Card>
                                     </Grid>

@@ -14,6 +14,7 @@ export interface PageState {
   productSearchDomainModel: SearchResponse<ProductSearchDomainModel>;
   categorySearchDomainModel: SearchResponse<CategorySearchDomainModel>;
   loading: boolean;
+  isSubmitting: boolean;
   // Dữ liệu dùng cho lọc local
   allProducts: ProductSearchDomainModel[];           // Danh sách gốc
   filteredProducts: ProductSearchDomainModel[];      // Danh sách đã lọc

@@ -119,7 +119,7 @@ export default function Header() {
               }}
             >
               {/* <Button sx={{ color: "black" }}>{ContentText['about-us']}</Button> */}
-              <Button sx={{ color: "black" }}>
+              <Button sx={{ color: "black" }} href='/cart'>
                 {/* <FavoriteBorderIcon /> */}
                 <ShoppingCartOutlinedIcon />
               </Button>

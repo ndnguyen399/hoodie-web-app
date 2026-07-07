@@ -10,6 +10,8 @@ import type { PageProps, PageState } from "./ProductSearch.types";
 // import { useNavigate } from "react-router-dom";
 import { ProductSearchViewApi } from "../api/ProductSearchViewApi";
 import { CategorySearchViewApi } from "../api/CategorySearchViewApi";
+import { CartSubmitViewApi } from "../api/CartSubmitViewApi";
+import Constants from "../common/Constants";
 
 /**
  * useStore
@@ -29,6 +31,7 @@ export const useStore = (props: PageProps) => {
         productSearchDomainModel: {},
         categorySearchDomainModel: {},
         loading: false,
+        isSubmitting: false,
         // Dữ liệu lọc local
         allProducts: [],
         filteredProducts: [],
@@ -92,6 +95,51 @@ export const useStore = (props: PageProps) => {
                     loading: false,
                 }));
             });
+        },
+        submitCart: {
+            execute: (productId: number) => {
+                context.overlay
+                .open()
+                .execute(async () => {
+                    setState(prev => ({ ...prev, isSubmitting: true }));
+                    try {
+                        const result = await new CartSubmitViewApi().submit({
+                            requestType: Constants.REUEST_TYPE_CREATE,
+                            model: {
+                                productId: productId,
+                                quantity: 1
+                            }
+                        });
+                        const resultModel = result.data;
+                        let message = '';
+                        for (const item of resultModel) {
+                            message += `${item.code}: ${item.message}\n`;
+                        }
+                        await context.navigation.openInformationDialog(message);
+                        // action.back.execute();
+                    } catch (error: any) {
+                        const responseData = error?.payload;
+                        if (responseData) {
+                            let message = '';
+                            if (responseData.data?.length) {
+                                for (const item of responseData.data) {
+                                    message += `${item.code}: ${item.message}\n`;
+                                }
+                            } else {
+                                message = responseData.message;
+                            }
+                            await context.navigation.openErrorDialog(message);
+                        } else {
+                            await context.navigation.openErrorDialog(t("label-internalServerError"));
+                        }
+                    } finally {
+                        setState(prev => ({
+                            ...prev,
+                            isSubmitting: false
+                        }));
+                    }
+                });
+            }
         },
         // searchCategory: {
         //     execute: async () => {

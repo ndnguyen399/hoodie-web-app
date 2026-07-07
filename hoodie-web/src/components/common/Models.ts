@@ -663,3 +663,59 @@ export interface ProductSubmitApplicationModel {
      */
     reserveItem05?: string;
 }
+/**
+ * CartSubmitApplicationModel
+ */
+export interface CartSubmitApplicationModel {
+    /**
+     * productId
+     */
+    productId?: number;
+    /**
+     * quantity
+     */
+    quantity?: number;
+}
+/**
+ * CartSearchApplicationModel
+ */
+export interface CartSearchApplicationModel {
+
+}
+/**
+ * CartSearchDomainModel
+ */
+export interface CartSearchDomainModel {
+    /**
+     * cartItemId
+     */
+    cartItemId?: number;
+    /**
+     * productId
+     */
+    productId?: number;
+    /**
+     * productName
+     */
+    productName?: string;
+    /**
+     * productDescription
+     */
+    productDescription?: string;
+    /**
+     * price
+     */
+    price?: number;
+    /**
+     * stockQuantity
+     */
+    stockQuantity?: number;
+    /**
+     * imageUrl
+     */
+    imageUrl?: string;
+    /**
+     * quantity
+     */
+    quantity?: number;
+}
