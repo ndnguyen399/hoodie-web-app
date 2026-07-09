@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hoodie.app.application.model.CartSubmitApplicationModel;
+import com.hoodie.app.application.model.CartSubmitDeleteApplicationModel;
 import com.hoodie.app.common.CheckLogic;
 import com.hoodie.app.constant.Constant;
 import com.hoodie.app.dto.SubmitRequestModel;
@@ -102,6 +103,48 @@ public class CartServiceImpl implements CartService {
         SubmitResponseModel response = new SubmitResponseModel();
         response.setCode(Constant.NO_ERROR);
         response.setMessage(Constant.INFO_SUCCESS);
+        return response;
+    }
+
+    /**
+     * submitDelete
+     * 
+     * @param request
+     * @return SubmitResponseModel
+     */
+    @Override
+    public SubmitResponseModel submitDelete(User currentUser,
+            SubmitRequestModel<CartSubmitDeleteApplicationModel> request) {
+        // check validate
+//        List<ValidationErrorItem> errors = this.checkValidateDelete(request.getModel(), request.getRequestType());
+//        if (!errors.isEmpty()) {
+//            throw new BusinessValidationException(errors);
+//        }
+        // submit delete
+        SubmitResponseModel submitResponseModel = delete(currentUser, request.getModel());
+
+        return submitResponseModel;
+    }
+
+    /**
+     * delete
+     * 
+     * @param request
+     * @return SubmitResponseModel
+     */
+    private SubmitResponseModel delete(User currentUser, CartSubmitDeleteApplicationModel request) {
+//        Cart cart = cartRepository.findByUserIdAndCartIdAndDeleteFlag(currentUser.getUserId(), request.getCartId(),
+//                Constant.DELETE_FLAG_ZERO);
+
+        CartItem cartItem = cartItemRepository.findByCartItemIdAndDeleteFlag(request.getCartItemId(),
+                Constant.DELETE_FLAG_ZERO);
+        if (CheckLogic.isNotNull(cartItem)) {
+            cartItemRepository.delete(cartItem);
+        }
+
+        SubmitResponseModel response = new SubmitResponseModel();
+        response.setCode(Constant.NO_ERROR);
+        response.setMessage(Constant.INFO_DELETE_SUCCESS);
         return response;
     }
 

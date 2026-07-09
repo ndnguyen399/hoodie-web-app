@@ -12,4 +12,6 @@ import com.hoodie.app.entity.CartItem;
  */
 public interface CartItemRepository extends JpaRepository<CartItem, Integer> {
     CartItem findByCartIdAndProductIdAndDeleteFlag(Integer cartId, Integer productId, String deleteFlag);
+
+    CartItem findByCartItemIdAndDeleteFlag(Integer cartItemId, String deleteFlag);
 }

@@ -4,6 +4,7 @@
 package com.hoodie.app.service;
 
 import com.hoodie.app.application.model.CartSubmitApplicationModel;
+import com.hoodie.app.application.model.CartSubmitDeleteApplicationModel;
 import com.hoodie.app.dto.SubmitRequestModel;
 import com.hoodie.app.dto.SubmitResponseModel;
 import com.hoodie.app.entity.User;
@@ -13,4 +14,6 @@ import com.hoodie.app.entity.User;
  */
 public interface CartService {
     public SubmitResponseModel submitCart(User currentUser, SubmitRequestModel<CartSubmitApplicationModel> request);
+
+    public SubmitResponseModel submitDelete(User currentUser, SubmitRequestModel<CartSubmitDeleteApplicationModel> request);
 }

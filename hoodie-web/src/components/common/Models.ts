@@ -719,3 +719,12 @@ export interface CartSearchDomainModel {
      */
     quantity?: number;
 }
+/**
+ * CartSubmitDeleteApplicationModel
+ */
+export interface CartSubmitDeleteApplicationModel {
+    /**
+     * cartItemId
+     */
+    cartItemId?: number;
+}

@@ -14,5 +14,6 @@ export interface PageState {
   selectedItems: (string | number)[]; // Danh sách productId được chọn
   totalAmount: number; // Tổng tiền tất cả
   selectedAmount: number; // Tổng tiền các item được chọn
+  selectAll: boolean;
   loading: boolean;
 }

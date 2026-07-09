@@ -20,9 +20,6 @@ export const CartContent: React.FC<PageProps> = (props) => {
     const { t, state, action } = useStore(props);
 
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
-    const [selectAll, setSelectAll] = useState(false);
 
     useEffect(() => {
         action.load();
@@ -35,9 +32,6 @@ export const CartContent: React.FC<PageProps> = (props) => {
             </Box>
         );
     }
-
-    // const { cartItems, totalAmount, selectedItems } = state;
-    // const selectedCount = selectedItems.length;
 
     return (
         <Container maxWidth="xl" sx={{ py: 4 }}>
@@ -68,15 +62,16 @@ export const CartContent: React.FC<PageProps> = (props) => {
                                         <TableRow>
                                             <TableCell padding="checkbox">
                                                 <Checkbox
-                                                    checked={selectAll}
+                                                    checked={state.selectAll}
                                                     indeterminate={state.selectedItems.length > 0 && state.selectedItems.length < state.cartSearchDomainModel?.search!.length}
                                                     onChange={(e) => {
-                                                        setSelectAll(e.target.checked);
-                                                        // action.toggleSelectAll(e.target.checked);
+                                                        action.setSelectAll(e)
+                                                        action.toggleSelectAll(e.target.checked);
                                                     }}
                                                 />
                                             </TableCell>
                                             <TableCell>Sản phẩm</TableCell>
+                                            <TableCell align="center">Còn lại trong kho</TableCell>
                                             <TableCell align="right">Đơn giá</TableCell>
                                             <TableCell align="center">Số lượng</TableCell>
                                             <TableCell align="right">Thành tiền</TableCell>
@@ -89,7 +84,7 @@ export const CartContent: React.FC<PageProps> = (props) => {
                                                 <TableCell padding="checkbox">
                                                     <Checkbox
                                                         checked={state.selectedItems.includes(item.productId!)}
-                                                        // onChange={() => action.toggleSelect(item.productId)}
+                                                        onChange={() => action.toggleSelect(item.productId!)}
                                                     />
                                                 </TableCell>
 
@@ -104,11 +99,14 @@ export const CartContent: React.FC<PageProps> = (props) => {
                                                             <Typography variant="subtitle2" gutterBottom>
                                                                 {item.productName}
                                                             </Typography>
-                                                            {/* {item.skillLogicName && (
-                                                                <Chip label={item.skillLogicName} size="small" variant="outlined" />
-                                                            )} */}
                                                         </Box>
                                                     </Box>
+                                                </TableCell>
+
+                                                <TableCell align="center">
+                                                    <Typography fontWeight="medium">
+                                                        {item.stockQuantity}
+                                                    </Typography>
                                                 </TableCell>
 
                                                 <TableCell align="right">
@@ -155,7 +153,7 @@ export const CartContent: React.FC<PageProps> = (props) => {
                                                 <TableCell align="center">
                                                     <IconButton
                                                         color="error"
-                                                        // onClick={() => action.removeItem(item.productId)}
+                                                        onClick={() => action.removeItem(item)}
                                                     >
                                                         <DeleteOutlineIcon />
                                                     </IconButton>
@@ -168,7 +166,6 @@ export const CartContent: React.FC<PageProps> = (props) => {
                         </Paper>
                     </Box>
 
-                    {/* Sidebar - Thanh toán */}
                     <Box sx={{ width: { xs: '100%', lg: 380 } }}>
                         <Paper elevation={3} sx={{ p: 3, borderRadius: 2, position: 'sticky', top: 20 }}>
                             <Typography variant="h6" fontWeight="bold" gutterBottom>
@@ -179,7 +176,7 @@ export const CartContent: React.FC<PageProps> = (props) => {
                                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                                     <Typography>Tạm tính ({state.selectedItems.length!} sản phẩm)</Typography>
                                     <Typography fontWeight="medium">
-                                        {state.totalAmount.toLocaleString('vi-VN')}đ
+                                        {state.selectedAmount.toLocaleString('vi-VN')}đ
                                     </Typography>
                                 </Box>
 
@@ -188,11 +185,10 @@ export const CartContent: React.FC<PageProps> = (props) => {
                                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
                                     <Typography variant="h6" fontWeight="bold">Tổng tiền</Typography>
                                     <Typography variant="h5" fontWeight="bold" color="primary">
-                                        {state.totalAmount.toLocaleString('vi-VN')}đ
+                                        {state.selectedAmount.toLocaleString('vi-VN')}đ
                                     </Typography>
                                 </Box>
 
-                                {/* Voucher */}
                                 <TextField
                                     fullWidth
                                     size="small"

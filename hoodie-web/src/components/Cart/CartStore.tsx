@@ -8,6 +8,8 @@ import { useTranslation } from "../../hooks/useTranslation";
 import { useApplicationContext } from "../../hooks/useApplicationContext";
 import type { CartSearchDomainModel } from "../common/Models";
 import { CartSearchViewApi } from "../api/CartSearchViewApi";
+import { CartSubmitViewApi } from "../api/CartSubmitViewApi";
+import Constants from "../common/Constants";
 
 /**
  * useStore
@@ -29,6 +31,7 @@ export const useStore = (props: PageProps) => {
         selectedItems: [],
         totalAmount: 0,
         selectedAmount: 0,
+        selectAll: false,
         loading: false
     });
 
@@ -60,12 +63,21 @@ export const useStore = (props: PageProps) => {
                 setState(prev => ({
                     ...prev,
                     cartSearchDomainModel: response?.data || {},
-                    // selectedItems: response?.data.map((item: any) => item.productId), // Mặc định chọn tất cả
+                    // selectedItems: response?.data?.search?.map((item: any) => item.productId), // Mặc định chọn tất cả
+                    // selectAll: true,
                     totalAmount,
                     selectedAmount,
                     loading: false,
                 }));
             });
+        },
+        setSelectAll: (e: React.ChangeEvent<HTMLInputElement>) => {
+            const { selectedAmount } = calculateTotals([], stateRef.current?.selectedItems);
+            setState(prev => ({
+                ...prev,
+                selectAll: e.target.checked,
+                selectedAmount: selectedAmount
+            }));
         },
         // updateQuantity: async (productId: string | number, quantity: number) => {
         //     if (quantity < 1) return;
@@ -91,57 +103,78 @@ export const useStore = (props: PageProps) => {
         //     // TODO: Gọi API cập nhật quantity
         // },
 
-        // removeItem: async (productId: string | number) => {
-        //     setState(prev => {
-        //         const updatedItems = prev.cartItems.filter(item => item.productId !== productId);
-        //         const updatedSelected = prev.selectedItems.filter(id => id !== productId);
+        removeItem: async (model: CartSearchDomainModel) => {
+            const isOk = 
+                await context.navigation
+                    .openConfirmDialog(`${t('label-textButtonDelete')} - ${t('label-productName')}: ${model.productName}`);
+            if (!isOk) {
+                return;
+            }
 
-        //         const { totalAmount, selectedAmount } = calculateTotals(updatedItems, updatedSelected);
+            try {
+                const result = await new CartSubmitViewApi().submitDelete({
+                    requestType: Constants.REUEST_TYPE_DELETE,
+                    model: {
+                        cartItemId: model.cartItemId
+                    }
+                });
+                const resultModel = result.data;
+                let message = '';
+                for (const item of resultModel) {
+                    message += `${item.code}: ${item.message}\n`;
+                }
+                await context.navigation.openInformationDialog(message);
+                await action.load()
+            } catch (error: any) {
+                const responseData = error?.payload;
+                if (responseData) {
+                    let message = '';
+                    if (responseData.data?.length) {
+                        for (const item of responseData.data) {
+                            message += `${item.code}: ${item.message}\n`;
+                        }
+                    } else {
+                        message = responseData.message;
+                    }
+                    await context.navigation.openErrorDialog(message);
+                } else {
+                    await context.navigation.openErrorDialog(t("label-internalServerError"));
+                }
+            }
+        },
 
-        //         return {
-        //             ...prev,
-        //             cartItems: updatedItems,
-        //             selectedItems: updatedSelected,
-        //             totalAmount,
-        //             selectedAmount,
-        //         };
-        //     });
+        toggleSelect: (productId: string | number) => {
+            setState(prev => {
+                const isSelected = prev.selectedItems.includes(productId);
+                const newSelected = isSelected
+                    ? prev.selectedItems.filter(id => id !== productId)
+                    : [...prev.selectedItems, productId];
 
-        //     // TODO: Gọi API xóa item
-        // },
+                const { selectedAmount } = calculateTotals(prev.cartSearchDomainModel.search!, newSelected);
 
-        // toggleSelect: (productId: string | number) => {
-        //     setState(prev => {
-        //         const isSelected = prev.selectedItems.includes(productId);
-        //         const newSelected = isSelected
-        //             ? prev.selectedItems.filter(id => id !== productId)
-        //             : [...prev.selectedItems, productId];
+                return {
+                    ...prev,
+                    selectedItems: newSelected,
+                    selectedAmount,
+                };
+            });
+        },
 
-        //         const { selectedAmount } = calculateTotals(prev.cartItems, newSelected);
+        toggleSelectAll: (checked: boolean) => {
+            setState((prev: any) => {
+                const newSelected = checked
+                    ? prev.cartSearchDomainModel?.search?.map((item: any) => item.productId)
+                    : [];
 
-        //         return {
-        //             ...prev,
-        //             selectedItems: newSelected,
-        //             selectedAmount,
-        //         };
-        //     });
-        // },
+                const { selectedAmount } = calculateTotals(prev.cartSearchDomainModel?.search!, newSelected!);
 
-        // toggleSelectAll: (checked: boolean) => {
-        //     setState(prev => {
-        //         const newSelected = checked
-        //             ? prev.cartSearchDomainModel?.search?.map(item => item.productId)
-        //             : [];
-
-        //         const { selectedAmount } = calculateTotals(prev.cartSearchDomainModel?.search!, newSelected);
-
-        //         return {
-        //             ...prev,
-        //             selectedItems: newSelected,
-        //             selectedAmount,
-        //         };
-        //     });
-        // },
+                return {
+                    ...prev,
+                    selectedItems: newSelected,
+                    selectedAmount,
+                };
+            });
+        },
 
         // clearCart: async () => {
         //     setState(prev => ({

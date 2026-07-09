@@ -15,6 +15,7 @@ import { CategoryRegistration } from '../components/ManageCategory/CategoryRegis
 import { ProductSearch } from '../components/ManageProduct/ProductSearch';
 import { ProductRegistration } from '../components/ManageProduct/ProductRegistration';
 import { Cart } from '../components/Cart';
+import ProfileLayout from '../layouts/ProfileLayout';
 
 // Page Private
 // import CategoryPage from '~/views/Category';
@@ -69,7 +70,7 @@ const PrivateRoutes: RouteItem[] = [
   {
     path: '/cart',
     component: Cart,
-    layout: HomeLayout,
+    layout: ProfileLayout,
   },
   {
     path: '/manage-category-search',

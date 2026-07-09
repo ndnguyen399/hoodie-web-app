@@ -3,11 +3,8 @@
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useApplicationContext } from "../../hooks/useApplicationContext";
-// import { useAppParameters } from "../../hooks/useAppParameters";
 import { useTranslation } from "../../hooks/useTranslation";
 import type { PageProps, PageState } from "./ProductSearch.types";
-// import type { ICommandBarItemProps } from "@fluentui/react";
-// import { useNavigate } from "react-router-dom";
 import { ProductSearchViewApi } from "../api/ProductSearchViewApi";
 import { CategorySearchViewApi } from "../api/CategorySearchViewApi";
 import { CartSubmitViewApi } from "../api/CartSubmitViewApi";
@@ -22,8 +19,6 @@ import Constants from "../common/Constants";
 export const useStore = (props: PageProps) => {
     const { t } = useTranslation();
     const context = useApplicationContext();
-    // const params = useAppParameters();
-    // const navigate = useNavigate();
 
     const [state, setState] = useState<PageState>({
         productSearchApplicationModel: {},

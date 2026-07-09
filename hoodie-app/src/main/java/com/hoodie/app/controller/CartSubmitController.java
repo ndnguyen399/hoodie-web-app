@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hoodie.app.application.model.CartSubmitApplicationModel;
+import com.hoodie.app.application.model.CartSubmitDeleteApplicationModel;
 import com.hoodie.app.dto.SubmitRequestModel;
 import com.hoodie.app.dto.SubmitResponseModel;
 import com.hoodie.app.dto.response.BaseApiResponse;
@@ -48,6 +49,22 @@ public class CartSubmitController {
             @RequestBody @Valid SubmitRequestModel<CartSubmitApplicationModel> request) {
         List<SubmitResponseModel> lists = new ArrayList<>();
         SubmitResponseModel response = cartService.submitCart(currentUser, request);
+        lists.add(response);
+        return BaseApiResponse.success(lists);
+    }
+
+    /**
+     * submitDelete
+     * 
+     * @param request
+     * @return BaseApiResponse<SubmitResponseModel>
+     */
+    @PostMapping("/submitDelete")
+    @Transactional
+    public BaseApiResponse<List<SubmitResponseModel>> submitDelete(@AuthenticationPrincipal User currentUser,
+            @RequestBody @Valid SubmitRequestModel<CartSubmitDeleteApplicationModel> request) {
+        List<SubmitResponseModel> lists = new ArrayList<>();
+        SubmitResponseModel response = cartService.submitDelete(currentUser, request);
         lists.add(response);
         return BaseApiResponse.success(lists);
     }
