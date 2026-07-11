@@ -66,10 +66,44 @@ public class CartServiceImpl implements CartService {
             submitResponseModel = create(currentUser, request.getModel());
         } else {
             // submit update
-//            submitResponseModel = update(request.getModel());
+            submitResponseModel = update(currentUser, request.getModel());
         }
 
         return submitResponseModel;
+    }
+
+    /**
+     * update
+     * 
+     * @param request
+     * @return SubmitResponseModel
+     */
+    private SubmitResponseModel update(User currentUser, CartSubmitApplicationModel request) {
+        // get cart
+        Cart cart = cartRepository.findByUserIdAndDeleteFlag(currentUser.getUserId(), Constant.DELETE_FLAG_ZERO);
+        if (CheckLogic.isNotNull(cart)) {
+            // insert product to cart item
+            CartItem cartItem = cartItemRepository.findByCartIdAndProductIdAndDeleteFlag(cart.getCartId(),
+                    request.getProductId(), Constant.DELETE_FLAG_ZERO);
+
+            // cart item is present
+            if (CheckLogic.isNotNull(cartItem)) {
+                CartItem item = cartItem;
+                cartItem.setQuantity(item.getQuantity() + request.getQuantity());
+            } else {
+                cartItem = new CartItem();
+                cartItem.setCartId(cart.getCartId());
+                cartItem.setProductId(request.getProductId());
+                cartItem.setQuantity(request.getQuantity());
+                cartItem.setDeleteFlag(Constant.DELETE_FLAG_ZERO);
+            }
+            cartItemRepository.save(cartItem);
+        }
+
+        SubmitResponseModel response = new SubmitResponseModel();
+        response.setCode(Constant.NO_ERROR);
+        response.setMessage(Constant.INFO_UPDATE_SUCCESS);
+        return response;
     }
 
     /**

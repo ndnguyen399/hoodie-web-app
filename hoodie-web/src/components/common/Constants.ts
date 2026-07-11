@@ -8,6 +8,7 @@ const Constants : any= {
     routeDashboard: "/manage-category-search",
     routeHomePage: "/",
     routeLoginPage: "/sign-in",
+    routeCheckOut: "/checkout",
     INITIAL_PAGE_SIZE: 10,
     ROLE_ADMIN: "ROLE_ADMIN",
     ROLE_CUSTOMER: "ROLE_CUSTOMER",

@@ -119,7 +119,7 @@ export const CartContent: React.FC<PageProps> = (props) => {
                                                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
                                                         <IconButton
                                                             size="small"
-                                                            // onClick={() => action.updateQuantity(item.productId, item.quantity! - 1)}
+                                                            onClick={() => action.submitUpdateCart.execute(item.productId!, -1)}
                                                             disabled={item.quantity! <= 1}
                                                         >
                                                             <RemoveIcon fontSize="small" />
@@ -129,15 +129,11 @@ export const CartContent: React.FC<PageProps> = (props) => {
                                                             size="small"
                                                             sx={{ width: 60, textAlign: 'center' }}
                                                             inputProps={{ style: { textAlign: 'center' } }}
-                                                            // onChange={(e) => {
-                                                            //     const qty = parseInt(e.target.value) || 1;
-                                                            //     // action.updateQuantity(item.productId, qty);
-                                                            // }}
                                                             disabled
                                                         />
                                                         <IconButton
                                                             size="small"
-                                                            // onClick={() => action.updateQuantity(item.productId, item.quantity + 1)}
+                                                            onClick={() => action.submitUpdateCart.execute(item.productId!, 1)}
                                                         >
                                                             <AddIcon fontSize="small" />
                                                         </IconButton>
@@ -201,7 +197,7 @@ export const CartContent: React.FC<PageProps> = (props) => {
                                     fullWidth
                                     size="large"
                                     disabled={state.selectedItems.length === 0}
-                                    // onClick={() => action.checkout()}
+                                    onClick={action.submitCheckout.excute}
                                     sx={{ py: 1.5, fontSize: '1.1rem', fontWeight: 'bold' }}
                                 >
                                     Tiến hành thanh toán ({state.selectedItems.length})

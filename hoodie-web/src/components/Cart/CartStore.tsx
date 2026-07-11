@@ -79,30 +79,6 @@ export const useStore = (props: PageProps) => {
                 selectedAmount: selectedAmount
             }));
         },
-        // updateQuantity: async (productId: string | number, quantity: number) => {
-        //     if (quantity < 1) return;
-
-        //     setState(prev => {
-        //         const updatedItems = prev.cartItems.map(item =>
-        //             item.productId === productId ? { ...item, quantity } : item
-        //         );
-
-        //         const { totalAmount, selectedAmount } = calculateTotals(
-        //             updatedItems,
-        //             prev.selectedItems
-        //         );
-
-        //         return {
-        //             ...prev,
-        //             cartItems: updatedItems,
-        //             totalAmount,
-        //             selectedAmount,
-        //         };
-        //     });
-
-        //     // TODO: Gọi API cập nhật quantity
-        // },
-
         removeItem: async (model: CartSearchDomainModel) => {
             const isOk = 
                 await context.navigation
@@ -142,7 +118,6 @@ export const useStore = (props: PageProps) => {
                 }
             }
         },
-
         toggleSelect: (productId: string | number) => {
             setState(prev => {
                 const isSelected = prev.selectedItems.includes(productId);
@@ -159,7 +134,6 @@ export const useStore = (props: PageProps) => {
                 };
             });
         },
-
         toggleSelectAll: (checked: boolean) => {
             setState((prev: any) => {
                 const newSelected = checked
@@ -175,7 +149,51 @@ export const useStore = (props: PageProps) => {
                 };
             });
         },
-
+        submitUpdateCart: {
+            execute: (productId: number, quantity: number) => {
+                context.overlay
+                .open()
+                .execute(async () => {
+                    setState(prev => ({ ...prev, isSubmitting: true }));
+                    try {
+                        const result = await new CartSubmitViewApi().submit({
+                            requestType: Constants.REUEST_TYPE_UPDATE,
+                            model: {
+                                productId: productId,
+                                quantity: quantity
+                            }
+                        });
+                        const resultModel = result.data;
+                        let message = '';
+                        for (const item of resultModel) {
+                            message += `${item.code}: ${item.message}\n`;
+                        }
+                        await context.navigation.openInformationDialog(message);
+                        await action.load()
+                    } catch (error: any) {
+                        const responseData = error?.payload;
+                        if (responseData) {
+                            let message = '';
+                            if (responseData.data?.length) {
+                                for (const item of responseData.data) {
+                                    message += `${item.code}: ${item.message}\n`;
+                                }
+                            } else {
+                                message = responseData.message;
+                            }
+                            await context.navigation.openErrorDialog(message);
+                        } else {
+                            await context.navigation.openErrorDialog(t("label-internalServerError"));
+                        }
+                    } finally {
+                        setState(prev => ({
+                            ...prev,
+                            isSubmitting: false
+                        }));
+                    }
+                });
+            }
+        },
         // clearCart: async () => {
         //     setState(prev => ({
         //         ...prev,
@@ -196,12 +214,20 @@ export const useStore = (props: PageProps) => {
         //     // navigate('/checkout', { state: { selectedItems: stateRef.current.selectedItems } });
         //     console.log("Proceeding to checkout with items:", stateRef.current.selectedItems);
         // },
+        submitCheckout: {
+            excute: () => {
+                const selectedItems = stateRef.current.selectedItems;
+                const searchParams = new URLSearchParams({
+                    totalAmount: String(stateRef.current.selectedAmount),
+                    selectedItems: encodeURIComponent(JSON.stringify(selectedItems))
+                });
 
-        // Thêm vào giỏ (nếu dùng từ trang khác)
-        // addToCart: async (newItem: Omit<CartItem, 'cartItemId'>) => {
-        //     // Logic thêm item vào giỏ
-        //     console.log("Add to cart:", newItem);
-        // },
+                return navigate({
+                    pathname: Constants.routeCheckOut,
+                    search: searchParams.toString()
+                });
+            }
+        },
     }), []);
 
     return {

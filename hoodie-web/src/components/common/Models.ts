@@ -728,3 +728,21 @@ export interface CartSubmitDeleteApplicationModel {
      */
     cartItemId?: number;
 }
+/**
+ * CheckoutInitialApplicationModel
+ */
+export interface CheckoutInitialApplicationModel {
+    /**
+     * listId
+     */
+    listId?: []
+}
+/**
+ * CheckoutInitialDomainModel
+ */
+export interface CheckoutInitialDomainModel {
+    /**
+     * productLists
+     */
+    productLists?: CartSearchDomainModel[]
+}

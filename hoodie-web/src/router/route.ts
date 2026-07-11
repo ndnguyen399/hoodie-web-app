@@ -16,6 +16,7 @@ import { ProductSearch } from '../components/ManageProduct/ProductSearch';
 import { ProductRegistration } from '../components/ManageProduct/ProductRegistration';
 import { Cart } from '../components/Cart';
 import ProfileLayout from '../layouts/ProfileLayout';
+import { Checkout } from '../components/Checkout';
 
 // Page Private
 // import CategoryPage from '~/views/Category';
@@ -70,6 +71,11 @@ const PrivateRoutes: RouteItem[] = [
   {
     path: '/cart',
     component: Cart,
+    layout: ProfileLayout,
+  },
+  {
+    path: '/checkout',
+    component: Checkout,
     layout: ProfileLayout,
   },
   {
