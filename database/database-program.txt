@@ -289,6 +289,11 @@ CREATE TABLE payments (
     transaction_ref VARCHAR(255),               -- Mã giao dịch từ cổng thanh toán
     paid_at         TIMESTAMP WITH TIME ZONE,
     gateway_response VARCHAR(255),              -- Raw response từ cổng thanh toán (JSON)
+	amount 			NUMERIC(15,2) 	NOT NULL,
+	gateway 		VARCHAR(30),               -- VNPAY, MOMO...
+	gateway_transaction_id VARCHAR(100),
+	payment_url 	TEXT,
+	expired_at 		TIMESTAMP WITH TIME ZONE;
     reserve_item01  VARCHAR(255),
     reserve_item02  VARCHAR(255),
     reserve_item03  VARCHAR(255),
