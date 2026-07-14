@@ -350,26 +350,26 @@ export const useStore = (props: PageProps) => {
                         headerName: t('label-categoryName'),
                         width: 140,
                     },
-                    {
-                        field: 'skillType',
-                        headerName: t('label-skillType'),
-                        width: 140,
-                    },
-                    {
-                        field: 'skillTypeName',
-                        headerName: t('label-skillTypeName'),
-                        width: 140,
-                    },
-                    {
-                        field: 'ageGroup',
-                        headerName: t('label-ageGroup'),
-                        width: 140,
-                    },
-                    {
-                        field: 'ageGroupName',
-                        headerName: t('label-ageGroupName'),
-                        width: 140,
-                    },
+                    // {
+                    //     field: 'skillType',
+                    //     headerName: t('label-skillType'),
+                    //     width: 140,
+                    // },
+                    // {
+                    //     field: 'skillTypeName',
+                    //     headerName: t('label-skillTypeName'),
+                    //     width: 140,
+                    // },
+                    // {
+                    //     field: 'ageGroup',
+                    //     headerName: t('label-ageGroup'),
+                    //     width: 140,
+                    // },
+                    // {
+                    //     field: 'ageGroupName',
+                    //     headerName: t('label-ageGroupName'),
+                    //     width: 140,
+                    // },
                     {
                         field: 'categoryDescription',
                         headerName: t('label-categoryDescription'),

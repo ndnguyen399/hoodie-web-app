@@ -221,11 +221,16 @@ public class ProductServiceImpl implements ProductService {
         product.setProductDescription(request.getProductDescription());
         product.setPrice(request.getPrice());
         product.setStockQuantity(request.getStockQuantity());
-        product.setSkillLogic(request.getSkillLogic());
-        product.setSkillCreative(request.getSkillCreative());
-        product.setSkillStem(request.getSkillStem());
-        product.setSkillMotor(request.getSkillMotor());
-        product.setSkillSocial(request.getSkillSocial());
+        product.setAgeGroup(request.getAgeGroup());
+        product.setSkillStemType(request.getSkillStemType());
+        product.setVideoUrl(request.getVideoUrl());
+        product.setDifficultyLevel(request.getDifficultyLevel());
+        product.setSafetyCertifications(request.getSafetyCertifications());
+//        product.setSkillLogic(request.getSkillLogic());
+//        product.setSkillCreative(request.getSkillCreative());
+//        product.setSkillStem(request.getSkillStem());
+//        product.setSkillMotor(request.getSkillMotor());
+//        product.setSkillSocial(request.getSkillSocial());
         product.setDeleteFlag(Constant.DELETE_FLAG_ZERO);
         product = productRepository.save(product);
 
@@ -275,21 +280,21 @@ public class ProductServiceImpl implements ProductService {
         if (!CheckLogic.isValidId(request.getPrice())) {
             errors.add(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.PRICE_NOT_NULL_MESSAGE));
         }
-        if (CheckLogic.isEmpty(request.getSkillLogic())) {
-            errors.add(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.SKILL_LOGIC_NOT_NULL_MESSAGE));
-        }
-        if (CheckLogic.isEmpty(request.getSkillCreative())) {
-            errors.add(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.SKILL_CREATIVE_NOT_NULL_MESSAGE));
-        }
-        if (CheckLogic.isEmpty(request.getSkillMotor())) {
-            errors.add(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.SKILL_MOTOR_NOT_NULL_MESSAGE));
-        }
-        if (CheckLogic.isEmpty(request.getSkillStem())) {
-            errors.add(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.SKILL_STEM_NOT_NULL_MESSAGE));
-        }
-        if (CheckLogic.isEmpty(request.getSkillSocial())) {
-            errors.add(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.SKILL_SOCIAL_NOT_NULL_MESSAGE));
-        }
+//        if (CheckLogic.isEmpty(request.getSkillLogic())) {
+//            errors.add(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.SKILL_LOGIC_NOT_NULL_MESSAGE));
+//        }
+//        if (CheckLogic.isEmpty(request.getSkillCreative())) {
+//            errors.add(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.SKILL_CREATIVE_NOT_NULL_MESSAGE));
+//        }
+//        if (CheckLogic.isEmpty(request.getSkillMotor())) {
+//            errors.add(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.SKILL_MOTOR_NOT_NULL_MESSAGE));
+//        }
+//        if (CheckLogic.isEmpty(request.getSkillStem())) {
+//            errors.add(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.SKILL_STEM_NOT_NULL_MESSAGE));
+//        }
+//        if (CheckLogic.isEmpty(request.getSkillSocial())) {
+//            errors.add(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.SKILL_SOCIAL_NOT_NULL_MESSAGE));
+//        }
         if (CheckLogic.isNotNull(errors)) {
             return errors;
         }

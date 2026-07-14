@@ -22,15 +22,15 @@ public class CategoryInitialApplicationModel {
      */
     private String categoryName;
 
-    /**
-     * skill type
-     */
-    private String skillType;
-
-    /**
-     * age group
-     */
-    private String ageGroup;
+//    /**
+//     * skill type
+//     */
+//    private String skillType;
+//
+//    /**
+//     * age group
+//     */
+//    private String ageGroup;
 
     /**
      * category description

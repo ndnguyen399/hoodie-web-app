@@ -3,6 +3,8 @@
  */
 package com.hoodie.app.dto;
 
+import java.util.Date;
+
 import com.hoodie.app.constant.Constant;
 
 import jakarta.validation.constraints.Email;
@@ -26,4 +28,5 @@ public class RegisterRequest {
     @NotBlank(message = Constant.PASSWORD_NOT_BLANK)
     private String password;
     private String phone;
+    private Date birthDate;
 }

@@ -26,25 +26,25 @@ public class CategorySearchDomainModel {
      */
     private String categoryName;
 
-    /**
-     * skill type
-     */
-    private String skillType;
-    
-    /**
-     * skill type name
-     */
-    private String skillTypeName;
-
-    /**
-     * age group
-     */
-    private String ageGroup;
-    
-    /**
-     * age group name
-     */
-    private String ageGroupName;
+//    /**
+//     * skill type
+//     */
+//    private String skillType;
+//    
+//    /**
+//     * skill type name
+//     */
+//    private String skillTypeName;
+//
+//    /**
+//     * age group
+//     */
+//    private String ageGroup;
+//    
+//    /**
+//     * age group name
+//     */
+//    private String ageGroupName;
 
     /**
      * category Description

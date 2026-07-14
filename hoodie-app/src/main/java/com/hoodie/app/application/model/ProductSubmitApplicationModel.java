@@ -28,15 +28,20 @@ public class ProductSubmitApplicationModel {
     private BigDecimal price;
     @NotNull(message = Constant.STOCK_NOT_NULL_MESSAGE)
     private Integer stockQuantity;
-    @NotBlank(message = Constant.SKILL_LOGIC_NOT_NULL_MESSAGE)
-    private String skillLogic;
-    @NotBlank(message = Constant.SKILL_CREATIVE_NOT_NULL_MESSAGE)
-    private String skillCreative;
-    @NotBlank(message = Constant.SKILL_STEM_NOT_NULL_MESSAGE)
-    private String skillStem;
-    @NotBlank(message = Constant.SKILL_MOTOR_NOT_NULL_MESSAGE)
-    private String skillMotor;
-    @NotBlank(message = Constant.SKILL_SOCIAL_NOT_NULL_MESSAGE)
-    private String skillSocial;
+    private String ageGroup;
+    private String skillStemType;
+    private String videoUrl;
+    private String difficultyLevel;
+    private String safetyCertifications;
+//    @NotBlank(message = Constant.SKILL_LOGIC_NOT_NULL_MESSAGE)
+//    private String skillLogic;
+//    @NotBlank(message = Constant.SKILL_CREATIVE_NOT_NULL_MESSAGE)
+//    private String skillCreative;
+//    @NotBlank(message = Constant.SKILL_STEM_NOT_NULL_MESSAGE)
+//    private String skillStem;
+//    @NotBlank(message = Constant.SKILL_MOTOR_NOT_NULL_MESSAGE)
+//    private String skillMotor;
+//    @NotBlank(message = Constant.SKILL_SOCIAL_NOT_NULL_MESSAGE)
+//    private String skillSocial;
     private String changeImageFlag;
 }

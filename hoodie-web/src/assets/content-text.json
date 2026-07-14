@@ -75,5 +75,6 @@
     "label-deleteFlag": "Cờ xóa",
     "label-createdAt": "Ngày tạo",
     "label-updatedAt": "Ngày cập nhật",
-    "label-searchInResults": "Tìm kiếm..."
+    "label-searchInResults": "Tìm kiếm...",
+    "label-birthDate": "Ngày sinh"
 }

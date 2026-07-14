@@ -4,7 +4,6 @@
 package com.hoodie.app.repository.custom.impl;
 
 import static com.app.jooq.generated.tables.Categories.CATEGORIES;
-import static com.app.jooq.generated.tables.CodeMaster.CODE_MASTER;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,16 +39,6 @@ public class CategorySearchRepositoryCustomImpl implements CategorySearchReposit
      * com.app.jooq.generated.tables.Categories
      */
     private static final com.app.jooq.generated.tables.Categories T = CATEGORIES.as("t");
-
-    /**
-     * com.app.jooq.generated.tables.CodeMaster
-     */
-    private static final com.app.jooq.generated.tables.CodeMaster C1 = CODE_MASTER.as("c1");
-
-    /**
-     * com.app.jooq.generated.tables.CodeMaster
-     */
-    private static final com.app.jooq.generated.tables.CodeMaster C2 = CODE_MASTER.as("c2");
 
     /**
      * DEFAULT_DELETE_FLAG
@@ -94,13 +83,13 @@ public class CategorySearchRepositoryCustomImpl implements CategorySearchReposit
                     T.CATEGORY_NAME.likeIgnoreCase(likePattern).or(T.CATEGORY_DESCRIPTION.likeIgnoreCase(likePattern)));
         }
 
-        if (!StringUtils.isEmpty(request.getSkillType())) {
-            conditions.add(T.SKILL_TYPE.eq(request.getSkillType()));
-        }
+//        if (!StringUtils.isEmpty(request.getSkillType())) {
+//            conditions.add(T.SKILL_TYPE.eq(request.getSkillType()));
+//        }
 
-        if (!StringUtils.isEmpty(request.getAgeGroup())) {
-            conditions.add(T.AGE_GROUP.eq(request.getAgeGroup()));
-        }
+//        if (!StringUtils.isEmpty(request.getAgeGroup())) {
+//            conditions.add(T.AGE_GROUP.eq(request.getAgeGroup()));
+//        }
 
         conditions.add(T.DELETE_FLAG.eq(DEFAULT_DELETE_FLAG));
 
@@ -137,13 +126,13 @@ public class CategorySearchRepositoryCustomImpl implements CategorySearchReposit
                     T.CATEGORY_NAME.likeIgnoreCase(likePattern).or(T.CATEGORY_DESCRIPTION.likeIgnoreCase(likePattern)));
         }
 
-        if (!StringUtils.isEmpty(request.getSkillType())) {
-            conditions.add(T.SKILL_TYPE.eq(request.getSkillType()));
-        }
-
-        if (!StringUtils.isEmpty(request.getAgeGroup())) {
-            conditions.add(T.AGE_GROUP.eq(request.getAgeGroup()));
-        }
+//        if (!StringUtils.isEmpty(request.getSkillType())) {
+//            conditions.add(T.SKILL_TYPE.eq(request.getSkillType()));
+//        }
+//
+//        if (!StringUtils.isEmpty(request.getAgeGroup())) {
+//            conditions.add(T.AGE_GROUP.eq(request.getAgeGroup()));
+//        }
 
         conditions.add(T.DELETE_FLAG.eq(DEFAULT_DELETE_FLAG));
 //
@@ -155,10 +144,8 @@ public class CategorySearchRepositoryCustomImpl implements CategorySearchReposit
 //                        .and(T.DELETE_FLAG.eq(DEFAULT_DELETE_FLAG)))
 //                .where(conditions).fetchInto(CategorySearchDomainModel.class);
         return dsl
-                .select(T.CATEGORY_ID, T.CATEGORY_NAME, T.SKILL_TYPE, C1.CODE_VALUE.as("skillTypeName"), T.AGE_GROUP,
-                        C2.CODE_VALUE.as("ageGroupName"), T.CATEGORY_DESCRIPTION, T.RESERVE_ITEM01, T.RESERVE_ITEM02,
+                .select(T.CATEGORY_ID, T.CATEGORY_NAME, T.CATEGORY_DESCRIPTION, T.RESERVE_ITEM01, T.RESERVE_ITEM02,
                         T.RESERVE_ITEM03, T.RESERVE_ITEM04, T.RESERVE_ITEM05, T.DELETE_FLAG, T.CREATED_AT, T.UPDATED_AT)
-                .from(T).leftJoin(C1).on(T.SKILL_TYPE.eq(C1.CODE_NAME)).leftJoin(C2).on(T.AGE_GROUP.eq(C2.CODE_NAME))
-                .where(conditions).fetchInto(CategorySearchDomainModel.class);
+                .from(T).where(conditions).fetchInto(CategorySearchDomainModel.class);
     }
 }

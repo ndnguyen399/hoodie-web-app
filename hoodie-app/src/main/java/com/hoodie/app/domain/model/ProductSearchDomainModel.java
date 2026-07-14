@@ -32,7 +32,7 @@ public class ProductSearchDomainModel {
      * category Name
      */
     private String categoryName;
-    
+
     /**
      * product Name
      */
@@ -54,54 +54,80 @@ public class ProductSearchDomainModel {
     private Integer stockQuantity;
 
     /**
-     * skill logic
+     * ageGroup
      */
-    private String skillLogic;
+    private String ageGroup;
 
     /**
-     * skill logic name
+     * skillStemType
      */
-    private String skillLogicName;
+    private String skillStemType;
 
     /**
-     * skill creative
+     * videoUrl
      */
-    private String skillCreative;
+    private String videoUrl;
 
     /**
-     * skill creative name
+     * difficultyLevel
      */
-    private String skillCreativeName;
+    private String difficultyLevel;
 
     /**
-     * skill stem
+     * safetyCertifications
      */
-    private String skillStem;
+    private String safetyCertifications;
 
-    /**
-     * skill stem name
-     */
-    private String skillStemName;
-
-    /**
-     * skill motor
-     */
-    private String skillMotor;
-
-    /**
-     * skill motor name
-     */
-    private String skillMotorName;
-
-    /**
-     * skill social
-     */
-    private String skillSocial;
-
-    /**
-     * skill social name
-     */
-    private String skillSocialName;
+//
+//    /**
+//     * skill logic
+//     */
+//    private String skillLogic;
+//
+//    /**
+//     * skill logic name
+//     */
+//    private String skillLogicName;
+//
+//    /**
+//     * skill creative
+//     */
+//    private String skillCreative;
+//
+//    /**
+//     * skill creative name
+//     */
+//    private String skillCreativeName;
+//
+//    /**
+//     * skill stem
+//     */
+//    private String skillStem;
+//
+//    /**
+//     * skill stem name
+//     */
+//    private String skillStemName;
+//
+//    /**
+//     * skill motor
+//     */
+//    private String skillMotor;
+//
+//    /**
+//     * skill motor name
+//     */
+//    private String skillMotorName;
+//
+//    /**
+//     * skill social
+//     */
+//    private String skillSocial;
+//
+//    /**
+//     * skill social name
+//     */
+//    private String skillSocialName;
 
     /**
      * List images

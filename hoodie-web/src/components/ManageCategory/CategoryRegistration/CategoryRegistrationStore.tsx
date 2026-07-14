@@ -43,8 +43,8 @@ export const useStore = (props: PageProps) => {
     const action = useMemo(() => ({
         load: async () => {
             await context.overlay.open().execute(async () => {
-                action.items.skillType.handleOpen();
-                action.items.ageGroup.handleOpen();
+                // action.items.skillType.handleOpen();
+                // action.items.ageGroup.handleOpen();
                 try {
                     const response = await new CategorySubmitViewApi().initial({
                         requestType: stateRef.current.requestType,
@@ -145,98 +145,98 @@ export const useStore = (props: PageProps) => {
             }
         },
         items: {
-            skillType: {
-                onChange: async (
-                    event: SyntheticEvent<Element, Event>, newValue: CodeSearchDomainModel | null
-                ) => {
-                    setState(prev => ({
-                        ...prev,
-                        categorySubmitApplicationModel: {
-                            ...prev.categorySubmitApplicationModel,
-                            skillType: newValue?.codeName
-                        }
-                    }));
-                },
-                handleOpen: async () => {
-                    if (stateRef.current.skillTypeAC?.search?.length) {
-                        return;
-                    }
-                    context.overlay
-                        .open()
-                        .execute(async () => {
-                            try {
-                                const response = await new CodeSearchViewApi().search({
-                                    codeCd: Constants.CODE_SKILL_TYPE
-                                });
-                                setState(prev => ({
-                                    ...prev,
-                                    skillTypeAC: response.data
-                                }));
-                            } catch (error: any) {
-                                const responseData = error?.payload;
-                                if (responseData) {
-                                    let message = '';
-                                    if (responseData.data?.length) {
-                                        for (const item of responseData.data) {
-                                            message += `${item.code}: ${item.message}\n`;
-                                        }
-                                    } else {
-                                        message = responseData.message;
-                                    }
-                                    await context.navigation.openErrorDialog(message);
-                                } else {
-                                    await context.navigation.openErrorDialog(t("label-internalServerError"));
-                                }
-                            }
-                        });
-                },
-            },
-            ageGroup: {
-                onChange: async (
-                    event: SyntheticEvent<Element, Event>, newValue: CodeSearchDomainModel | null
-                ) => {
-                    setState(prev => ({
-                        ...prev,
-                        categorySubmitApplicationModel: {
-                            ...prev.categorySubmitApplicationModel,
-                            ageGroup: newValue?.codeName
-                        }
-                    }));
-                },
-                handleOpen: async () => {
-                    if (stateRef.current.skillTypeAC?.search?.length) {
-                        return;
-                    }
-                    context.overlay
-                        .open()
-                        .execute(async () => {
-                            try {
-                                const response = await new CodeSearchViewApi().search({
-                                    codeCd: Constants.CODE_AGE_GROUP
-                                });
-                                setState(prev => ({
-                                    ...prev,
-                                    ageGroupAC: response.data
-                                }));
-                            } catch (error: any) {
-                                const responseData = error?.payload;
-                                if (responseData) {
-                                    let message = '';
-                                    if (responseData.data?.length) {
-                                        for (const item of responseData.data) {
-                                            message += `${item.code}: ${item.message}\n`;
-                                        }
-                                    } else {
-                                        message = responseData.message;
-                                    }
-                                    await context.navigation.openErrorDialog(message);
-                                } else {
-                                    await context.navigation.openErrorDialog(t("label-internalServerError"));
-                                }
-                            }
-                        });
-                },
-            },
+            // skillType: {
+            //     onChange: async (
+            //         event: SyntheticEvent<Element, Event>, newValue: CodeSearchDomainModel | null
+            //     ) => {
+            //         setState(prev => ({
+            //             ...prev,
+            //             categorySubmitApplicationModel: {
+            //                 ...prev.categorySubmitApplicationModel,
+            //                 skillType: newValue?.codeName
+            //             }
+            //         }));
+            //     },
+            //     handleOpen: async () => {
+            //         if (stateRef.current.skillTypeAC?.search?.length) {
+            //             return;
+            //         }
+            //         context.overlay
+            //             .open()
+            //             .execute(async () => {
+            //                 try {
+            //                     const response = await new CodeSearchViewApi().search({
+            //                         codeCd: Constants.CODE_SKILL_TYPE
+            //                     });
+            //                     setState(prev => ({
+            //                         ...prev,
+            //                         skillTypeAC: response.data
+            //                     }));
+            //                 } catch (error: any) {
+            //                     const responseData = error?.payload;
+            //                     if (responseData) {
+            //                         let message = '';
+            //                         if (responseData.data?.length) {
+            //                             for (const item of responseData.data) {
+            //                                 message += `${item.code}: ${item.message}\n`;
+            //                             }
+            //                         } else {
+            //                             message = responseData.message;
+            //                         }
+            //                         await context.navigation.openErrorDialog(message);
+            //                     } else {
+            //                         await context.navigation.openErrorDialog(t("label-internalServerError"));
+            //                     }
+            //                 }
+            //             });
+            //     },
+            // },
+            // ageGroup: {
+            //     onChange: async (
+            //         event: SyntheticEvent<Element, Event>, newValue: CodeSearchDomainModel | null
+            //     ) => {
+            //         setState(prev => ({
+            //             ...prev,
+            //             categorySubmitApplicationModel: {
+            //                 ...prev.categorySubmitApplicationModel,
+            //                 ageGroup: newValue?.codeName
+            //             }
+            //         }));
+            //     },
+            //     handleOpen: async () => {
+            //         if (stateRef.current.skillTypeAC?.search?.length) {
+            //             return;
+            //         }
+            //         context.overlay
+            //             .open()
+            //             .execute(async () => {
+            //                 try {
+            //                     const response = await new CodeSearchViewApi().search({
+            //                         codeCd: Constants.CODE_AGE_GROUP
+            //                     });
+            //                     setState(prev => ({
+            //                         ...prev,
+            //                         ageGroupAC: response.data
+            //                     }));
+            //                 } catch (error: any) {
+            //                     const responseData = error?.payload;
+            //                     if (responseData) {
+            //                         let message = '';
+            //                         if (responseData.data?.length) {
+            //                             for (const item of responseData.data) {
+            //                                 message += `${item.code}: ${item.message}\n`;
+            //                             }
+            //                         } else {
+            //                             message = responseData.message;
+            //                         }
+            //                         await context.navigation.openErrorDialog(message);
+            //                     } else {
+            //                         await context.navigation.openErrorDialog(t("label-internalServerError"));
+            //                     }
+            //                 }
+            //             });
+            //     },
+            // },
         }
     }), []);
 

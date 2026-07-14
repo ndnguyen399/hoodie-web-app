@@ -85,6 +85,24 @@ export const RegisterContent: React.FC<PageProps> = props => {
                             />
                         </FormControl>
                         <FormControl>
+                            <FormLabel htmlFor="email">{t("label-birthDate")}</FormLabel>
+                            <TextField
+                                required
+                                fullWidth
+                                id="birthDate"
+                                name="birthDate"
+                                type="date"
+                                variant="outlined"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                value={state.registerRequestApplicationModel?.birthDate|| ""}
+                                onChange={(e) => {
+                                    action.onChangeField("birthDate", e.target.value);
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl>
                             <FormLabel htmlFor="phone">{t("label-numberPhone")}</FormLabel>
                             <TextField
                                 fullWidth

@@ -26,17 +26,17 @@ public class CategorySubmitApplicationModel {
     @NotBlank(message = Constant.CATEGORY_NAME_NOT_NULL_MESSAGE)
     private String categoryName;
 
-    /**
-     * skill type
-     */
-    @NotBlank(message = Constant.CATEGORY_SKILL_TYPE_NOT_NULL_MESSAGE)
-    private String skillType;
-
-    /**
-     * age group
-     */
-    @NotBlank(message = Constant.CATEGORY_AGE_GROUP_NULL_MESSAGE)
-    private String ageGroup;
+//    /**
+//     * skill type
+//     */
+//    @NotBlank(message = Constant.CATEGORY_SKILL_TYPE_NOT_NULL_MESSAGE)
+//    private String skillType;
+//
+//    /**
+//     * age group
+//     */
+//    @NotBlank(message = Constant.CATEGORY_AGE_GROUP_NULL_MESSAGE)
+//    private String ageGroup;
 
     /**
      * category description

@@ -37,11 +37,11 @@ public class Category {
     @Column(name = "category_name", nullable = false, length = 100)
     private String categoryName;
     
-    @Column(name = "skill_type", nullable = false, length = 20)
-    private String skillType;
-    
-    @Column(name = "age_group", nullable = false, length = 10)
-    private String ageGroup;
+//    @Column(name = "skill_type", nullable = false, length = 20)
+//    private String skillType;
+//    
+//    @Column(name = "age_group", nullable = false, length = 10)
+//    private String ageGroup;
 
     @Column(name = "category_description", length = 255)
     private String categoryDescription;

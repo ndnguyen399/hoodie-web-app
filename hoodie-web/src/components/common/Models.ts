@@ -367,14 +367,14 @@ export interface CategorySubmitApplicationModel {
      * categoryName
      */
     categoryName?: string;
-    /**
-     * skillType
-     */
-    skillType?: string;
-    /**
-     * ageGroup
-     */
-    ageGroup?: string;
+    // /**
+    //  * skillType
+    //  */
+    // skillType?: string;
+    // /**
+    //  * ageGroup
+    //  */
+    // ageGroup?: string;
     /**
      * categoryDescription
      */
@@ -510,6 +510,10 @@ export interface RegisterRequestApplicationModel {
      * password
      */
     password?: string,
+    /**
+     * birthDate
+     */
+    birthDate?: Date,
 }
 /**
  * LoginRequestApplicationModel

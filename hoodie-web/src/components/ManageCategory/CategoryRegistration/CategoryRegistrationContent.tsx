@@ -81,7 +81,7 @@ export const CategoryRegistrationContent: React.FC<PageProps> = props => {
                             fullWidth
                         />
                     </Grid>
-                    <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex' }}>
+                    {/* <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex' }}>
                         <FormControl fullWidth>
                             <Autocomplete
                                 disablePortal
@@ -114,8 +114,8 @@ export const CategoryRegistrationContent: React.FC<PageProps> = props => {
                                 )}
                             />
                         </FormControl>
-                    </Grid>
-                    <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex' }}>
+                    </Grid> */}
+                    {/* <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex' }}>
                         <FormControl fullWidth>
                             <Autocomplete
                                 disablePortal
@@ -148,7 +148,7 @@ export const CategoryRegistrationContent: React.FC<PageProps> = props => {
                                 )}
                             />
                         </FormControl>
-                    </Grid>
+                    </Grid> */}
                     <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex' }}>
                         <TextField
                             name="categoryDescription"

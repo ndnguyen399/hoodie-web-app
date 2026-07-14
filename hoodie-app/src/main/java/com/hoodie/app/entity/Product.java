@@ -50,20 +50,35 @@ public class Product {
     @Column(name = "stock_quantity", nullable = false, length = 2)
     private Integer stockQuantity;
 
-    @Column(name = "skill_logic", nullable = false, length = 2)
-    private String skillLogic;
+    @Column(name = "age_group", nullable = false, length = 10)
+    private String ageGroup;
 
-    @Column(name = "skill_creative", nullable = false, length = 2)
-    private String skillCreative;
+    @Column(name = "skill_stem_type", nullable = false, length = 20)
+    private String skillStemType;
 
-    @Column(name = "skill_stem", nullable = false, length = 2)
-    private String skillStem;
+    @Column(name = "video_url", length = 500)
+    private String videoUrl;
 
-    @Column(name = "skill_motor", nullable = false, length = 2)
-    private String skillMotor;
+    @Column(name = "difficulty_level", nullable = false, length = 255)
+    private String difficultyLevel;
 
-    @Column(name = "skill_social", nullable = false, length = 2)
-    private String skillSocial;
+    @Column(name = "safety_certifications", length = 255)
+    private String safetyCertifications;
+
+//    @Column(name = "skill_logic", nullable = false, length = 2)
+//    private String skillLogic;
+//
+//    @Column(name = "skill_creative", nullable = false, length = 2)
+//    private String skillCreative;
+//
+//    @Column(name = "skill_stem", nullable = false, length = 2)
+//    private String skillStem;
+//
+//    @Column(name = "skill_motor", nullable = false, length = 2)
+//    private String skillMotor;
+//
+//    @Column(name = "skill_social", nullable = false, length = 2)
+//    private String skillSocial;
 
     @Column(name = "reserve_item01", length = 255)
     private String reserveItem01;

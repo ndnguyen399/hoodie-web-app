@@ -5,6 +5,7 @@ package com.hoodie.app.entity;
 
 import java.time.OffsetDateTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -65,6 +66,30 @@ public class User implements UserDetails {
 
     @Column(name = "delete_flag", nullable = false, length = 1)
     private String deleteFlag;
+
+    @Column(name = "birth_date", nullable = false)
+    private Date birthDate;
+
+    @Column(name = "gender", length = 10)
+    private Date gender;
+
+    @Column(name = "note", length = 255)
+    private String note;
+
+    @Column(name = "reserve_item01", length = 255)
+    private String reserveItem01;
+
+    @Column(name = "reserve_item02", length = 255)
+    private String reserveItem02;
+
+    @Column(name = "reserve_item03", length = 255)
+    private String reserveItem03;
+
+    @Column(name = "reserve_item04", length = 255)
+    private String reserveItem04;
+
+    @Column(name = "reserve_item05", length = 255)
+    private String reserveItem05;
 
     @CreationTimestamp
     @Column(name = "created_at", columnDefinition = "TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP")
