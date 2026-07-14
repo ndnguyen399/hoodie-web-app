@@ -1,0 +1,426 @@
+-- =============================================================
+--  STEM TOY ECOMMERCE - PostgreSQL Database Schema
+--  Đề tài: Website đồ chơi giáo dục STEM tích hợp Chatbot
+--  Convention:
+--    - delete_flag: '0' = active, '1' = deleted (soft delete)
+--    - reserve_item01..05: dự phòng mở rộng nghiệp vụ
+--    - Tất cả timestamp dùng WITH TIME ZONE
+-- =============================================================
+-- ============================================================
+--  EXTENSION
+-- ============================================================
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS vector;          -- pgvector cho RAG embedding
+-- ============================================================
+
+-- ============================================================
+--  1. CATEGORIES — Danh mục sản phẩm
+-- ============================================================
+CREATE TABLE categories (
+    category_id     SERIAL          PRIMARY KEY,
+    category_name   VARCHAR(100)    NOT NULL,
+    category_description VARCHAR(255),
+    reserve_item01  VARCHAR(255),
+    reserve_item02  VARCHAR(255),
+    reserve_item03  VARCHAR(255),
+    reserve_item04  VARCHAR(255),
+    reserve_item05  VARCHAR(255),
+    delete_flag     VARCHAR(1)      NOT NULL DEFAULT '0',
+    created_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+COMMENT ON TABLE  categories              IS 'Danh mục sản phẩm';
+
+
+-- ============================================================
+--  2. USERS — Tài khoản người dùng (Customer & Admin)
+-- ============================================================
+CREATE TABLE users (
+    user_id         SERIAL          PRIMARY KEY,
+    full_name       VARCHAR(150)    NOT NULL,
+    email           VARCHAR(255)    NOT NULL, -- UNIQUE
+    password_hash   VARCHAR(255)    NOT NULL,
+    role            VARCHAR(20)     NOT NULL DEFAULT 'customer',  -- 'customer' | 'admin'
+    phone           VARCHAR(20),
+    avatar_url      VARCHAR(500),
+	birth_date      DATE            NOT NULL,
+	gender          VARCHAR(10),
+	note            VARCHAR(255),
+    reserve_item01  VARCHAR(255),
+    reserve_item02  VARCHAR(255),
+    reserve_item03  VARCHAR(255),
+    reserve_item04  VARCHAR(255),
+    reserve_item05  VARCHAR(255),
+    delete_flag     VARCHAR(1)      NOT NULL DEFAULT '0',
+    created_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+COMMENT ON TABLE  users           IS 'Tài khoản người dùng hệ thống';
+
+
+-- ============================================================
+--  3. USER_ADDRESSES — Địa chỉ giao hàng (1 user : N addresses)
+-- ============================================================
+CREATE TABLE user_addresses (
+    address_id      SERIAL          PRIMARY KEY,
+    user_id         INT             NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    recipient_name  VARCHAR(150)    NOT NULL,
+    phone           VARCHAR(20)     NOT NULL,
+    street          VARCHAR(255)    NOT NULL,
+    ward            VARCHAR(100),
+    district        VARCHAR(100)    NOT NULL,
+    city            VARCHAR(100)    NOT NULL,
+    is_default      BOOLEAN         NOT NULL DEFAULT FALSE,
+    reserve_item01  VARCHAR(255),
+    reserve_item02  VARCHAR(255),
+    reserve_item03  VARCHAR(255),
+    reserve_item04  VARCHAR(255),
+    reserve_item05  VARCHAR(255),
+    delete_flag     VARCHAR(1)      NOT NULL DEFAULT '0',
+    created_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+COMMENT ON TABLE user_addresses IS 'Địa chỉ giao hàng đã lưu của người dùng';
+
+
+-- ============================================================
+--  4. PRODUCTS — Sản phẩm đồ chơi
+-- ============================================================
+CREATE TABLE products (
+    product_id      SERIAL          PRIMARY KEY,
+    category_id     INT             NOT NULL REFERENCES categories(category_id),
+    product_name    VARCHAR(255)    NOT NULL,
+    product_description VARCHAR(255),
+    price           NUMERIC(15,2)   NOT NULL CHECK (price >= 0),
+    stock_quantity  INT             NOT NULL DEFAULT 0 CHECK (stock_quantity >= 0),
+	-- Độ tuổi phù hợp
+	age_group       VARCHAR(10)     NOT NULL,   -- '0-2' | '3-5' | '6-8' | '9-12' code master
+	skill_stem_type VARCHAR(20)     NOT NULL,   -- 'Logic' | 'Creative' | 'STEM' | 'Motor' code master
+	video_url		VARCHAR(500),
+	difficulty_level VARCHAR(255)   NOT NULL, -- 'BEGINNER', 'INTERMEDIATE', 'ADVANCED', 'EXPERT'
+	safety_certifications VARCHAR(255),
+    reserve_item01  VARCHAR(255),
+    reserve_item02  VARCHAR(255),
+    reserve_item03  VARCHAR(255),
+    reserve_item04  VARCHAR(255),
+    reserve_item05  VARCHAR(255),
+    delete_flag     VARCHAR(1)      NOT NULL DEFAULT '0',
+    created_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+COMMENT ON TABLE  products              IS 'Sản phẩm đồ chơi giáo dục STEM';
+
+
+-- ============================================================
+--  5. PRODUCT_IMAGES — Hình ảnh sản phẩm
+-- ============================================================
+CREATE TABLE product_images (
+    image_id        SERIAL          PRIMARY KEY,
+    product_id      INT             NOT NULL REFERENCES products(product_id) ON DELETE CASCADE,
+	public_id 		VARCHAR(500)	NOT NULL,
+    image_url       VARCHAR(500)    NOT NULL,
+    alt_text        VARCHAR(255),
+    display_order   INT             NOT NULL DEFAULT 0, -- thứ tự hiển thị
+    is_primary      BOOLEAN         NOT NULL DEFAULT FALSE,
+    reserve_item01  VARCHAR(255),
+    reserve_item02  VARCHAR(255),
+    reserve_item03  VARCHAR(255),
+    reserve_item04  VARCHAR(255),
+    reserve_item05  VARCHAR(255),
+    delete_flag     VARCHAR(1)      NOT NULL DEFAULT '0',
+    created_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+COMMENT ON TABLE product_images IS 'Hình ảnh sản phẩm (1 sản phẩm nhiều ảnh)';
+
+
+-- ============================================================
+--  6. CARTS — Giỏ hàng (1 user : 1 cart)
+-- ============================================================
+CREATE TABLE carts (
+    cart_id         SERIAL          PRIMARY KEY,
+    user_id         INT             NOT NULL UNIQUE REFERENCES users(user_id) ON DELETE CASCADE,
+    reserve_item01  VARCHAR(255),
+    reserve_item02  VARCHAR(255),
+    reserve_item03  VARCHAR(255),
+    reserve_item04  VARCHAR(255),
+    reserve_item05  VARCHAR(255),
+    delete_flag     VARCHAR(1)      NOT NULL DEFAULT '0',
+    created_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+COMMENT ON TABLE carts IS 'Giỏ hàng của người dùng (1-1 với users)';
+
+
+-- ============================================================
+--  7. CART_ITEMS — Chi tiết giỏ hàng
+-- ============================================================
+CREATE TABLE cart_items (
+    cart_item_id    SERIAL          PRIMARY KEY,
+    cart_id         INT             NOT NULL REFERENCES carts(cart_id) ON DELETE CASCADE,
+    product_id      INT             NOT NULL REFERENCES products(product_id),
+    quantity        INT             NOT NULL DEFAULT 1 CHECK (quantity > 0),
+    reserve_item01  VARCHAR(255),
+    reserve_item02  VARCHAR(255),
+    reserve_item03  VARCHAR(255),
+    reserve_item04  VARCHAR(255),
+    reserve_item05  VARCHAR(255),
+    delete_flag     VARCHAR(1)      NOT NULL DEFAULT '0',
+    created_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (cart_id, product_id)
+);
+COMMENT ON TABLE cart_items IS 'Chi tiết từng sản phẩm trong giỏ hàng';
+
+-- ============================================================
+--  8. ORDERS — Đơn hàng
+-- ============================================================
+CREATE TABLE orders (
+    order_id        SERIAL          PRIMARY KEY,
+    user_id         INT             NOT NULL REFERENCES users(user_id),
+    -- Tổng tiền
+    subtotal        NUMERIC(15,2)   NOT NULL CHECK (subtotal >= 0), -- tổng số tiền của sản phẩm
+    shipping_fee    NUMERIC(15,2)   NOT NULL DEFAULT 0, -- phí vận chuyển
+    total_amount    NUMERIC(15,2)   NOT NULL CHECK (total_amount >= 0), -- tổng số tiền đã cộng lại cho tất cả mọi thứ 
+    -- Trạng thái
+    order_status    VARCHAR(30)     NOT NULL DEFAULT 'pending',  -- 'pending' | 'confirmed' | 'shipping' | 'delivered' | 'cancelled' code master
+    note            VARCHAR(255),
+    reserve_item01  VARCHAR(255),
+    reserve_item02  VARCHAR(255),
+    reserve_item03  VARCHAR(255),
+    reserve_item04  VARCHAR(255),
+    reserve_item05  VARCHAR(255),
+    delete_flag     VARCHAR(1)      NOT NULL DEFAULT '0',
+    created_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+COMMENT ON TABLE  orders              IS 'Đơn hàng của khách hàng';
+
+
+-- ============================================================
+--  9. ORDER_ITEMS — Chi tiết đơn hàng
+-- ============================================================
+CREATE TABLE order_items (
+    order_item_id   SERIAL          PRIMARY KEY,
+    order_id        INT             NOT NULL REFERENCES orders(order_id) ON DELETE CASCADE,
+    product_id      INT             NOT NULL REFERENCES products(product_id),
+    -- Snapshot sản phẩm lúc đặt hàng
+    product_name    VARCHAR(255)    NOT NULL,
+    unit_price      NUMERIC(15,2)   NOT NULL CHECK (unit_price >= 0),
+    quantity        INT             NOT NULL CHECK (quantity > 0),
+    reserve_item01  VARCHAR(255),
+    reserve_item02  VARCHAR(255),
+    reserve_item03  VARCHAR(255),
+    reserve_item04  VARCHAR(255),
+    reserve_item05  VARCHAR(255),
+    delete_flag     VARCHAR(1)      NOT NULL DEFAULT '0',
+    created_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+COMMENT ON TABLE  order_items IS 'Chi tiết sản phẩm trong đơn hàng (snapshot tại thời điểm mua)';
+
+
+-- ============================================================
+--  10. PAYMENTS — Thanh toán
+-- ============================================================
+CREATE TABLE payments (
+    payment_id      SERIAL          PRIMARY KEY,
+    order_id        INT             NOT NULL REFERENCES orders(order_id),
+    payment_method  VARCHAR(30)     NOT NULL,   -- 'cod' | 'vnpay' | 'momo' | 'bank_transfer' code master
+    payment_status  VARCHAR(20)     NOT NULL DEFAULT 'unpaid', -- 'unpaid' | 'paid' | 'refunded' code master
+    transaction_ref VARCHAR(255),               -- Mã giao dịch từ cổng thanh toán
+    paid_at         TIMESTAMP WITH TIME ZONE,
+    gateway_response VARCHAR(255),              -- Raw response từ cổng thanh toán (JSON)
+	amount 			NUMERIC(15,2) 	NOT NULL,
+	gateway 		VARCHAR(30),               -- VNPAY, MOMO...
+	gateway_transaction_id VARCHAR(100),
+	payment_url 	TEXT,
+	expired_at 		TIMESTAMP WITH TIME ZONE,
+    reserve_item01  VARCHAR(255),
+    reserve_item02  VARCHAR(255),
+    reserve_item03  VARCHAR(255),
+    reserve_item04  VARCHAR(255),
+    reserve_item05  VARCHAR(255),
+    delete_flag     VARCHAR(1)      NOT NULL DEFAULT '0',
+    created_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+COMMENT ON TABLE  payments                  IS 'Lịch sử thanh toán của đơn hàng';
+
+
+-- ============================================================
+--  11. COMPLAINTS — Khiếu nại đơn hàng
+-- ============================================================
+CREATE TABLE complaints (
+    complaint_id    SERIAL          PRIMARY KEY,
+    order_id        INT             NOT NULL REFERENCES orders(order_id),
+    user_id         INT             NOT NULL REFERENCES users(user_id),
+    complaint_type  VARCHAR(50)     NOT NULL,   -- 'damaged' | 'wrong_item' | 'missing' | 'other' code master
+    description     VARCHAR(255)    NOT NULL,
+    status          VARCHAR(20)     NOT NULL DEFAULT 'open', -- 'open' | 'in_progress' | 'resolved' | 'rejected' code master
+    admin_response  VARCHAR(255),
+    reserve_item01  VARCHAR(255),
+    reserve_item02  VARCHAR(255),
+    reserve_item03  VARCHAR(255),
+    reserve_item04  VARCHAR(255),
+    reserve_item05  VARCHAR(255),
+    delete_flag     VARCHAR(1)      NOT NULL DEFAULT '0',
+    created_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+COMMENT ON TABLE  complaints             IS 'Khiếu nại đơn hàng từ khách hàng';
+
+
+-- ============================================================
+--  12. CHATBOT_SESSIONS — Phiên hội thoại Chatbot
+-- ============================================================
+CREATE TABLE chatbot_sessions (
+    session_id      SERIAL          PRIMARY KEY,
+    user_id         INT             NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    session_title   VARCHAR(255),
+    reserve_item01  VARCHAR(255),
+    reserve_item02  VARCHAR(255),
+    reserve_item03  VARCHAR(255),
+    reserve_item04  VARCHAR(255),
+    reserve_item05  VARCHAR(255),
+    delete_flag     VARCHAR(1)      NOT NULL DEFAULT '0',
+    created_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+COMMENT ON TABLE chatbot_sessions IS 'Phiên hội thoại giữa phụ huynh và Chatbot AI';
+
+
+-- ============================================================
+--  13. CHATBOT_MESSAGES — Tin nhắn trong phiên hội thoại
+-- ============================================================
+CREATE TABLE chatbot_messages (
+    message_id      SERIAL          PRIMARY KEY,
+    session_id      INT             NOT NULL REFERENCES chatbot_sessions(session_id) ON DELETE CASCADE,
+    content         VARCHAR(1000)   NOT NULL,
+    token_count     INT,                        -- Tổng token dùng (phục vụ theo dõi chi phí API)
+    reserve_item01  VARCHAR(255),
+    reserve_item02  VARCHAR(255),
+    reserve_item03  VARCHAR(255),
+    reserve_item04  VARCHAR(255),
+    reserve_item05  VARCHAR(255),
+    delete_flag     VARCHAR(1)      NOT NULL DEFAULT '0',
+    created_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+COMMENT ON TABLE  chatbot_messages          IS 'Tin nhắn trong phiên hội thoại Chatbot';
+
+
+-- ============================================================
+--  14. RAG_DOCUMENTS — Tài liệu nguồn cho Chatbot (Admin upload)
+-- ============================================================
+CREATE TABLE rag_documents (
+    doc_id          SERIAL          PRIMARY KEY,
+    uploaded_by     INT             NOT NULL REFERENCES users(user_id),
+    title           VARCHAR(255)    NOT NULL,
+    doc_type        VARCHAR(50)     NOT NULL,   -- 'stem_method' | 'child_psychology' | 'product_manual' code master
+    content         VARCHAR(1000)     NOT NULL,
+    -- pgvector: 1536 chiều cho OpenAI text-embedding-3-small
+    embedding       vector(1536),
+    file_url        VARCHAR(500),               -- URL file gốc (PDF, DOCX,...)
+    reserve_item01  VARCHAR(255),
+    reserve_item02  VARCHAR(255),
+    reserve_item03  VARCHAR(255),
+    reserve_item04  VARCHAR(255),
+    reserve_item05  VARCHAR(255),
+    delete_flag     VARCHAR(1)      NOT NULL DEFAULT '0',
+    created_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+COMMENT ON TABLE  rag_documents           IS 'Tài liệu huấn luyện Chatbot theo phương pháp RAG';
+
+
+-- ============================================================
+--  15. RAG_DOCUMENT_TAGS — Tag phân loại tài liệu RAG
+-- ============================================================
+CREATE TABLE rag_document_tags (
+    id              SERIAL          PRIMARY KEY,
+    doc_id          INT             NOT NULL REFERENCES rag_documents(doc_id) ON DELETE CASCADE,
+    tag             VARCHAR(100)    NOT NULL,
+    reserve_item01  VARCHAR(255),
+    reserve_item02  VARCHAR(255),
+    reserve_item03  VARCHAR(255),
+    reserve_item04  VARCHAR(255),
+    reserve_item05  VARCHAR(255),
+    delete_flag     VARCHAR(1)      NOT NULL DEFAULT '0',
+    created_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (doc_id, tag)
+);
+COMMENT ON TABLE rag_document_tags IS 'Tag phân loại tài liệu RAG để lọc nhanh';
+
+
+-- ============================================================
+--  16. MESSAGE_RAG_REFS — Tài liệu RAG được dùng trong tin nhắn
+-- ============================================================
+CREATE TABLE message_rag_refs (
+    id              SERIAL          PRIMARY KEY,
+    message_id      INT             NOT NULL REFERENCES chatbot_messages(message_id) ON DELETE CASCADE,
+    doc_id          INT             NOT NULL REFERENCES rag_documents(doc_id),
+    similarity_score NUMERIC(5,4),              -- Độ tương đồng cosine (0-1)
+    reserve_item01  VARCHAR(255),
+    reserve_item02  VARCHAR(255),
+    reserve_item03  VARCHAR(255),
+    reserve_item04  VARCHAR(255),
+    reserve_item05  VARCHAR(255),
+    delete_flag     VARCHAR(1)      NOT NULL DEFAULT '0',
+    created_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (message_id, doc_id)
+);
+COMMENT ON TABLE  message_rag_refs                  IS 'Ánh xạ tin nhắn AI với tài liệu RAG đã dùng';
+
+
+-- ============================================================
+--  17. REFRESH_TOKENS — JWT Refresh Token (bảo mật)
+-- ============================================================
+CREATE TABLE refresh_tokens (
+    token_id        SERIAL          PRIMARY KEY,
+    user_id         INT             NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    token_hash      VARCHAR(255)    NOT NULL UNIQUE,  -- Lưu hash, không lưu plaintext
+    device_info     VARCHAR(255),                     -- UA string hoặc device label
+    ip_address      VARCHAR(45),
+    expires_at      TIMESTAMP WITH TIME ZONE NOT NULL,
+    revoked_at      TIMESTAMP WITH TIME ZONE,
+    reserve_item01  VARCHAR(255),
+    reserve_item02  VARCHAR(255),
+    reserve_item03  VARCHAR(255),
+    reserve_item04  VARCHAR(255),
+    reserve_item05  VARCHAR(255),
+    delete_flag     VARCHAR(1)      NOT NULL DEFAULT '0',
+    created_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+COMMENT ON TABLE  refresh_tokens            IS 'JWT Refresh Token (lưu hash để bảo mật)';
+
+-- ============================================================
+--  18. CODE_MASTER — Mã Code dùng trong Các Autocomplete CodeMaster
+-- ============================================================
+CREATE TABLE code_master (
+    code_id     SERIAL          PRIMARY KEY,
+	code_cd		VARCHAR(100)    NOT NULL,
+    code_name   VARCHAR(100)    NOT NULL,
+	code_value  VARCHAR(100)    NOT NULL,
+    code_description VARCHAR(255),
+    reserve_item01  VARCHAR(255),
+    reserve_item02  VARCHAR(255),
+    reserve_item03  VARCHAR(255),
+    reserve_item04  VARCHAR(255),
+    reserve_item05  VARCHAR(255),
+    delete_flag     VARCHAR(1)      NOT NULL DEFAULT '0',
+    created_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+COMMENT ON TABLE  code_master            IS 'Table Code Master';
+
+
+-- còn 16, 15, 14
+-- mvn clean generate-sources
+-- Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+
+-- mvn clean compile
