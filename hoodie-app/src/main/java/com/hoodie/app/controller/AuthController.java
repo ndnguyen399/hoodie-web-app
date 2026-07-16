@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,10 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hoodie.app.dto.AuthRequest;
 import com.hoodie.app.dto.AuthResponse;
+import com.hoodie.app.dto.LogoutRequest;
+import com.hoodie.app.dto.LogoutResponse;
 import com.hoodie.app.dto.RefreshTokenRequest;
 import com.hoodie.app.dto.RegisterRequest;
 import com.hoodie.app.dto.RegisterResponse;
 import com.hoodie.app.dto.response.BaseApiResponse;
+import com.hoodie.app.entity.User;
 import com.hoodie.app.service.AuthService;
 
 import jakarta.transaction.Transactional;
@@ -71,6 +75,20 @@ public class AuthController {
     @Transactional
     public BaseApiResponse<AuthResponse> refreshToken(@RequestBody @Valid RefreshTokenRequest request) {
         AuthResponse response = authService.refreshToken(request.getRefreshToken());
+        return BaseApiResponse.success(response);
+    }
+
+    /**
+     * logout
+     * 
+     * @param currentUser
+     * @param request
+     * @return
+     */
+    @PostMapping("/logout")
+    public BaseApiResponse<LogoutResponse> logout(@AuthenticationPrincipal User currentUser,
+            @Valid @RequestBody LogoutRequest request) {
+        LogoutResponse response = authService.logout(currentUser, request.getRefreshToken());
         return BaseApiResponse.success(response);
     }
 }

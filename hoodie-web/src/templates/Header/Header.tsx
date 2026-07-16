@@ -2,7 +2,7 @@
  * @author duynguyen © 2025
  */
 import { useState } from 'react';
-import { AppBar, Box, Button, useMediaQuery, useTheme } from '@mui/material';
+import { AppBar, Box, Button, Link, useMediaQuery, useTheme } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 // import SearchIcon from '@mui/icons-material/Search';
 // import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -46,9 +46,10 @@ export default function Header() {
 
   return (
     <AppBar 
-      position="static" // fixed
+      position="static" // fixed 
       sx={{ 
-        backgroundColor: 'transparent', 
+        // backgroundColor: 'transparent', 
+        backgroundColor: '#FFF176',
         boxShadow: 'none',
       }}
     >
@@ -68,12 +69,27 @@ export default function Header() {
               sx={{
                 display: { xs: "none", md: "flex" },
                 justifyContent: "flex-start",
+                overflow: "hidden",
+                alignItems: 'center'
               }}
             >
-              <Button sx={{ color: "black" }} onClick={toggleDrawerMenu}>
+              <Image
+                src={Images.logo}
+                alt="logo"
+                style={{
+                  maxWidth: "20%",
+                  maxHeight: "20%",
+                  objectFit: "cover",
+                  cursor: "pointer",
+                }}
+                onClick={handleLogoClick}
+              />
+              <Link href='/introduction' underline='hover' color='black' fontWeight="bold" ml={2} fontSize={18}>Giới thiệu</Link>
+              <Link href='/' underline='hover' color='black' fontWeight="bold" ml={2} fontSize={18}>Sản phẩm</Link>
+              {/* <Button sx={{ color: "black" }} onClick={toggleDrawerMenu}>
                 <MenuIcon sx={{ mr: 1 }} />
                 Menu
-              </Button>
+              </Button> */}
               {/* <Button
                 sx={{ color: "black", display: { xs: "none", md: "flex" } }}
                 onClick={toggleDrawerMenuSearch}
@@ -81,11 +97,11 @@ export default function Header() {
                 <SearchIcon sx={{ mr: 1 }} />
                 Search
               </Button> */}
-              <Button sx={{ color: "black" }}>{ContentText['about-us']}</Button>
+              {/* <Button sx={{ color: "black" }}>{ContentText['about-us']}</Button> */}
             </Box>
 
             {/* Logo */}
-            <Box width={{ md: "20%" }}>
+            {/* <Box width={{ md: "20%" }}>
               <Box
                 sx={{
                   width: "100%",
@@ -109,7 +125,7 @@ export default function Header() {
                   onClick={handleLogoClick}
                 />
               </Box>
-            </Box>
+            </Box> */}
 
             <Box
               width={{ md: "40%" }}

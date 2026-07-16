@@ -3,6 +3,7 @@
  */
 package com.hoodie.app.repository.custom.impl;
 
+import static com.app.jooq.generated.tables.CodeMaster.CODE_MASTER;
 import static com.app.jooq.generated.tables.Categories.CATEGORIES;
 import static com.app.jooq.generated.tables.Products.PRODUCTS;
 
@@ -46,6 +47,21 @@ public class ProductSearchRepositoryCustomImpl implements ProductSearchRepositor
      * com.app.jooq.generated.tables.Categories
      */
     private static final com.app.jooq.generated.tables.Categories T2 = CATEGORIES.as("t2");
+
+    /**
+     * com.app.jooq.generated.tables.CodeMaster
+     */
+    private static final com.app.jooq.generated.tables.CodeMaster T3 = CODE_MASTER.as("t3");
+
+    /**
+     * com.app.jooq.generated.tables.CodeMaster
+     */
+    private static final com.app.jooq.generated.tables.CodeMaster T4 = CODE_MASTER.as("t4");
+
+    /**
+     * com.app.jooq.generated.tables.CodeMaster
+     */
+    private static final com.app.jooq.generated.tables.CodeMaster T5 = CODE_MASTER.as("t5");
 
     /**
      * DEFAULT_DELETE_FLAG
@@ -117,11 +133,17 @@ public class ProductSearchRepositoryCustomImpl implements ProductSearchRepositor
             List<Condition> conditions) {
         return dsl
                 .select(T1.PRODUCT_ID, T1.CATEGORY_ID, T2.CATEGORY_NAME, T1.PRODUCT_NAME, T1.PRODUCT_DESCRIPTION,
-                        T1.PRICE, T1.STOCK_QUANTITY, T1.AGE_GROUP, T1.SKILL_STEM_TYPE, T1.VIDEO_URL,
-                        T1.DIFFICULTY_LEVEL, T1.SAFETY_CERTIFICATIONS, T1.RESERVE_ITEM01, T1.RESERVE_ITEM02,
-                        T1.RESERVE_ITEM03, T1.RESERVE_ITEM04, T1.RESERVE_ITEM05, T1.DELETE_FLAG, T1.CREATED_AT,
-                        T1.UPDATED_AT)
-                .from(T1).leftJoin(T2).on(T1.CATEGORY_ID.eq(T2.CATEGORY_ID)).where(conditions)
+                        T1.PRICE, T1.STOCK_QUANTITY, T1.AGE_GROUP, T3.CODE_VALUE.as("age_group_name"),
+                        T1.SKILL_STEM_TYPE, T4.CODE_VALUE.as("skill_stem_type_name"), T1.VIDEO_URL, T1.DIFFICULTY_LEVEL,
+                        T5.CODE_VALUE.as("difficulty_level_name"), T1.SAFETY_CERTIFICATIONS, T1.RESERVE_ITEM01,
+                        T1.RESERVE_ITEM02, T1.RESERVE_ITEM03, T1.RESERVE_ITEM04, T1.RESERVE_ITEM05, T1.DELETE_FLAG,
+                        T1.CREATED_AT, T1.UPDATED_AT)
+                .from(T1)
+                .leftJoin(T2).on(T1.CATEGORY_ID.eq(T2.CATEGORY_ID))
+                .leftJoin(T3).on(T1.AGE_GROUP.eq(T3.CODE_NAME).and(T3.DELETE_FLAG.eq(DEFAULT_DELETE_FLAG)))
+                .leftJoin(T4).on(T1.SKILL_STEM_TYPE.eq(T4.CODE_NAME).and(T3.DELETE_FLAG.eq(DEFAULT_DELETE_FLAG)))
+                .leftJoin(T5).on(T1.DIFFICULTY_LEVEL.eq(T5.CODE_NAME).and(T3.DELETE_FLAG.eq(DEFAULT_DELETE_FLAG)))
+                .where(conditions)
                 .fetchInto(ProductSearchDomainModel.class);
     }
 

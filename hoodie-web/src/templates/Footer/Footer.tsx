@@ -32,6 +32,7 @@ export default function Footer() {
             py: 3,
             px: 2,
             mt: 'auto',
+            backgroundColor: '#FFF9C4', 
           }}
         >
           <Divider />

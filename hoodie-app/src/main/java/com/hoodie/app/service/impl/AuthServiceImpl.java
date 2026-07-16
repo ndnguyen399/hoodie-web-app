@@ -8,6 +8,7 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +21,7 @@ import com.hoodie.app.constant.Constant;
 import com.hoodie.app.constant.Role;
 import com.hoodie.app.dto.AuthRequest;
 import com.hoodie.app.dto.AuthResponse;
+import com.hoodie.app.dto.LogoutResponse;
 import com.hoodie.app.dto.RegisterRequest;
 import com.hoodie.app.dto.RegisterResponse;
 import com.hoodie.app.dto.response.error.ValidationErrorItem;
@@ -199,5 +201,25 @@ public class AuthServiceImpl implements AuthService {
         entity.setExpiresAt(jwtUtil.extractExpiration(refreshToken).toInstant().atOffset(ZoneOffset.UTC));
         entity.setDeleteFlag(Constant.DELETE_FLAG_ZERO);
         refreshTokenRepository.save(entity);
+    }
+
+    /**
+     * logout
+     */
+    @Override
+    public LogoutResponse logout(User user, String refreshToken) {
+        List<ValidationErrorItem> errors = new ArrayList<>();
+
+        String refreshTokenHash = DigestUtils.sha256Hex(refreshToken);
+        RefreshToken entity = refreshTokenRepository.findByTokenHash(refreshTokenHash)
+                .orElseThrow(() -> new UnauthorizedException(
+                        List.of(new ValidationErrorItem(Constant.E_HOODIE_003, Constant.TOKEN_INVALID_MESSAGE))));
+        if (!entity.getUserId().equals(user.getUserId())) {
+            errors.add(new ValidationErrorItem(Constant.ERROR_VALIDATE, Constant.TOKEN_INVALID_MESSAGE));
+        }
+        entity.setRevokedAt(OffsetDateTime.now());
+        refreshTokenRepository.save(entity);
+        LogoutResponse response = new LogoutResponse();
+        return response;
     }
 }

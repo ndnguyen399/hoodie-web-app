@@ -14,4 +14,6 @@ import com.hoodie.app.entity.RefreshToken;
  */
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
     Optional<RefreshToken> findByTokenHashAndDeleteFlag(String tokenHash, String deleteFlag);
+
+    Optional<RefreshToken> findByTokenHash(String tokenHash);
 }

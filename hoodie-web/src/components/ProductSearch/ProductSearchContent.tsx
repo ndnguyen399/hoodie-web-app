@@ -192,6 +192,9 @@ export const ProductSearchContent: React.FC<PageProps> = (props) => {
                                                 />
                                             </CardMedia>
                                             <CardContent>
+                                                <Typography fontWeight={400} color="orange" gutterBottom noWrap>
+                                                    {item.categoryName}
+                                                </Typography>
                                                 <Typography variant="subtitle1" fontWeight={600} gutterBottom noWrap>
                                                     {item.productName}
                                                 </Typography>

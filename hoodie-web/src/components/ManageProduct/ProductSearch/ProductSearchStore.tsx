@@ -377,55 +377,75 @@ export const useStore = (props: PageProps) => {
                         headerAlign: 'center'
                     },
                     {
-                        field: 'skillLogic',
-                        headerName: t('label-skillLogic'),
+                        field: 'ageGroupName',
+                        headerName: t('label-ageGroup'),
                         width: 140,
                     },
                     {
-                        field: 'skillLogicName',
-                        headerName: t('label-skillLogicName'),
-                        width: 180,
-                    },
-                    {
-                        field: 'skillCreative',
-                        headerName: t('label-skillCreative'),
+                        field: 'skillStemTypeName',
+                        headerName: t('label-skillType'),
                         width: 140,
                     },
                     {
-                        field: 'skillCreativeName',
-                        headerName: t('label-skillCreativeName'),
+                        field: 'safetyCertifications',
+                        headerName: t('label-safetyCertifications'),
                         width: 180,
                     },
                     {
-                        field: 'skillStem',
-                        headerName: t('label-skillStem'),
+                        field: 'difficultyLevelName',
+                        headerName: t('label-difficultyLevel'),
                         width: 140,
                     },
-                    {
-                        field: 'skillStemName',
-                        headerName: t('label-skillStemName'),
-                        width: 180,
-                    },
-                    {
-                        field: 'skillMotor',
-                        headerName: t('label-skillMotor'),
-                        width: 140,
-                    },
-                    {
-                        field: 'skillMotorName',
-                        headerName: t('label-skillMotorName'),
-                        width: 180,
-                    },
-                    {
-                        field: 'skillSocial',
-                        headerName: t('label-skillSocial'),
-                        width: 140,
-                    },
-                    {
-                        field: 'skillSocialName',
-                        headerName: t('label-skillSocialName'),
-                        width: 180,
-                    },
+                    // {
+                    //     field: 'skillLogic',
+                    //     headerName: t('label-skillLogic'),
+                    //     width: 140,
+                    // },
+                    // {
+                    //     field: 'skillLogicName',
+                    //     headerName: t('label-skillLogicName'),
+                    //     width: 180,
+                    // },
+                    // {
+                    //     field: 'skillCreative',
+                    //     headerName: t('label-skillCreative'),
+                    //     width: 140,
+                    // },
+                    // {
+                    //     field: 'skillCreativeName',
+                    //     headerName: t('label-skillCreativeName'),
+                    //     width: 180,
+                    // },
+                    // {
+                    //     field: 'skillStem',
+                    //     headerName: t('label-skillStem'),
+                    //     width: 140,
+                    // },
+                    // {
+                    //     field: 'skillStemName',
+                    //     headerName: t('label-skillStemName'),
+                    //     width: 180,
+                    // },
+                    // {
+                    //     field: 'skillMotor',
+                    //     headerName: t('label-skillMotor'),
+                    //     width: 140,
+                    // },
+                    // {
+                    //     field: 'skillMotorName',
+                    //     headerName: t('label-skillMotorName'),
+                    //     width: 180,
+                    // },
+                    // {
+                    //     field: 'skillSocial',
+                    //     headerName: t('label-skillSocial'),
+                    //     width: 140,
+                    // },
+                    // {
+                    //     field: 'skillSocialName',
+                    //     headerName: t('label-skillSocialName'),
+                    //     width: 180,
+                    // },
                     {
                         field: 'createdAt',
                         headerName: t('label-createdAt'),

@@ -171,46 +171,46 @@ export interface ProductSearchDomainModel {
      * stock quantity
      */
     stockQuantity?: number;
-    /**
-     * skill Logic
-     */
-    skillLogic?: string;
-    /**
-     * skill Logic name
-     */
-    skillLogicName?: string;
-    /**
-     * skill Creative
-     */
-    skillCreative?: string;
-    /**
-     * skill Creative name
-     */
-    skillCreativeName?: string;
-    /**
-     * skill Stem
-     */
-    skillStem?: string;
-    /**
-     * skill Stem name
-     */
-    skillStemName?: string;
-    /**
-     * skill Motor
-     */
-    skillMotor?: string;
-    /**
-     * skill Motor name
-     */
-    skillMotorName?: string;
-    /**
-     * skill Social
-     */
-    skillSocial?: string;
-    /**
-     * skill Social name
-     */
-    skillSocialName?: string;
+    // /**
+    //  * skill Logic
+    //  */
+    // skillLogic?: string;
+    // /**
+    //  * skill Logic name
+    //  */
+    // skillLogicName?: string;
+    // /**
+    //  * skill Creative
+    //  */
+    // skillCreative?: string;
+    // /**
+    //  * skill Creative name
+    //  */
+    // skillCreativeName?: string;
+    // /**
+    //  * skill Stem
+    //  */
+    // skillStem?: string;
+    // /**
+    //  * skill Stem name
+    //  */
+    // skillStemName?: string;
+    // /**
+    //  * skill Motor
+    //  */
+    // skillMotor?: string;
+    // /**
+    //  * skill Motor name
+    //  */
+    // skillMotorName?: string;
+    // /**
+    //  * skill Social
+    //  */
+    // skillSocial?: string;
+    // /**
+    //  * skill Social name
+    //  */
+    // skillSocialName?: string;
     /**
      * list Images
      */
@@ -529,6 +529,15 @@ export interface LoginRequestApplicationModel {
     password?: string,
 }
 /**
+ * LogoutRequestApplicationModel
+ */
+export interface LogoutRequestApplicationModel {
+    /**
+     * 
+     */
+    refreshToken?: string;
+}
+/**
  * CodeSearchDomainModel
  */
 export interface CodeSearchDomainModel {
@@ -623,25 +632,45 @@ export interface ProductSubmitApplicationModel {
      */
     stockQuantity?: number;
     /**
-     * skill logic
+     * age group
      */
-    skillLogic?: string;
+    ageGroup?: string;
     /**
-     * skill creative
+     * skill stem type
      */
-    skillCreative?: string;
+    skillStemType?: string;
     /**
-     * skill stem
+     * video url
      */
-    skillStem?: string;
+    videoUrl?: string;
     /**
-     * skill motor
+     * difficulty level
      */
-    skillMotor?: string;
+    difficultyLevel?: string;
     /**
-     * skill social
+     * safety certifications
      */
-    skillSocial?: string;
+    safetyCertifications?: string;
+    // /**
+    //  * skill logic
+    //  */
+    // skillLogic?: string;
+    // /**
+    //  * skill creative
+    //  */
+    // skillCreative?: string;
+    // /**
+    //  * skill stem
+    //  */
+    // skillStem?: string;
+    // /**
+    //  * skill motor
+    //  */
+    // skillMotor?: string;
+    // /**
+    //  * skill social
+    //  */
+    // skillSocial?: string;
     /**
      * changeImageFlag
      */

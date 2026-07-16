@@ -5,12 +5,10 @@ import React, { useEffect } from "react";
 import { Autocomplete, Box, Button, CircularProgress, FormControl, FormGroup, Grid, Stack, styled, TextField, Typography } from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-// import { CommandBar } from "@fluentui/react";
 import type { PageProps } from "./ProductRegistration.types";
 import { useStore } from "./ProductRegistrationStore";
 import PageContainer from "../PageContainer";
 import Constants from "../../common/Constants";
-// import Image from "../../templates/Image";
 
 /**
  * ProductRegistrationContent
@@ -31,7 +29,6 @@ export const ProductRegistrationContent: React.FC<PageProps> = props => {
 
     return (
         <>
-            {/* <CommandBar items={state.ribbonItem} /> */}
             <PageContainer
                 title={state.requestType === Constants.REUEST_TYPE_CREATE ? t('label-pageTitleProductCreate') : t('label-pageTitleProductUpdate')}
                 breadcrumbs={[{ title: t('label-pageTitleProductSearch'), path: Constants.routeCategorySearch }, { title: state.requestType === Constants.REUEST_TYPE_CREATE ? t('label-buttonCreate') : t('label-buttonUpdate') }]}
@@ -41,7 +38,6 @@ export const ProductRegistrationContent: React.FC<PageProps> = props => {
                     onSubmit={action.submitProduct.execute}
                     noValidate
                     autoComplete="off"
-                    // onReset={action.reset.execute}
                     sx={{ width: '100%' }}
                 >
                     <FormGroup>
@@ -117,6 +113,131 @@ export const ProductRegistrationContent: React.FC<PageProps> = props => {
                                 </FormControl>
                             </Grid>
                             <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex' }} offset={{ sm: 6 }}>
+                                <FormControl fullWidth>
+                                    <Autocomplete
+                                        disablePortal
+                                        disableClearable={false}
+                                        options={state.skillStemTypeAC?.search ?? []}
+                                        value={
+                                            state.skillStemTypeAC?.search?.find(
+                                                item =>
+                                                    item.codeName ===
+                                                    state.productSubmitApplicationModel?.skillStemType
+                                            ) ?? null
+                                        }
+                                        getOptionLabel={(option) => option.codeValue ?? ''}
+                                        renderOption={(props, option) => (
+                                            <li {...props} key={option.codeName}>
+                                            {option.codeValue}
+                                            </li>
+                                        )}
+                                        isOptionEqualToValue={(option, value) => 
+                                            option.codeName === value.codeName
+                                        }
+                                        onOpen={action.items.skillStemType.handleOpen}
+                                        onChange={action.items.skillStemType.onChange}
+                                        sx={{ width: '100%' }}
+                                        renderInput={(params) => (
+                                            <TextField
+                                                {...params}
+                                                label={t('label-skillType')}
+                                            />
+                                        )}
+                                    />
+                                </FormControl>
+                            </Grid>
+                            <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex' }} offset={{ sm: 6 }}>
+                                <FormControl fullWidth>
+                                    <FormControl fullWidth>
+                                        <Autocomplete
+                                            disablePortal
+                                            disableClearable={false}
+                                            options={state.ageGroupAC?.search ?? []}
+                                            value={
+                                                state.ageGroupAC?.search?.find(
+                                                    item =>
+                                                        item.codeName ===
+                                                        state.productSubmitApplicationModel?.ageGroup
+                                                ) ?? null
+                                            }
+                                            getOptionLabel={(option) => option.codeValue ?? ''}
+                                            renderOption={(props, option) => (
+                                                <li {...props} key={option.codeName}>
+                                                {option.codeValue}
+                                                </li>
+                                            )}
+                                            isOptionEqualToValue={(option, value) => 
+                                                option.codeName === value.codeName
+                                            }
+                                            onOpen={action.items.ageGroup.handleOpen}
+                                            onChange={action.items.ageGroup.onChange}
+                                            sx={{ width: '100%' }}
+                                            renderInput={(params) => (
+                                                <TextField
+                                                    {...params}
+                                                    label={t('label-ageGroup')}
+                                                />
+                                            )}
+                                        />
+                                    </FormControl>
+                                </FormControl>
+                            </Grid>
+                            <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex' }} offset={{ sm: 6 }}>
+                                <FormControl fullWidth>
+                                    <FormControl fullWidth>
+                                        <Autocomplete
+                                            disablePortal
+                                            disableClearable={false}
+                                            options={state.difficultyLevelAC?.search ?? []}
+                                            value={
+                                                state.difficultyLevelAC?.search?.find(
+                                                    item =>
+                                                        item.codeName ===
+                                                        state.productSubmitApplicationModel?.difficultyLevel
+                                                ) ?? null
+                                            }
+                                            getOptionLabel={(option) => option.codeValue ?? ''}
+                                            renderOption={(props, option) => (
+                                                <li {...props} key={option.codeName}>
+                                                {option.codeValue}
+                                                </li>
+                                            )}
+                                            isOptionEqualToValue={(option, value) => 
+                                                option.codeName === value.codeName
+                                            }
+                                            onOpen={action.items.difficultyLevel.handleOpen}
+                                            onChange={action.items.difficultyLevel.onChange}
+                                            sx={{ width: '100%' }}
+                                            renderInput={(params) => (
+                                                <TextField
+                                                    {...params}
+                                                    label={t('label-difficultyLevel')}
+                                                />
+                                            )}
+                                        />
+                                    </FormControl>
+                                </FormControl>
+                            </Grid>
+                            <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex' }}>
+                                <TextField
+                                    name="safetyCertifications"
+                                    label={t('label-safetyCertifications')}
+                                    slotProps={{
+                                        htmlInput: {
+                                            maxLength: 255
+                                        },
+                                        inputLabel: {
+                                            shrink: state.productSubmitApplicationModel?.safetyCertifications ? true : false
+                                        }
+                                    }} 
+                                    value={state.productSubmitApplicationModel?.safetyCertifications?? ''}
+                                    onChange={(e) => {
+                                        action.onChangeField("safetyCertifications", e.target.value);
+                                    }}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex' }}>
                                 <TextField
                                     name="productDescription"
                                     label={t('label-productDescription')}
@@ -183,7 +304,7 @@ export const ProductRegistrationContent: React.FC<PageProps> = props => {
                                     fullWidth
                                 />
                             </Grid>
-                            <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex' }}>
+                            {/* <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex' }}>
                                 <FormControl fullWidth>
                                     <Autocomplete
                                         disablePortal
@@ -356,6 +477,25 @@ export const ProductRegistrationContent: React.FC<PageProps> = props => {
                                         )}
                                     />
                                 </FormControl>
+                            </Grid> */}
+                            <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex' }}>
+                                <TextField
+                                    name="videoUrl"
+                                    label={t('label-videoUrl')}
+                                    slotProps={{
+                                        htmlInput: {
+                                            maxLength: 255
+                                        },
+                                        inputLabel: {
+                                            shrink: state.productSubmitApplicationModel?.videoUrl ? true : false
+                                        }
+                                    }} 
+                                    value={state.productSubmitApplicationModel?.videoUrl?? ''}
+                                    onChange={(e) => {
+                                        action.onChangeField("videoUrl", e.target.value);
+                                    }}
+                                    fullWidth
+                                />
                             </Grid>
                             <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex' }} offset={{ sm: 6 }}>
                                 <Button
@@ -382,11 +522,8 @@ export const ProductRegistrationContent: React.FC<PageProps> = props => {
                                         });
 
                                         if (validFiles.length > 0) {
-                                            // action.onChangeFile("images", validFiles);
                                             action.onChangeFile(validFiles);
                                         }
-                                        
-                                        // Reset input để có thể chọn lại cùng một file nếu cần
                                         event.target.value = '';
                                         }}
                                     />

@@ -1,7 +1,7 @@
 /**
  * @author duynguyen © 2025
  */
-import type { BaseApiResponse, RegisterRequestApplicationModel, LoginRequestApplicationModel } from '../../common/Models';
+import type { BaseApiResponse, RegisterRequestApplicationModel, LoginRequestApplicationModel, LogoutRequestApplicationModel } from '../../common/Models';
 import { ApiClient } from '../config/api.client';
 
 /**
@@ -27,5 +27,15 @@ export class AuthViewApi {
      */
     login(request: LoginRequestApplicationModel) {
         return ApiClient.post<BaseApiResponse>('/api/v1/auth/login', request);
+    }
+
+    /**
+     * logout
+     * 
+     * @param request {@link LogoutRequestApplicationModel}
+     * @returns response {@link BaseApiResponse}
+     */
+    logout(request: LogoutRequestApplicationModel) {
+        return ApiClient.post<BaseApiResponse>('/api/v1/auth/logout', request);
     }
 }

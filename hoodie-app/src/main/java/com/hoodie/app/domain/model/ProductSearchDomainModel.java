@@ -59,9 +59,19 @@ public class ProductSearchDomainModel {
     private String ageGroup;
 
     /**
+     * ageGroupName
+     */
+    private String ageGroupName;
+
+    /**
      * skillStemType
      */
     private String skillStemType;
+
+    /**
+     * skillStemTypeName
+     */
+    private String skillStemTypeName;
 
     /**
      * videoUrl
@@ -72,6 +82,11 @@ public class ProductSearchDomainModel {
      * difficultyLevel
      */
     private String difficultyLevel;
+
+    /**
+     * difficultyLevelName
+     */
+    private String difficultyLevelName;
 
     /**
      * safetyCertifications
