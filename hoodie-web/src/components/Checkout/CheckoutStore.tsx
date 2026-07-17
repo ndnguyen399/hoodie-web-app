@@ -9,6 +9,8 @@ import { useAppParameters } from "../../hooks/useAppParameters";
 import { useNavigate } from "react-router-dom";
 import Constants from "../common/Constants";
 import { CheckoutSubmitViewApi } from "../api/CheckoutSubmitViewApi";
+import { PaymentSubmitViewApi } from "../api/PaymentSubmitViewApi";
+import type { CheckoutInitialDomainModel, CheckoutSubmitApplicationModel } from "../common/Models";
 
 /**
  * useStore
@@ -24,9 +26,11 @@ export const useStore = (props: PageProps) => {
 
     const [state, setState] = useState<PageState>({
         checkoutInitialDomainModel: {},
+        checkoutSubmitApplicationModel: {},
         selectedItems: JSON.parse(decodeURIComponent(params.get('selectedItems') || '[]')),
         totalAmount: Number(params.get("totalAmount")) ?? 0,
         shippingAmount: 30000,
+        isSubmitting: false,
         loading: false
     });
 
@@ -50,8 +54,10 @@ export const useStore = (props: PageProps) => {
                         checkoutInitialDomainModel: {
                             info: response.data?.info,
                             search: response.data?.search // Gán mảng vào thuộc tính 'search'
+                        },
+                        checkoutSubmitApplicationModel: {
+                            note: params.get('note') || '',
                         }
-                        // checkoutInitialDomainModel: response.data?
                     }));
                 } catch (error: any) {
                     const responseData = error?.payload;
@@ -72,7 +78,75 @@ export const useStore = (props: PageProps) => {
                 }
             });
         },
-        
+        onChangeField: (item: string, newValue: any) => {
+            const before: CheckoutSubmitApplicationModel = stateRef.current.checkoutSubmitApplicationModel!;
+            const checkoutSubmitApplicationModel: CheckoutSubmitApplicationModel = {
+                ...before,
+                [item]: newValue
+            };
+            setState(prev => ({
+                ...prev,
+                checkoutSubmitApplicationModel
+            }));
+        },
+        submitPayment: {
+            execute: () => {
+                context.overlay
+                .open()
+                .execute(async () => {
+                    setState(prev => ({ ...prev, isSubmitting: true }));
+                    try {
+                        const result = await new PaymentSubmitViewApi().submit({
+                            requestType: Constants.REUEST_TYPE_CREATE,
+                            model: {
+                                listId: stateRef.current.selectedItems,
+                                note: stateRef.current.checkoutSubmitApplicationModel?.note,
+                                paymentMethod: stateRef.current.checkoutSubmitApplicationModel?.paymentMethod
+                            }
+                        });
+                        const resultModel = result.data;
+                        let message = '';
+                        for (const item of resultModel) {
+                            message += `${item.code}: ${item.message}\n`;
+                        }
+                        await context.navigation.openInformationDialog(message);
+                        window.open(resultModel[0].paymentUrl, '_blank', 'noopener,noreferrer');
+                        // if (resultModel.paymentStatus === "unpaid") {
+                            // window.location.href = response.paymentUrl;
+                            // navigate({
+                            //     pathname: resultModel.paymentUrl
+                            // });
+                        // }
+                        // await action.load()
+                    } catch (error: any) {
+                        const responseData = error?.payload;
+                        if (responseData) {
+                            let message = '';
+                            if (responseData.data?.length) {
+                                for (const item of responseData.data) {
+                                    message += `${item.code}: ${item.message}\n`;
+                                }
+                            } else {
+                                message = responseData.message;
+                            }
+                            await context.navigation.openErrorDialog(message);
+                        } else {
+                            await context.navigation.openErrorDialog(t("label-internalServerError"));
+                        }
+                    } finally {
+                        setState(prev => ({
+                            ...prev,
+                            isSubmitting: false
+                        }));
+                    }
+                });
+            }
+        },
+        back: {
+            execute: () => {
+                navigate("/cart")
+            }
+        },
     }), []);
 
     return {

@@ -49,7 +49,7 @@ export default function Header() {
       position="static" // fixed 
       sx={{ 
         // backgroundColor: 'transparent', 
-        backgroundColor: '#FFF176',
+        backgroundColor: '#67bed9', //#FFF176
         boxShadow: 'none',
       }}
     >

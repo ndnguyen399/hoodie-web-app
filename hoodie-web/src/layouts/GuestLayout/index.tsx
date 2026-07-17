@@ -4,6 +4,7 @@
 import { Box } from '@mui/material';
 import Footer from '../../templates/Footer/Footer';
 import Header from '../../templates/Header/Header';
+import { ChatBot } from '../../components/ChatBot';
 
 // ==============================|| GUEST LAYOUT (Public) ||============================== //
 
@@ -17,6 +18,9 @@ export default function GuestLayout({ children }: { children: React.ReactNode })
       <Box>
         <Footer />
       </Box>
+
+      {/* chatbot */}
+      <ChatBot />
     </>
   );
 }

@@ -17,6 +17,7 @@ import { ProductRegistration } from '../components/ManageProduct/ProductRegistra
 import { Cart } from '../components/Cart';
 import ProfileLayout from '../layouts/ProfileLayout';
 import { Checkout } from '../components/Checkout';
+import { PaymentSuccess } from '../components/PaymentSuccess';
 
 // Page Private
 // import CategoryPage from '~/views/Category';
@@ -77,6 +78,11 @@ const PrivateRoutes: RouteItem[] = [
     path: '/checkout',
     component: Checkout,
     layout: ProfileLayout,
+  },
+  {
+    path: '/payment/success',
+    component: Cart,
+    layout: PaymentSuccess,
   },
   {
     path: '/manage-category-search',

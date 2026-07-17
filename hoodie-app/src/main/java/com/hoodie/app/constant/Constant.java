@@ -3,6 +3,8 @@
  */
 package com.hoodie.app.constant;
 
+import java.math.BigDecimal;
+
 /**
  * Constant class
  */
@@ -10,10 +12,26 @@ public final class Constant {
     private Constant() {
     }
 
+    // payment method and vnpay
+    public static final String PAYMENT_METHOD_COD = "COD";
+    public static final String PAYMENT_METHOD_VNPAY = "VNPAY";
+    public static final String SUCCESS = "00";
+    public static final String BANK_CODE = "NCB";
+
+    // order status
+    public static final String ORDER_STATUS_PENDING = "pending";
+    public static final String ORDER_STATUS_CONFIRMED = "confirmed";
+    public static final String ORDER_STATUS_SHIPPING = "shipping";
+    public static final String ORDER_STATUS_DELIVERED = "delivered";
+    public static final String ORDER_STATUS_CANCELLED = "cancelled";
+
+    // shipping fee
+    public static final BigDecimal SHIPPING_FEE = BigDecimal.valueOf(30000);
+
     // Change Image
     public static final String FLAG_CHANGE_IMAGE_YES = "01";
     public static final String FLAG_CHANGE_IMAGE_NO = "02";
-    
+
     // Cloudinary
     public static final String FOLDER = "folder";
     public static final String PRODUCTS = "products";

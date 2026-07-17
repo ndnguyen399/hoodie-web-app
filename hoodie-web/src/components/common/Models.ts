@@ -779,3 +779,112 @@ export interface CheckoutInitialDomainModel {
      */
     productLists?: CartSearchDomainModel[]
 }
+/**
+ * CheckoutSubmitApplicationModel
+ */
+export interface CheckoutSubmitApplicationModel {
+    /**
+     * productLists
+     */
+    listId?: number[];
+    /**
+     * note
+     */
+    note?: string;
+    /**
+     * paymentMethod
+     */
+    paymentMethod?: string;
+    /**
+     * orderId
+     */
+    orderId?: number;
+}
+/**
+ * ChatbotSessionsApplicationModel
+ */
+export interface ChatbotSessionsApplicationModel {
+    /**
+     * session id
+     */
+    sessionId?: number;
+    /**
+     * user_id
+     */
+    userId?: number;
+}
+/**
+ * ChatbotSessionsDomainModel
+ */
+export interface ChatbotSessionsDomainModel {
+    /**
+     * session id
+     */
+    sessionId?: number;
+    /**
+     * user_id
+     */
+    userId?: number;
+    /**
+     * session_title
+     */
+    sessionTitle?: string;
+}
+/**
+ * ChatbotMessagesDomainModel
+ */
+export interface ChatbotMessagesDomainModel {
+    /**
+     * messageId
+     */
+    messageId?: number;
+    /**
+     * session id
+     */
+    sessionId?: number;
+    /**
+     * content
+     */
+    content?: string;
+    /**
+     * token_count
+     */
+    tokenCount?: number;
+    /**
+     * reserveItem01 as isBot
+     */
+    reserveItem01?: string;
+    /**
+     * reserveItem02
+     */
+    reserveItem02?: string;
+    /**
+     * reserveItem03
+     */
+    reserveItem03?: string;
+    /**
+     * reserveItem04
+     */
+    reserveItem04?: string;
+    /**
+     * reserveItem05
+     */
+    reserveItem05?: string;
+    /**
+     * createdAt
+     */
+    createdAt?: Date;
+    /**
+     * updatedAt
+     */
+    updatedAt?: Date;
+}
+/**
+ * ChatbotMessagesApplicationModel
+ */
+export interface ChatbotMessagesApplicationModel {
+    /**
+     * inputText
+     */
+    inputText?: string;
+}

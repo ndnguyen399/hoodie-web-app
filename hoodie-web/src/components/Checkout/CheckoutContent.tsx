@@ -4,8 +4,9 @@
 import { useEffect, useState } from 'react';
 import type { PageProps } from "./Checkout.types";
 import { useStore } from "./CheckoutStore";
-import { Box, Button, Checkbox, CircularProgress, Container, Divider, FormControl, FormControlLabel, Grid, MenuItem, Paper, Radio, RadioGroup, TextField, Typography, useTheme } from '@mui/material';
+import { Box, Button, Checkbox, CircularProgress, Container, Divider, FormControl, FormControlLabel, Grid, MenuItem, Paper, Radio, RadioGroup, Stack, TextField, Typography, useTheme } from '@mui/material';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import PaymentIcon from '@mui/icons-material/Payment'
 import Image from '../../templates/Image';
@@ -34,7 +35,16 @@ export const CheckoutContent: React.FC<PageProps> = (props) => {
     }
 
     return (
-        <Container maxWidth="lg" sx={{ py: 4 }}>
+        <Container maxWidth="lg" sx={{ pb: 4 }}>
+            <Stack direction="row" sx={{ pb: 5 }}>
+                <Button
+                    variant="contained"
+                    startIcon={<ArrowBackIcon />}
+                    onClick={action.back.execute}
+                >
+                    {t('label-buttonBack')}
+                </Button>
+            </Stack>
             <Typography variant="h4" fontWeight="bold" gutterBottom>
                 Thanh toán
             </Typography>
@@ -77,11 +87,14 @@ export const CheckoutContent: React.FC<PageProps> = (props) => {
 
                         <FormControl component="fieldset">
                             <RadioGroup
-                                // value={paymentMethod}
+                                // value={state.checkoutSubmitApplicationModel?.paymentMethod}
                                 // onChange={(e) => action.setPaymentMethod(e.target.value)}
+                                onChange={(e) => {
+                                    action.onChangeField("paymentMethod", e.target.value);
+                                }}
                             >
                                 <FormControlLabel
-                                    value="cod"
+                                    value="COD"
                                     control={<Radio />}
                                     label={
                                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -91,7 +104,7 @@ export const CheckoutContent: React.FC<PageProps> = (props) => {
                                     }
                                 />
                                 <FormControlLabel
-                                    value="bank"
+                                    value="VNPAY"
                                     control={<Radio />}
                                     label={
                                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -162,14 +175,14 @@ export const CheckoutContent: React.FC<PageProps> = (props) => {
                         <Box sx={{ gap: 1, mb: 3 }}>
                             <Typography variant="h6">Mô tả dành cho shop</Typography>
                             <Typography color='orange'>
-                                {/* Vận chuyển riêng nhé */}
+                                {state.checkoutSubmitApplicationModel?.note}
                             </Typography>
                         </Box>
 
                         <FormControlLabel
                             control={
                                 <Checkbox
-                                    // checked={agreeTerms}
+                                    checked={true}
                                     // onChange={(e) => setAgreeTerms(e.target.checked)}
                                 />
                             }
@@ -181,7 +194,7 @@ export const CheckoutContent: React.FC<PageProps> = (props) => {
                             fullWidth
                             size="large"
                             // disabled={!agreeTerms || checkoutItems.length === 0}
-                            // onClick={action.placeOrder}
+                            onClick={action.submitPayment.execute}
                             sx={{ mt: 3, py: 1.8, fontSize: '1.1rem', fontWeight: 'bold' }}
                         >
                             Đặt hàng

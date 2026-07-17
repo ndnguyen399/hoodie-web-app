@@ -47,6 +47,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/refresh-token").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/product/search").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/category/search").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/payment/vnpay-return").permitAll()
                         // ADMIN APIs
 //                        .requestMatchers(HttpMethod.POST, "/api/v1/category/**").hasRole("ADMIN")
                         // CUSTOMER APIs

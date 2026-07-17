@@ -4,7 +4,7 @@
 import { useEffect, useState } from 'react';
 import type { PageProps } from "./Cart.types";
 import { useStore } from "./CartStore";
-import { Box, Button, Checkbox, Chip, CircularProgress, Container, Divider, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Button, Checkbox, Chip, CircularProgress, Container, Divider, IconButton, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -190,6 +190,11 @@ export const CartContent: React.FC<PageProps> = (props) => {
                                     size="small"
                                     placeholder="Bạn có yêu cầu gì dành cho shop?"
                                     sx={{ mb: 3 }}
+                                    value={state.note}
+                                    // onChange={(e) => e.target.value}
+                                    onChange={(e) => {
+                                        action.onChangeField("note", e.target.value);
+                                    }}
                                 />
 
                                 <Button

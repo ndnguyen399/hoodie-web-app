@@ -32,6 +32,7 @@ export const useStore = (props: PageProps) => {
         totalAmount: 0,
         selectedAmount: 0,
         selectAll: false,
+        note: '',
         loading: false
     });
 
@@ -194,32 +195,13 @@ export const useStore = (props: PageProps) => {
                 });
             }
         },
-        // clearCart: async () => {
-        //     setState(prev => ({
-        //         ...prev,
-        //         cartItems: [],
-        //         selectedItems: [],
-        //         totalAmount: 0,
-        //         selectedAmount: 0,
-        //     }));
-        //     // TODO: Gọi API clear cart
-        // },
-
-        // checkout: () => {
-        //     if (stateRef.current.selectedItems.length === 0) {
-        //         alert("Vui lòng chọn ít nhất một sản phẩm");
-        //         return;
-        //     }
-        //     // Chuyển sang trang thanh toán
-        //     // navigate('/checkout', { state: { selectedItems: stateRef.current.selectedItems } });
-        //     console.log("Proceeding to checkout with items:", stateRef.current.selectedItems);
-        // },
         submitCheckout: {
             excute: () => {
                 const selectedItems = stateRef.current.selectedItems;
                 const searchParams = new URLSearchParams({
                     totalAmount: String(stateRef.current.selectedAmount),
-                    selectedItems: encodeURIComponent(JSON.stringify(selectedItems))
+                    selectedItems: encodeURIComponent(JSON.stringify(selectedItems)),
+                    note: stateRef.current.note
                 });
 
                 return navigate({
@@ -227,6 +209,12 @@ export const useStore = (props: PageProps) => {
                     search: searchParams.toString()
                 });
             }
+        },
+        onChangeField: (item: string, newValue: any) => {
+            setState(prev => ({
+                ...prev,
+                [item]: newValue
+            }));
         },
     }), []);
 
