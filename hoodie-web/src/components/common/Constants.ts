@@ -9,6 +9,7 @@ const Constants : any= {
     routeHomePage: "/",
     routeLoginPage: "/sign-in",
     routeCheckOut: "/checkout",
+    routeProductDetail: "/product/detail",
     INITIAL_PAGE_SIZE: 10,
     ROLE_ADMIN: "ROLE_ADMIN",
     ROLE_CUSTOMER: "ROLE_CUSTOMER",
@@ -20,6 +21,7 @@ const Constants : any= {
     REUEST_TYPE_CREATE: "02",
     REUEST_TYPE_UPDATE: "03",
     REUEST_TYPE_DELETE: "04",
+    REUEST_TYPE_DETAIL: "05",
     FLAG_CHANGE_IMAGE_YES: "01",
     FLAG_CHANGE_IMAGE_NO: "02",
 };

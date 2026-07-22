@@ -9,6 +9,7 @@ import { ProductSearchViewApi } from "../api/ProductSearchViewApi";
 import { CategorySearchViewApi } from "../api/CategorySearchViewApi";
 import { CartSubmitViewApi } from "../api/CartSubmitViewApi";
 import Constants from "../common/Constants";
+import { useNavigate } from "react-router-dom";
 
 /**
  * useStore
@@ -19,6 +20,7 @@ import Constants from "../common/Constants";
 export const useStore = (props: PageProps) => {
     const { t } = useTranslation();
     const context = useApplicationContext();
+    const navigate = useNavigate();
 
     const [state, setState] = useState<PageState>({
         productSearchApplicationModel: {},
@@ -136,46 +138,19 @@ export const useStore = (props: PageProps) => {
                 });
             }
         },
-        // searchCategory: {
-        //     execute: async () => {
-        //         context.overlay
-        //             .open()
-        //             .execute(async () => {
-        //                 setState(prev => ({ ...prev, loading: true }));
-
-        //                 const response = await new CategorySearchViewApi().search({});
-
-        //                 setState(prev => ({
-        //                     ...prev,
-        //                     categorySearchDomainModel: response?.data,
-        //                     loading: false
-        //                 }));
-        //             });
-        //     }
-        // },
-        // searchProduct: {
-        //     execute: async () => {
-        //         context.overlay
-        //             .open()
-        //             .execute(async () => {
-        //                 setState(prev => ({ ...prev }));
-
-        //                 const response = await new ProductSearchViewApi().search({
-        //                     productId: stateRef.current.productSearchApplicationModel?.productId,
-        //                     categoryId: stateRef.current.productSearchApplicationModel?.categoryId,
-        //                     productName: stateRef.current.productSearchApplicationModel?.productName,
-        //                     minPrice: stateRef.current.productSearchApplicationModel?.minPrice,
-        //                     maxPrice: stateRef.current.productSearchApplicationModel?.maxPrice
-        //                 });
-
-        //                 setState(prev => ({
-        //                     ...prev,
-        //                     productSearchDomainModel: response?.data
-        //                 }));
-        //             });
-        //     }
-        // },
-        // Cập nhật filter và lọc local
+        handleDetailClick: {
+            execute: (productId: number) => {
+                const searchParams = new URLSearchParams({
+                    requestType: Constants.REUEST_TYPE_UPDATE,
+                    productId: String(productId),
+                });
+                navigate({
+                    pathname: Constants.routeProductDetail,
+                    search: searchParams.toString()
+                });
+                // navigate(`${Constants.routeProductRegistration}?requestType=${Constants.REUEST_TYPE_CREATE}`)
+            }
+        },
         updateFilters: (newFilters: Partial<typeof state.filters>) => {
             setState(prev => {
                 const updatedFilters = { ...prev.filters, ...newFilters };
@@ -188,7 +163,6 @@ export const useStore = (props: PageProps) => {
                 };
             });
         },
-
         // Tìm kiếm theo text (local)
         searchText: (text: string) => {
             action.updateFilters({ searchText: text });

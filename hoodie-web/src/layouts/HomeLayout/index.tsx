@@ -8,40 +8,86 @@ import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import React from 'react';
 import LinkCustom from '../../templates/LinkCustom';
+import { useTranslation } from '../../hooks/useTranslation';
+import { useApplicationContext } from '../../hooks/useApplicationContext';
+import { useAppParameters } from '../../hooks/useAppParameters';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/AuthProvider';
+import { AuthViewApi } from '../../components/api/AuthViewApi';
 
 // ==============================|| HOME LAYOUT (Protected) ||============================== //
 
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
+    const { t } = useTranslation();
+    const context = useApplicationContext();
+    const params = useAppParameters();
+    const navigate = useNavigate();
+    const { user } = useAuth();
+
     const [open, setOpen] = React.useState(false);
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpen(newOpen);
     };
-    
-    
-    
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     //     React.useState<null | HTMLElement>(null);
-
     const isMenuOpen = Boolean(anchorEl);
     // const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
     const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
-
     // const handleMobileMenuClose = () => {
     //     setMobileMoreAnchorEl(null);
     // };
-
     const handleMenuClose = () => {
         setAnchorEl(null);
         // handleMobileMenuClose();
     };
-
     // const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     //     setMobileMoreAnchorEl(event.currentTarget);
     // };
+
+    const handlehandleLogout = async () => {
+        try {
+            const refreshToken = localStorage.getItem("refreshToken");
+            const result = await new AuthViewApi().logout({
+                refreshToken: refreshToken ?? ""
+            });
+            const resultModel = result.data;
+            // let message = '';
+            // for (const item of resultModel) {
+                // message += `${resultModel.code}: ${resultModel.message}\n`;
+            // }
+            // await context.navigation.openInformationDialog(message);
+
+            // Xóa token
+            localStorage.removeItem("accessToken");
+            localStorage.removeItem("refreshToken");
+            sessionStorage.clear();
+
+            navigate('/sign-in', {
+                replace: true
+            });
+        } catch (error: any) {
+            const responseData = error?.payload;
+            if (responseData) {
+                let message = '';
+                if (responseData.data?.length) {
+                    for (const item of responseData.data) {
+                        message += `${item.code}: ${item.message}\n`;
+                    }
+                } else {
+                    message = responseData.message;
+                }
+                await context.navigation.openErrorDialog(message);
+            } else {
+                await context.navigation.openErrorDialog(t("label-internalServerError"));
+            }
+        } finally {
+            setAnchorEl(null);
+        } 
+    };
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -60,9 +106,12 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
         open={isMenuOpen}
         onClose={handleMenuClose}
         >
-        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+        {/* <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+        <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
+        {/* Nếu bạn muốn hiển thị thêm mục khác tùy theo user, hãy để vào đây */}
+        {user && <MenuItem onClick={handlehandleLogout}>Đăng xuất</MenuItem>}
         </Menu>
+        
     );
 
     // const mobileMenuId = 'primary-search-account-menu-mobile';
@@ -207,7 +256,7 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
                             <Typography sx={{ mb: 2, fontWeight: 'bold' }}>Danh mục & Sản phẩm</Typography>
                             <Stack>
                                 <LinkCustom sx={{ color: 'black' }}
-                                    content='Quản lý phân loại'
+                                    content='Quản lý lĩnh vực'
                                     icon={<CategoryOutlinedIcon sx={{ color: 'orange' }} />}
                                     iconPosition='start'
                                     href='/manage-category-search'

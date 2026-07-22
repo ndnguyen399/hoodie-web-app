@@ -220,6 +220,7 @@ public class AuthServiceImpl implements AuthService {
         entity.setRevokedAt(OffsetDateTime.now());
         refreshTokenRepository.save(entity);
         LogoutResponse response = new LogoutResponse();
+        response.setLoginUrl("/sign-in");
         return response;
     }
 }

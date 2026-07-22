@@ -2,12 +2,24 @@
 import { AppBar, Box, Divider, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import React from 'react';
+import { AuthViewApi } from '../../components/api/AuthViewApi';
+import { useApplicationContext } from '../../hooks/useApplicationContext';
+import { useAppParameters } from '../../hooks/useAppParameters';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from '../../hooks/useTranslation';
+import { useAuth } from '../../hooks/AuthProvider';
 
 // ==============================|| PROFILE LAYOUT (Protected) ||============================== //
 
-export default function ProfileLayout({ children }: { children: React.ReactNode }) {    
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+export default function ProfileLayout({ children }: { children: React.ReactNode }) {
+    const { t } = useTranslation();
+    const context = useApplicationContext();
+    const params = useAppParameters();
+    const navigate = useNavigate();
+    const { user } = useAuth();
+    
 
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const isMenuOpen = Boolean(anchorEl);
 
     const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -16,7 +28,47 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
 
     const handleMenuClose = () => {
         setAnchorEl(null);
-        // handleMobileMenuClose();
+    };
+
+    const handlehandleLogout = async () => {
+        try {
+            const refreshToken = localStorage.getItem("refreshToken");
+            const result = await new AuthViewApi().logout({
+                refreshToken: refreshToken ?? ""
+            });
+            const resultModel = result.data;
+            let message = '';
+            for (const item of resultModel) {
+                message += `${item.code}: ${item.message}\n`;
+            }
+            await context.navigation.openInformationDialog(message);
+
+            // Xóa token
+            localStorage.removeItem("accessToken");
+            localStorage.removeItem("refreshToken");
+            sessionStorage.clear();
+
+            navigate(resultModel.loginUrl, {
+                replace: true
+            });
+        } catch (error: any) {
+            const responseData = error?.payload;
+            if (responseData) {
+                let message = '';
+                if (responseData.data?.length) {
+                    for (const item of responseData.data) {
+                        message += `${item.code}: ${item.message}\n`;
+                    }
+                } else {
+                    message = responseData.message;
+                }
+                await context.navigation.openErrorDialog(message);
+            } else {
+                await context.navigation.openErrorDialog(t("label-internalServerError"));
+            }
+        } finally {
+            setAnchorEl(null);
+        } 
     };
 
     const menuId = 'primary-search-account-menu';
@@ -53,24 +105,65 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
                         <Divider />
                     </AppBar>
                     {/* {renderMobileMenu} */}
-                    <Menu
-                        anchorEl={anchorEl}
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        id={menuId}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        open={isMenuOpen}
-                        onClose={handleMenuClose}
-                    >
-                        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-                        <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-                    </Menu>
+                    {user ? (
+                        <Menu
+                            anchorEl={anchorEl}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            id={menuId}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            open={isMenuOpen}
+                            onClose={handleMenuClose}
+                        >
+                            <MenuItem onClick={handleMenuClose}>
+                                Tài khoản của tôi
+                            </MenuItem>
+
+                            <MenuItem onClick={handlehandleLogout}>
+                                Đăng xuất
+                            </MenuItem>
+                        </Menu>
+                    ) : (
+                        <Menu
+                            anchorEl={anchorEl}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            id={menuId}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            open={isMenuOpen}
+                            onClose={handleMenuClose}
+                        >
+                            <MenuItem
+                                onClick={() => {
+                                    handleMenuClose();
+                                    navigate("/sign-in");
+                                }}
+                            >
+                                Đăng nhập
+                                </MenuItem>
+
+                                <MenuItem
+                                    onClick={() => {
+                                        handleMenuClose();
+                                        navigate("/sign-up");
+                                    }}
+                                >
+                                    Đăng ký
+                                </MenuItem>
+                         </Menu>
+                    )}
                 </Box>
             </Box>
             <Box sx={{

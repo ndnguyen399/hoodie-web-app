@@ -2,7 +2,7 @@
  * @author duynguyen © 2025
  */
 import { useState } from 'react';
-import { AppBar, Box, Button, Link, useMediaQuery, useTheme } from '@mui/material';
+import { AppBar, Box, Button, Link, MenuItem, useMediaQuery, useTheme } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 // import SearchIcon from '@mui/icons-material/Search';
 // import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -13,13 +13,21 @@ import ContentText from '../../assets/content-text.json';
 import Image from '../Image';
 import Images from '../../utils/Images';
 import Menu from '../Menu/Menu';
+import { useTranslation } from '../../hooks/useTranslation';
+import { useApplicationContext } from '../../hooks/useApplicationContext';
+import { useAppParameters } from '../../hooks/useAppParameters';
+import { useAuth } from '../../hooks/AuthProvider';
+import { AuthViewApi } from '../../components/api/AuthViewApi';
 // import MenuSearch from '../MenuSearch/MenuSearch';
 
 // ==============================|| Header ||============================== //
 
 export default function Header() {
-
+  const { t } = useTranslation();
+  const context = useApplicationContext();
+  const params = useAppParameters();
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.only('xs'));
@@ -43,6 +51,58 @@ export default function Header() {
       navigate('/');
     }
   };
+
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const isMenuOpen = Boolean(anchorEl);
+
+    const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+
+  const handlehandleLogout = async () => {
+    try {
+        const refreshToken = localStorage.getItem("refreshToken");
+        const result = await new AuthViewApi().logout({
+            refreshToken: refreshToken ?? ""
+        });
+        const resultModel = result.data;
+        let message = '';
+        for (const item of resultModel) {
+            message += `${item.code}: ${item.message}\n`;
+        }
+        await context.navigation.openInformationDialog(message);
+
+        // Xóa token
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        sessionStorage.clear();
+
+        navigate(resultModel.loginUrl, {
+            replace: true
+        });
+    } catch (error: any) {
+        const responseData = error?.payload;
+        if (responseData) {
+            let message = '';
+            if (responseData.data?.length) {
+                for (const item of responseData.data) {
+                    message += `${item.code}: ${item.message}\n`;
+                }
+            } else {
+                message = responseData.message;
+            }
+            await context.navigation.openErrorDialog(message);
+        } else {
+            await context.navigation.openErrorDialog(t("label-internalServerError"));
+        }
+    } finally {
+        toggleDrawerMenu();
+    } 
+    };
 
   return (
     <AppBar 
@@ -141,7 +201,7 @@ export default function Header() {
               </Button>
               <Button
                 sx={{ color: "black" }}
-                onClick={() => navigate("/profile")}
+                onClick={() => navigate("/sign-in")}
               >
                 <PersonOutlineIcon />
               </Button>

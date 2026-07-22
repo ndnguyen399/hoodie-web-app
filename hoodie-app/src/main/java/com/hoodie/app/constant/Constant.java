@@ -41,6 +41,7 @@ public final class Constant {
     public static final String CONSTANT_SUBMIT_REQUEST_TYPE_CREATE = "02";
     public static final String CONSTANT_SUBMIT_REQUEST_TYPE_UPDATE = "03";
     public static final String CONSTANT_SUBMIT_REQUEST_TYPE_DELETE = "04";
+    public static final String CONSTANT_SUBMIT_REQUEST_TYPE_DETAIL = "05";
 
     // Paths
     public static final String DELETE_FLAG_ZERO = "0";

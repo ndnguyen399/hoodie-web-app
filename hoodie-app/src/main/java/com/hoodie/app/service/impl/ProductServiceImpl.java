@@ -101,6 +101,8 @@ public class ProductServiceImpl implements ProductService {
         case Constant.CONSTANT_SUBMIT_REQUEST_TYPE_UPDATE:
             results = productSearchService.search(productSearchApplicationModel);
             break;
+        case Constant.CONSTANT_SUBMIT_REQUEST_TYPE_DETAIL:
+            results = productSearchService.search(productSearchApplicationModel);
         default:
             break;
         }

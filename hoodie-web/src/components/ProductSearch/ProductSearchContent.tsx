@@ -189,6 +189,7 @@ export const ProductSearchContent: React.FC<PageProps> = (props) => {
                                                     alt={item.productName}
                                                     src={primaryImage?.imageUrl ?? "/images/no-image.png"}
                                                     style={{ width: '100%', height: viewMode === 'grid' ? 260 : 220, objectFit: 'cover' }}
+                                                    onClick={() => action.handleDetailClick.execute(item.productId)}
                                                 />
                                             </CardMedia>
                                             <CardContent>

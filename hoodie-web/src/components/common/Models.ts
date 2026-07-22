@@ -616,6 +616,10 @@ export interface ProductSubmitApplicationModel {
      */
     categoryId?: number;
     /**
+     * categoryName
+     */
+    categoryName?: string;
+    /**
      * productName
      */
     productName?: string;
@@ -636,9 +640,17 @@ export interface ProductSubmitApplicationModel {
      */
     ageGroup?: string;
     /**
+     * age group
+     */
+    ageGroupName?: string;
+    /**
      * skill stem type
      */
     skillStemType?: string;
+    /**
+     * skill stem type
+     */
+    skillStemTypename?: string;
     /**
      * video url
      */
@@ -647,6 +659,10 @@ export interface ProductSubmitApplicationModel {
      * difficulty level
      */
     difficultyLevel?: string;
+    /**
+     * difficulty level
+     */
+    difficultyLevelName?: string;
     /**
      * safety certifications
      */

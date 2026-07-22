@@ -18,6 +18,7 @@ import { Cart } from '../components/Cart';
 import ProfileLayout from '../layouts/ProfileLayout';
 import { Checkout } from '../components/Checkout';
 import { PaymentSuccess } from '../components/PaymentSuccess';
+import { ProductDetail } from '../components/ProductDetail';
 
 // Page Private
 // import CategoryPage from '~/views/Category';
@@ -47,6 +48,11 @@ const PublicRoutes: RouteItem[] = [
   //   component: ProductSearchView,
   //   layout: GuestLayout,
   // },
+  {
+    path: '/product/detail',
+    component: ProductDetail,
+    layout: GuestLayout,
+  },
   {
     path: '/sign-in',
     component: Login,
