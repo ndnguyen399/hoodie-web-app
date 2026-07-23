@@ -71,7 +71,7 @@ public class User implements UserDetails {
     private Date birthDate;
 
     @Column(name = "gender", length = 10)
-    private Date gender;
+    private String gender;
 
     @Column(name = "note", length = 255)
     private String note;

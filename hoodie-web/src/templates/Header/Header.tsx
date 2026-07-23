@@ -18,6 +18,7 @@ import { useApplicationContext } from '../../hooks/useApplicationContext';
 import { useAppParameters } from '../../hooks/useAppParameters';
 import { useAuth } from '../../hooks/AuthProvider';
 import { AuthViewApi } from '../../components/api/AuthViewApi';
+import Constants from '../../components/common/Constants';
 // import MenuSearch from '../MenuSearch/MenuSearch';
 
 // ==============================|| Header ||============================== //
@@ -201,7 +202,14 @@ export default function Header() {
               </Button>
               <Button
                 sx={{ color: "black" }}
-                onClick={() => navigate("/sign-in")}
+                onClick={() => 
+                {
+                  if (user) {
+                    navigate(Constants.routeProfile)
+                  } else {
+                    navigate("/sign-in")
+                  }
+                }}
               >
                 <PersonOutlineIcon />
               </Button>

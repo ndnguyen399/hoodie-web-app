@@ -904,3 +904,158 @@ export interface ChatbotMessagesApplicationModel {
      */
     inputText?: string;
 }
+/**
+ * ProfileInitialApplicationModel
+ */
+export interface ProfileInitialApplicationModel {
+
+}
+/**
+ * ProfileDomainModel
+ */
+export interface ProfileDomainModel {
+    // /**
+    //  * changeImageFlag
+    //  */
+    // changeImageFlag?: string;
+    /**
+     * userId
+     */
+    userId?: number;
+    /**
+     * fullName
+     */
+    fullName?: string;
+    /**
+     * email
+     */
+    email?: string;
+    /**
+     * phone
+     */
+    phone?: string;
+    /**
+     * avatarUrl
+     */
+    avatarUrl?: string;
+    /**
+     * birthDate
+     */
+    birthDate?: Date;
+    /**
+     * gender
+     */
+    gender?: string;
+    /**
+     * note
+     */
+    note?: string;
+    /**
+     * reserveItem01
+     */
+    reserveItem01?: string;
+    /**
+     * reserveItem02
+     */
+    reserveItem02?: string;
+    /**
+     * reserveItem03
+     */
+    reserveItem03?: string;
+    /**
+     * reserveItem04
+     */
+    reserveItem04?: string;
+    /**
+     * reserveItem05
+     */
+    reserveItem05?: string;
+    /**
+     * createdAt
+     */
+    createdAt?: Date;
+    /**
+     * updatedAt
+     */
+    updatedAt?: Date;
+}
+/**
+ * UserAddressesDomainModel
+ */
+export interface UserAddressesDomainModel {
+    /**
+     * address_id
+     */
+    addressId?: number;
+    /**
+     * userId
+     */
+    userId?: number;
+    /**
+     * recipientName
+     */
+    recipientName?: string;
+    /**
+     * phone
+     */
+    phone?: string;
+    /**
+     * street
+     */
+    street?: string;
+    /**
+     * ward
+     */
+    ward?: string;
+    /**
+     * district
+     */
+    district?: string;
+    /**
+     * city
+     */
+    city?: string;
+    /**
+     * is_default
+     */
+    isDefault?: string;
+    /**
+     * reserveItem01
+     */
+    reserveItem01?: string;
+    /**
+     * reserveItem02
+     */
+    reserveItem02?: string;
+    /**
+     * reserveItem03
+     */
+    reserveItem03?: string;
+    /**
+     * reserveItem04
+     */
+    reserveItem04?: string;
+    /**
+     * reserveItem05
+     */
+    reserveItem05?: string;
+    /**
+     * createdAt
+     */
+    createdAt?: Date;
+    /**
+     * updatedAt
+     */
+    updatedAt?: Date;
+}
+/**
+ * UserAddressInitialApplicationModel
+ */
+export interface UserAddressInitialApplicationModel {
+    recipientName?: string;
+    phone?: string;
+    street?: string;
+    ward?: string;
+    district?: string;
+    city?: string;
+}

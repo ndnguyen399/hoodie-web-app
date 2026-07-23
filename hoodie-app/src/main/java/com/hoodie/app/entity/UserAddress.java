@@ -32,10 +32,10 @@ public class UserAddress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "address_id")
-    private Long addressId;
+    private Integer addressId;
 
     @Column(name = "user_id")
-    private Integer userId;
+    private Long userId;
 
     @Column(name = "recipient_name", nullable = false, length = 150)
     private String recipientName;
