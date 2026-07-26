@@ -44,8 +44,13 @@ export const ChatBotContent: React.FC<PageProps> = (props) => {
 
     // Mở chat tự động tin nhắn chào nếu chưa có
     useEffect(() => {
-        if (isOpen && state.chatbotMessagesDomainModel?.search?.length === 0) {
+        // if (isOpen && state.chatbotMessagesDomainModel?.search?.length === 0) {
+        //     action.load();
+        // }
+        if (isOpen && !state.hasInitializedChat) {
             action.load();
+            // Đánh dấu là đã khởi tạo/mở lần đầu
+            state.hasInitializedChat = true;
         }
     }, [isOpen]);
 
@@ -158,9 +163,18 @@ export const ChatBotContent: React.FC<PageProps> = (props) => {
                                         borderRadius: msg.reserveItem01 == '01' ? '18px 18px 18px 6px' : '18px 18px 6px 18px',
                                         bgcolor: msg.reserveItem01 == '01' ? '#fff' : 'primary.main',
                                         color: msg.reserveItem01 == '01' ? 'text.primary' : '#fff',
+                                        wordBreak: 'break-word',
+                                        overflowWrap: 'break-word',
+                                        whiteSpace: 'pre-wrap',
                                     }}
                                 >
-                                    <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>
+                                    <Typography variant="body2" 
+                                        sx={{
+                                            whiteSpace: 'pre-wrap',
+                                            wordBreak: 'break-word',
+                                            overflowWrap: 'anywhere',
+                                        }}
+                                    >
                                         {msg.content}
                                     </Typography>
                                 </Paper>
@@ -197,8 +211,17 @@ export const ChatBotContent: React.FC<PageProps> = (props) => {
                             />
                             <IconButton
                                 color="primary"
-                                // onClick={handleSend}
+                                onClick={action.submitSentMessageChatbot.execute}
                                 disabled={!state.chatbotMessagesApplicationModel?.inputText?.trim()}
+                                sx={{
+                                    cursor: 'pointer'
+                                }}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter" && !e.shiftKey) {
+                                        e.preventDefault();
+                                        action.submitSentMessageChatbot.execute();
+                                    }
+                                }}
                             >
                                 <SendIcon />
                             </IconButton>

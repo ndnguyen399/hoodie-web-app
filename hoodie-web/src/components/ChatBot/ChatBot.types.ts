@@ -11,6 +11,7 @@ export interface PageProps {
 export interface PageState {
   chatbotMessagesApplicationModel: ChatbotMessagesApplicationModel;
   chatbotMessagesDomainModel: SearchResponse<ChatbotMessagesDomainModel>;
+  hasInitializedChat: boolean;
   isTyping: boolean;
   loading: boolean;
 }
