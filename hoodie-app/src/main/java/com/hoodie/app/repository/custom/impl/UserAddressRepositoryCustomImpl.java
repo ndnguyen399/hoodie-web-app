@@ -67,6 +67,9 @@ public class UserAddressRepositoryCustomImpl implements UserAddressRepositoryCus
         if (CheckLogic.isValidId(currentUser.getUserId())) {
             conditions.add(T.USER_ID.eq(currentUser.getUserId().intValue()));
         }
+        if (CheckLogic.isTrue(request.getIsDefault())) {
+            conditions.add(T.IS_DEFAULT.eq(request.getIsDefault()));
+        }
         conditions.add(T.DELETE_FLAG.eq(DEFAULT_DELETE_FLAG));
 
         return dsl.select(DSL.countDistinct(T.ADDRESS_ID)).from(T).where(conditions).fetchOne().into(Long.class);
@@ -85,6 +88,9 @@ public class UserAddressRepositoryCustomImpl implements UserAddressRepositoryCus
             conditions.add(T.USER_ID.eq(currentUser.getUserId().intValue()));
         }
 
+        if (CheckLogic.isTrue(request.getIsDefault())) {
+            conditions.add(T.IS_DEFAULT.eq(request.getIsDefault()));
+        }
         conditions.add(T.DELETE_FLAG.eq(DEFAULT_DELETE_FLAG));
 
         return dsl

@@ -75,6 +75,7 @@ const PrivateRoutes: RouteItem[] = [
   {
     path: '/user/profile',
     component: Profile,
+    layout: ProfileLayout,
   },
   {
     path: '/cart',

@@ -62,6 +62,9 @@ public class UserAddressServiceImpl implements UserAddressService {
         case Constant.CONSTANT_SUBMIT_REQUEST_TYPE_UPDATE:
             break;
         case Constant.CONSTANT_SUBMIT_REQUEST_TYPE_DETAIL:
+            request.getModel().setIsDefault(true);
+            results = userAddressRepository.search(currentUser, request.getModel());
+            break;
         default:
             break;
         }

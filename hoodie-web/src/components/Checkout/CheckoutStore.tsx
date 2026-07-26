@@ -10,7 +10,8 @@ import { useNavigate } from "react-router-dom";
 import Constants from "../common/Constants";
 import { CheckoutSubmitViewApi } from "../api/CheckoutSubmitViewApi";
 import { PaymentSubmitViewApi } from "../api/PaymentSubmitViewApi";
-import type { CheckoutInitialDomainModel, CheckoutSubmitApplicationModel } from "../common/Models";
+import type { CheckoutSubmitApplicationModel } from "../common/Models";
+import { UserAddressSubmitViewApi } from "../api/UserAddressSubmitViewApi";
 
 /**
  * useStore
@@ -27,6 +28,7 @@ export const useStore = (props: PageProps) => {
     const [state, setState] = useState<PageState>({
         checkoutInitialDomainModel: {},
         checkoutSubmitApplicationModel: {},
+        userAddressesDomainModel: {},
         selectedItems: JSON.parse(decodeURIComponent(params.get('selectedItems') || '[]')),
         totalAmount: Number(params.get("totalAmount")) ?? 0,
         shippingAmount: 30000,
@@ -49,6 +51,10 @@ export const useStore = (props: PageProps) => {
                             listId: stateRef.current.selectedItems
                         }
                     });
+                    const responseOfUserAddress = await new UserAddressSubmitViewApi().initial({
+                        requestType: Constants.REUEST_TYPE_DETAIL,
+                        model: {}
+                    });
                     setState(prev => ({
                         ...prev,
                         checkoutInitialDomainModel: {
@@ -57,7 +63,8 @@ export const useStore = (props: PageProps) => {
                         },
                         checkoutSubmitApplicationModel: {
                             note: params.get('note') || '',
-                        }
+                        },
+                        userAddressesDomainModel: responseOfUserAddress.data.search[0] || []
                     }));
                 } catch (error: any) {
                     const responseData = error?.payload;

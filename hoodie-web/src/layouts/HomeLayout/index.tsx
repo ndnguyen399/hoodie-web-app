@@ -6,6 +6,10 @@ import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
+import QueryStatsOutlinedIcon from '@mui/icons-material/QueryStatsOutlined';
+import FeedOutlinedIcon from '@mui/icons-material/FeedOutlined';
+import FilterFramesOutlinedIcon from '@mui/icons-material/FilterFramesOutlined';
 import React from 'react';
 import LinkCustom from '../../templates/LinkCustom';
 import { useTranslation } from '../../hooks/useTranslation';
@@ -252,7 +256,43 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
                     </Box>
                     <Box sx={{ mx: 3 }}>
                         <Divider />
-                        <Box sx={{ mt: 1, mb: 5 }}>
+                        <Box sx={{ mt: 1, mb: 1 }}>
+                            <Typography sx={{ mb: 2, fontWeight: 'bold' }}>Biểu đồ thống kê</Typography>
+                            <Stack>
+                                <LinkCustom sx={{ color: 'black' }}
+                                    content='Biểu đồ doanh thu'
+                                    icon={<QueryStatsOutlinedIcon sx={{ color: 'green' }} />}
+                                    iconPosition='start'
+                                    href='/manage-user-search'
+                                />
+                                {/* <LinkCustom sx={{ color: 'black' }}
+                                    content='Quản lý sản phẩm'
+                                    icon={<Inventory2OutlinedIcon sx={{ color: 'red' }} />}
+                                    iconPosition='start'
+                                    href='/manage-product-search'
+                                /> */}
+                            </Stack>
+                        </Box>
+                        <Divider />
+                        <Box sx={{ mt: 1, mb: 1 }}>
+                            <Typography sx={{ mb: 2, fontWeight: 'bold' }}>Tài khoản Người dùng</Typography>
+                            <Stack>
+                                <LinkCustom sx={{ color: 'black' }}
+                                    content='Quản lý tài khoản người dùng'
+                                    icon={<PersonSearchOutlinedIcon sx={{ color: 'orange' }} />}
+                                    iconPosition='start'
+                                    href='/manage-user-search'
+                                />
+                                {/* <LinkCustom sx={{ color: 'black' }}
+                                    content='Quản lý sản phẩm'
+                                    icon={<Inventory2OutlinedIcon sx={{ color: 'red' }} />}
+                                    iconPosition='start'
+                                    href='/manage-product-search'
+                                /> */}
+                            </Stack>
+                        </Box>
+                        <Divider />
+                        <Box sx={{ mt: 1, mb: 1 }}>
                             <Typography sx={{ mb: 2, fontWeight: 'bold' }}>Danh mục & Sản phẩm</Typography>
                             <Stack>
                                 <LinkCustom sx={{ color: 'black' }}
@@ -267,23 +307,41 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
                                     iconPosition='start'
                                     href='/manage-product-search'
                                 />
+                            </Stack>
+                        </Box>
+                        <Divider />
+                        <Box sx={{ mt: 1, mb: 1 }}>
+                            <Typography sx={{ mb: 2, fontWeight: 'bold' }}>Đơn hàng & Đánh giá</Typography>
+                            <Stack>
+                                <LinkCustom sx={{ color: 'black' }}
+                                    content='Quản lý đơn đặt hàng'
+                                    icon={<FilterFramesOutlinedIcon sx={{ color: 'orange' }} />}
+                                    iconPosition='start'
+                                    href='/manage-category-search'
+                                />
+                                <LinkCustom sx={{ color: 'black' }}
+                                    content='Quản lý phản hồi đánh giá'
+                                    icon={<FeedOutlinedIcon sx={{ color: 'red' }} />}
+                                    iconPosition='start'
+                                    href='/manage-product-search'
+                                />
+                            </Stack>
+                        </Box>
+                        <Divider />
+                        <Box sx={{ mt: 1, mb: 5 }}>
+                            <Typography sx={{ mb: 2, fontWeight: 'bold' }}>Khuyến mãi & Giảm giá</Typography>
+                            <Stack>
+                                <LinkCustom sx={{ color: 'black' }}
+                                    content='Quản lý chương trình mã giảm giá'
+                                    icon={<PersonSearchOutlinedIcon sx={{ color: 'orange' }} />}
+                                    iconPosition='start'
+                                    href='/manage-user-search'
+                                />
                                 {/* <LinkCustom sx={{ color: 'black' }}
-                                    content='Scented candles help relax'
-                                    icon={<SelfImprovementOutlinedIcon sx={{ color: 'purple' }} />}
+                                    content='Quản lý sản phẩm'
+                                    icon={<Inventory2OutlinedIcon sx={{ color: 'red' }} />}
                                     iconPosition='start'
-                                    href='#'
-                                />
-                                <LinkCustom sx={{ color: 'black' }}
-                                    content='Make scented candles according to your style'
-                                    icon={<DashboardCustomizeOutlinedIcon sx={{ color: 'orange' }} />}
-                                    iconPosition='start'
-                                    href='#'
-                                />
-                                <LinkCustom sx={{ color: 'black' }}
-                                    content='Give us your feedback'
-                                    icon={<SendToMobileOutlinedIcon sx={{ color: 'green' }} />}
-                                    iconPosition='start'
-                                    href='#'
+                                    href='/manage-product-search'
                                 /> */}
                             </Stack>
                         </Box>

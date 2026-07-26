@@ -206,6 +206,48 @@ export const ProductDetailContent: React.FC<PageProps> = (props) => {
                     <Divider sx={{ my: 4 }} />
                 </Grid>
             </Grid>
+            <Typography variant="h5" fontWeight="bold" sx={{mt: 2}}>
+                Video hướng dẫn sử dụng
+            </Typography>
+            <Box
+                sx={{
+                    width: '100%',
+                    height: "80vh",
+                    // maxWidth: '800px', // Đặt giới hạn chiều rộng nếu muốn
+                    mb: 5,
+                    mt: 2,
+                    mx: 'auto',        // Canh giữa video
+                    borderRadius: '8px',
+                    overflow: 'hidden',
+                    boxShadow: 3,      // Đổ bóng cho đẹp
+                    backgroundColor: 'black',
+                }}
+                >
+                {/* <video
+                    width="100%"
+                    height="auto"
+                    controls
+                    preload="metadata"
+                    style={{ display: 'block' }}
+                >
+                    <source src={state.productSubmitApplicationModel?.videoUrl} type="video/mp4" />
+                    Trình duyệt của bạn không hỗ trợ thẻ video.
+                </video> */}
+                <iframe 
+                    width="100%"
+                    height="100%"
+                    // controls
+                    // preload="metadata"
+                    style={{ display: 'block' }}
+                    // src="https://www.youtube.com/embed/DCD6ONGyF-c?si=itIkvo2360vqad0w"
+                    src={state.productSubmitApplicationModel?.videoUrl}
+                    title="YouTube video player" 
+                    // frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    // referrerpolicy="strict-origin-when-cross-origin" 
+                    // allowfullscreen
+                ></iframe>
+            </Box>
         </Container>
     );
 };

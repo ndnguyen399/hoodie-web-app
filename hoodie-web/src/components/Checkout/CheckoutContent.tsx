@@ -57,26 +57,42 @@ export const CheckoutContent: React.FC<PageProps> = (props) => {
                             Thông tin giao hàng
                         </Typography>
 
-                        <Grid container spacing={2}>
-                            <Grid size={{ xs: 12, sm: 12 }}>
-                                <Box sx={{ display: 'flex', alignItems: 'center'}}>
-                                    <Typography fontWeight='500'>Họ và tên: </Typography>
-                                    <Typography>nguyen</Typography>
-                                </Box>
+                        {state.userAddressesDomainModel.addressId? (
+                            <Grid container spacing={2}>
+                                <Grid size={{ xs: 12, sm: 12 }}>
+                                    <Box sx={{ display: 'flex', alignItems: 'center'}}>
+                                        <Typography fontWeight='500'>Họ và tên: </Typography>
+                                        <Typography>{state.userAddressesDomainModel.recipientName || ""}</Typography>
+                                    </Box>
+                                </Grid>
+                                <Grid size={{ xs: 12, sm: 12 }}>
+                                    <Box sx={{ display: 'flex', alignItems: 'center'}}>
+                                        <Typography fontWeight='500'>Số điện thoại: </Typography>
+                                        <Typography>{state.userAddressesDomainModel.phone || ""}</Typography>
+                                    </Box>
+                                </Grid>
+                                <Grid size={{ xs: 12 }}>
+                                    <Box sx={{ display: 'flex', alignItems: 'center'}}>
+                                        <Typography fontWeight='500'>Địa chỉ: </Typography>
+                                        <Typography>
+                                            {state.userAddressesDomainModel.street || ""}, 
+                                            {state.userAddressesDomainModel.ward || ""}, 
+                                            {state.userAddressesDomainModel.district || ""}, 
+                                            {state.userAddressesDomainModel.city || ""}
+                                        </Typography>
+                                    </Box>
+                                </Grid>
                             </Grid>
-                            <Grid size={{ xs: 12, sm: 12 }}>
-                                <Box sx={{ display: 'flex', alignItems: 'center'}}>
-                                    <Typography fontWeight='500'>Số điện thoại: </Typography>
-                                    <Typography>nguyen</Typography>
-                                </Box>
+                        ) : (
+                            <Grid container spacing={2}>
+                                <Grid size={{ xs: 12, sm: 12 }}>
+                                    <Box sx={{ display: 'flex', alignItems: 'center'}}>
+                                        <Typography fontWeight='500'>Bạn chưa có địa chỉ vui lòng thêm địa chỉ và thử lại sau </Typography>
+                                    </Box>
+                                </Grid>
                             </Grid>
-                            <Grid size={{ xs: 12 }}>
-                                <Box sx={{ display: 'flex', alignItems: 'center'}}>
-                                    <Typography fontWeight='500'>Địa chỉ: </Typography>
-                                    <Typography>nguyen</Typography>
-                                </Box>
-                            </Grid>
-                        </Grid>
+                        )}
+                        
                     </Paper>
 
                     {/* Phương thức thanh toán */}

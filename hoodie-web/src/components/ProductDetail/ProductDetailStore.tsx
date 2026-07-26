@@ -47,23 +47,15 @@ export const useStore = (props: PageProps) => {
                             productId: Number(params.get("productId"))!
                         }
                     });
-                    // const images = response.data?.search?.[0]?.listImages?.map((item: any) => ({
-                    //     imageId: item.imageId,
-                    //     imageUrl: item.imageUrl,
-                    //     name:
-                    //         item.altText ||
-                    //         item.imageUrl?.split('/').pop() ||
-                    //         '',
-                    //     isNew: false
-                    // })) || [];
-                        
+                    
                     setState(prev => ({
                         ...prev,
                         listImages: response.data?.search[0]?.listImages,
                         productSubmitApplicationModel: response.data?.search?.[0],
                         selectedImageIndex: 0,
-                        // images
                     }));
+
+                    console.log("voedi: ", response.data?.search?.[0])
                 } catch (error: any) {
                     const responseData = error?.payload;
                     if (responseData) {

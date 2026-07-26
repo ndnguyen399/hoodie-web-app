@@ -18,4 +18,5 @@ public class UserAddressInitialApplicationModel {
     private String ward;
     private String district;
     private String city;
+    private Boolean isDefault;
 }
