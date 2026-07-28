@@ -53,8 +53,11 @@ public class Order {
     @Column(name = "note", length = 255)
     private String note;
 
+//    @Column(name = "promotion_code", length = 100)
+//    private String promotionCode;
+
     @Column(name = "reserve_item01", length = 255)
-    private String reserveItem01;
+    private String reserveItem01; // as promotionCode
 
     @Column(name = "reserve_item02", length = 255)
     private String reserveItem02;

@@ -20,6 +20,7 @@ import { Checkout } from '../components/Checkout';
 import { PaymentSuccess } from '../components/PaymentSuccess';
 import { ProductDetail } from '../components/ProductDetail';
 import { Profile } from '../components/Profile';
+import { OrderDetail } from '../components/OrderDetail';
 
 // Page Private
 // import CategoryPage from '~/views/Category';
@@ -72,6 +73,11 @@ const PrivateRoutes: RouteItem[] = [
   //   component: Dashboard,
   //   layout: HomeLayout,
   // },
+  {
+    path: '/user/product/view-detail',
+    component: OrderDetail,
+    layout: ProfileLayout,
+  },
   {
     path: '/user/profile',
     component: Profile,

@@ -980,9 +980,9 @@ export interface ProfileDomainModel {
     updatedAt?: Date;
 }
 /**
- * UserAddressesDomainModel
+ * UserAddressSearchDomainModel
  */
-export interface UserAddressesDomainModel {
+export interface UserAddressSearchDomainModel {
     /**
      * address_id
      */
@@ -1058,4 +1058,47 @@ export interface UserAddressInitialApplicationModel {
     ward?: string;
     district?: string;
     city?: string;
+}
+/**
+ * OrderSearchApplicationModel
+ */
+export interface OrderSearchApplicationModel {
+    orderId?: number;
+}
+/**
+ * OrderSearchDomainModel
+ */
+export interface OrderSearchDomainModel {
+    orderId?: number;
+    subtotal?: number;
+    shippingFee?: number;
+    totalAmount?: number;
+    orderStatus?: string;
+    note?: string;
+    promotionCode?: string;
+    createdAt?: Date;
+    address?: UserAddressSearchDomainModel;
+    payment?: PaymentSearchDomainModel;
+    items?: OrderItemSearchDomainModel[];
+}
+/**
+ * OrderItemSearchDomainModel
+ */
+export interface OrderItemSearchDomainModel {
+    productId: number;
+    productName: string;
+    unitPrice: number;
+    quantity: number;
+    totalPrice: number;
+}
+/**
+ * PaymentSearchDomainModel
+ */
+export interface PaymentSearchDomainModel {
+    paymentMethod: string;
+    paymentStatus: string;
+    amount: number;
+    paidAt: Date;
+    gateway: string;
+    transactionRef: string;
 }

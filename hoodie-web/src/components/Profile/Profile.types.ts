@@ -1,7 +1,7 @@
 /**
  * @author duynguyen © 2025
  */
-import type { CodeSearchDomainModel, ProfileDomainModel, SearchResponse, UserAddressesDomainModel, UserAddressInitialApplicationModel } from "../common/Models";
+import type { CodeSearchDomainModel, OrderSearchDomainModel, ProfileDomainModel, SearchResponse, UserAddressSearchDomainModel, UserAddressInitialApplicationModel } from "../common/Models";
 
 export interface PageProps {
   isPanel?: boolean;
@@ -10,7 +10,8 @@ export interface PageProps {
 
 export interface PageState {
   profileDomainModel: ProfileDomainModel;
-  userAddressesDomainModel: SearchResponse<UserAddressesDomainModel>;
+  userAddressesDomainModel: SearchResponse<UserAddressSearchDomainModel>;
+  orderSearchDomainModel: SearchResponse<OrderSearchDomainModel>;
   images?: ProfileImageViewModel[];
   genderAC?: SearchResponse<CodeSearchDomainModel>;
   editing: boolean;

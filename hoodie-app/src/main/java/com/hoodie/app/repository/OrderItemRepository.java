@@ -14,4 +14,6 @@ import com.hoodie.app.entity.OrderItem;
  */
 public interface OrderItemRepository extends JpaRepository<OrderItem, Integer> {
     List<OrderItem> findByOrderIdAndDeleteFlag(Integer orderId, String deleteFlag);
+
+    List<OrderItem> findByOrderIdInAndDeleteFlag(List<Integer> orderIds, String deleteFlag);
 }

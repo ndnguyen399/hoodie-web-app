@@ -11,6 +11,7 @@ import { ProfileSubmitViewApi } from "../api/ProfileSubmitViewApi";
 import type { CodeSearchDomainModel, ProfileDomainModel, UserAddressInitialApplicationModel } from "../common/Models";
 import { CodeSearchViewApi } from "../api/CodeSearchViewApi";
 import { UserAddressSubmitViewApi } from "../api/UserAddressSubmitViewApi";
+import { OrderSearchViewApi } from "../api/OrderSearchViewApi";
 
 /**
  * useStore
@@ -26,6 +27,7 @@ export const useStore = (props: PageProps) => {
     const [state, setState] = useState<PageState>({
         profileDomainModel: {},
         userAddressesDomainModel: {},
+        orderSearchDomainModel: {},
         images: [],
         genderAC: {},
         activeTab: 0,
@@ -55,11 +57,13 @@ export const useStore = (props: PageProps) => {
                         requestType: Constants.REUEST_TYPE_INITIAL,
                         model: {}
                     });
-                    console.log("responseOfUserAddress: ", responseOfUserAddress.data?.search)
+                    const responseOfOrder = await new OrderSearchViewApi().search({});
+                    console.log("responseOfOrder.data: ", responseOfOrder.data.search)
                     setState(prev => ({
                         ...prev,
                         profileDomainModel: responseOfProfile.data?.search?.[0],
-                        userAddressesDomainModel: responseOfUserAddress.data
+                        userAddressesDomainModel: responseOfUserAddress.data,
+                        orderSearchDomainModel: responseOfOrder.data
                     }));
                 } catch (error: any) {
                     const responseData = error?.payload;
@@ -78,6 +82,18 @@ export const useStore = (props: PageProps) => {
                     }
                     navigate(-1)
                 }
+            });
+        },
+        viewOrderDetail: (
+            orderId: number,
+        ) => {
+            const searchParams = new URLSearchParams({
+                requestType: Constants.REUEST_TYPE_UPDATE,
+                orderId: String(orderId),
+            });
+            navigate({
+                pathname: Constants.routeViewDetail,
+                search: searchParams.toString()
             });
         },
         setActiveTab: (tab: number) => {

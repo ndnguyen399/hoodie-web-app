@@ -2,10 +2,9 @@
  * @author duynguyen © 2025
  */
 import { useEffect } from "react";
-import { Autocomplete, Avatar, Box, Button, Chip, CircularProgress, Container, Drawer, Grid, IconButton, List, ListItem, ListItemText, Paper, Tab, Tabs, TextField, Typography } from "@mui/material";
+import { Autocomplete, Avatar, Box, Button, Chip, CircularProgress, Container, Divider, Drawer, Grid, IconButton, List, ListItem, ListItemText, Paper, Tab, Tabs, TextField, Typography } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Cancel';
 import AddIcon from '@mui/icons-material/Add';
 import type { PageProps } from "./Profile.types";
 import { useStore } from "./ProfileStore";
@@ -36,7 +35,7 @@ export const ProfileContent: React.FC<PageProps> = (props) => {
             <Grid container spacing={4}>
                 {/* Sidebar - Avatar & Thông tin cơ bản */}
                 <Grid size={{ xs: 12, md: 4 }}>
-                    <Paper sx={{ p: 4, textAlign: 'center', height: '100%' }}>
+                    <Paper sx={{ p: 4, textAlign: 'center', height: '50vh' }}>
                         <Box sx={{ position: 'relative', display: 'inline-block', mb: 3 }}>
                             <Avatar
                                 src={state.profileDomainModel.avatarUrl || "/images/default-avatar.png"}
@@ -375,10 +374,112 @@ export const ProfileContent: React.FC<PageProps> = (props) => {
 
                         {/* Tab 3: Đơn hàng */}
                         {state.activeTab === 2 && (
-                            <Box sx={{ py: 6, textAlign: 'center' }}>
-                                <Typography variant="h6" color="text.secondary">
-                                    Lịch sử đơn hàng đang được phát triển...
+                            <Box>
+                                <Typography variant="h6" fontWeight="bold" gutterBottom>
+                                    Lịch sử đơn hàng ({state.orderSearchDomainModel.search?.length})
                                 </Typography>
+
+                                {state.orderSearchDomainModel.search?.length === 0 ? (
+                                    <Paper sx={{ p: 6, textAlign: 'center' }}>
+                                        <Typography color="text.secondary" gutterBottom>
+                                            Bạn chưa có đơn hàng nào.
+                                        </Typography>
+                                        <Button variant="contained" href="/product-search" sx={{ mt: 2 }}>
+                                            Mua sắm ngay
+                                        </Button>
+                                    </Paper>
+                                ) : (
+                                    state.orderSearchDomainModel.search?.map((order) => {
+                                        const statusMap: Record<string, { label: string; color: "default" | "warning" | "info" | "success" | "error" }> = {
+                                            pending: { label: "pending", color: "warning" },
+                                            confirmed: { label: "confirmed", color: "info" },
+                                            shipping: { label: "shipping", color: "info" },
+                                            completed: { label: "delivered", color: "success" },
+                                            cancelled: { label: "cancelled", color: "error" },
+                                        };
+
+                                        const statusInfo = statusMap[order.orderStatus!] || { label: order.orderStatus, color: "default" };
+
+                                        return (
+                                            <Paper key={order.orderId} sx={{ mb: 3, p: 3, borderRadius: 2 }}>
+                                                {/* Header đơn hàng */}
+                                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2, flexWrap: 'wrap', gap: 1 }}>
+                                                    <Box>
+                                                        <Typography variant="subtitle1" fontWeight="bold">
+                                                            Mã đơn hàng: {order.orderId}
+                                                        </Typography>
+                                                        <Typography variant="body2" color="text.secondary">
+                                                            Ngày đặt hàng: {new Date(order.createdAt!).toLocaleString('vi-VN')}
+                                                        </Typography>
+                                                    </Box>
+                                                    <Chip label={statusInfo.label} color={statusInfo.color} size="small" />
+                                                </Box>
+
+                                                <Divider sx={{ mb: 2 }} />
+
+                                                {/* Danh sách sản phẩm trong đơn */}
+                                                {order.items?.map((item) => (
+                                                    <Box key={item.productId} sx={{ display: 'flex', gap: 2, mb: 2 }}>
+                                                        {/* <Box
+                                                            sx={{
+                                                                width: 64,
+                                                                height: 64,
+                                                                borderRadius: 1.5,
+                                                                overflow: 'hidden',
+                                                                flexShrink: 0,
+                                                                bgcolor: '#f5f5f5',
+                                                            }}
+                                                        >
+                                                            <img
+                                                                src={item.imageUrl || "/images/no-image.png"}
+                                                                alt={item.productName}
+                                                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                                            />
+                                                        </Box> */}
+                                                        <Box sx={{ flexGrow: 1 }}>
+                                                            <Typography variant="body2" fontWeight="medium">
+                                                                {item.productName}
+                                                            </Typography>
+                                                            <Typography variant="body2" color="text.secondary">
+                                                                x{item.quantity}
+                                                            </Typography>
+                                                        </Box>
+                                                        <Typography variant="body2" fontWeight="medium">
+                                                            {(item.unitPrice * item.quantity).toLocaleString('vi-VN')}đ
+                                                        </Typography>
+                                                    </Box>
+                                                ))}
+
+                                                <Divider sx={{ my: 2 }} />
+
+                                                {/* Tổng tiền + nút */}
+                                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
+                                                    <Typography>
+                                                        Tổng tiền:{" "}
+                                                        <Typography component="span" variant="h6" color="primary" fontWeight="bold">
+                                                            {order.totalAmount!.toLocaleString('vi-VN')}đ
+                                                        </Typography>
+                                                    </Typography>
+
+                                                    <Box sx={{ display: 'flex', gap: 1 }}>
+                                                        <Button
+                                                            variant="outlined"
+                                                            size="small"
+                                                            onClick={() => action.viewOrderDetail(order.orderId!)}
+                                                        >
+                                                            Xem chi tiết
+                                                        </Button>
+                                                        {order.orderStatus === 'completed' && (
+                                                            <Button variant="contained" size="small" color="primary">
+                                                                Mua lại
+                                                            </Button>
+                                                        )}
+                                                    </Box>
+                                                </Box>
+                                            </Paper>
+                                        );
+                                    })
+                                )}
                             </Box>
                         )}
                     </Paper>

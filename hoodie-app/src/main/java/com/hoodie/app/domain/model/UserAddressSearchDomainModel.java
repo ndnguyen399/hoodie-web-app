@@ -5,7 +5,6 @@ package com.hoodie.app.domain.model;
 
 import java.time.OffsetDateTime;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,11 +13,10 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@AllArgsConstructor
 public class UserAddressSearchDomainModel {
-    private Long addressId;
+    private Integer addressId;
 
-//    private Integer userId;
+    private Long userId;
 
     private String recipientName;
 

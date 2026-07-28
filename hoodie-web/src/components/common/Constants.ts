@@ -11,6 +11,7 @@ const Constants : any= {
     routeCheckOut: "/checkout",
     routeProductDetail: "/product/detail",
     routeProfile: "/user/profile",
+    routeViewDetail: "/user/product/view-detail",
     INITIAL_PAGE_SIZE: 10,
     ROLE_ADMIN: "ROLE_ADMIN",
     ROLE_CUSTOMER: "ROLE_CUSTOMER",

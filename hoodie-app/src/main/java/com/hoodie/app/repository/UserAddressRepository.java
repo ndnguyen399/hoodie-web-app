@@ -15,4 +15,6 @@ import com.hoodie.app.repository.custom.UserAddressRepositoryCustom;
  */
 public interface UserAddressRepository extends JpaRepository<UserAddress, Integer>, UserAddressRepositoryCustom {
     List<UserAddress> findByUserIdAndDeleteFlag(Long userId, String deleteFlag);
+
+    List<UserAddress> findByAddressIdInAndDeleteFlag(List<Integer> addressIds, String deleteFlag);
 }
