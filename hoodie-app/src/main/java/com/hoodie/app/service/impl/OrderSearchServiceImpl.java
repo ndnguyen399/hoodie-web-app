@@ -17,10 +17,13 @@ import org.springframework.stereotype.Service;
 import com.hoodie.app.application.model.OrderSearchApplicationModel;
 import com.hoodie.app.common.CheckLogic;
 import com.hoodie.app.constant.Constant;
+import com.hoodie.app.constant.Role;
 import com.hoodie.app.domain.model.OrderItemSearchDomainModel;
 import com.hoodie.app.domain.model.OrderSearchDomainModel;
 import com.hoodie.app.domain.model.PaymentSearchDomainModel;
 import com.hoodie.app.domain.model.UserAddressSearchDomainModel;
+import com.hoodie.app.dto.SubmitRequestModel;
+import com.hoodie.app.dto.SubmitResponseModel;
 import com.hoodie.app.dto.response.SearchResponse;
 import com.hoodie.app.entity.Order;
 import com.hoodie.app.entity.OrderItem;
@@ -30,7 +33,6 @@ import com.hoodie.app.entity.UserAddress;
 import com.hoodie.app.repository.OrderItemRepository;
 import com.hoodie.app.repository.OrderRepository;
 import com.hoodie.app.repository.PaymentRepository;
-import com.hoodie.app.repository.ProductRepository;
 import com.hoodie.app.repository.UserAddressRepository;
 import com.hoodie.app.service.OrderSearchService;
 
@@ -72,7 +74,7 @@ public class OrderSearchServiceImpl implements OrderSearchService {
      */
     @Override
     public SearchResponse<OrderSearchDomainModel> search(User currentUser, OrderSearchApplicationModel request) {
-        return new SearchResponse<>(0, getMyOrders(currentUser.getUserId(), request));
+        return new SearchResponse<>(0, getMyOrders(currentUser, request));
     }
 
     /**
@@ -81,14 +83,18 @@ public class OrderSearchServiceImpl implements OrderSearchService {
      * @param userId
      * @return List<OrderSearchDomainModel>
      */
-    public List<OrderSearchDomainModel> getMyOrders(Long userId, OrderSearchApplicationModel request) {
+    public List<OrderSearchDomainModel> getMyOrders(User currentUser, OrderSearchApplicationModel request) {
 
         List<Order> orders = new ArrayList<Order>();
-        if (CheckLogic.isValidId(request.getOrderId())) {
-            orders = orderRepository.findByUserIdAndOrderIdAndDeleteFlag(userId, request.getOrderId(),
-                    Constant.DELETE_FLAG_ZERO);
+        if (currentUser.getRole().equals(Role.ROLE_ADMIN)) {
+            orders = orderRepository.findAll();
         } else {
-            orders = orderRepository.findByUserIdAndDeleteFlag(userId, Constant.DELETE_FLAG_ZERO);
+            if (CheckLogic.isValidId(request.getOrderId())) {
+                orders = orderRepository.findByUserIdAndOrderIdAndDeleteFlag(currentUser.getUserId(),
+                        request.getOrderId(), Constant.DELETE_FLAG_ZERO);
+            } else {
+                orders = orderRepository.findByUserIdAndDeleteFlag(currentUser.getUserId(), Constant.DELETE_FLAG_ZERO);
+            }
         }
 
         if (orders.isEmpty()) {
@@ -202,5 +208,21 @@ public class OrderSearchServiceImpl implements OrderSearchService {
         dto.setCity(address.getCity());
         dto.setIsDefault(address.getIsDefault());
         return dto;
+    }
+
+    /**
+     * deleveryOrder
+     */
+    @Override
+    public SubmitResponseModel deleveryOrder(SubmitRequestModel<OrderSearchApplicationModel> request) {
+        Order orders = orderRepository.findByOrderIdAndDeleteFlag(request.getModel().getOrderId(),
+                Constant.DELETE_FLAG_ZERO);
+        orders.setOrderStatus("delivered");
+        orderRepository.save(orders);
+
+        SubmitResponseModel response = new SubmitResponseModel();
+        response.setCode(Constant.NO_ERROR);
+        response.setMessage(Constant.INFO_UPDATE_SUCCESS);
+        return response;
     }
 }

@@ -21,6 +21,7 @@ import { PaymentSuccess } from '../components/PaymentSuccess';
 import { ProductDetail } from '../components/ProductDetail';
 import { Profile } from '../components/Profile';
 import { OrderDetail } from '../components/OrderDetail';
+import { OrderSearch } from '../components/ManageOrder/OrderSeach';
 
 // Page Private
 // import CategoryPage from '~/views/Category';
@@ -116,6 +117,11 @@ const PrivateRoutes: RouteItem[] = [
   {
     path: '/manage-product-registration',
     component: ProductRegistration,
+    layout: HomeLayout,
+  },
+  {
+    path: '/manage-order-search',
+    component: OrderSearch,
     layout: HomeLayout,
   },
 ];

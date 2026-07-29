@@ -16,4 +16,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     List<Order> findByUserIdAndDeleteFlag(Long userId, String deleteFlag);
 
     List<Order> findByUserIdAndOrderIdAndDeleteFlag(Long userId, Integer orderId, String deleteFlag);
+
+    Order findByOrderIdAndDeleteFlag(Integer orderId, String deleteFlag);
 }

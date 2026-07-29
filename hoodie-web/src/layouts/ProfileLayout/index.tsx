@@ -36,13 +36,8 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
             const result = await new AuthViewApi().logout({
                 refreshToken: refreshToken ?? ""
             });
-            const resultModel = result.data;
-            let message = '';
-            for (const item of resultModel) {
-                message += `${item.code}: ${item.message}\n`;
-            }
-            await context.navigation.openInformationDialog(message);
-
+            console.log("result.data!", result.data!)
+            const resultModel = result.data!;
             // Xóa token
             localStorage.removeItem("accessToken");
             localStorage.removeItem("refreshToken");

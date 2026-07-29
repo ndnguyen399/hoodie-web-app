@@ -80,5 +80,16 @@
     "label-createdAt": "Ngày tạo",
     "label-updatedAt": "Ngày cập nhật",
     "label-searchInResults": "Tìm kiếm...",
-    "label-birthDate": "Ngày sinh"
+    "label-birthDate": "Ngày sinh",
+    "label-promotionCode": "Mã giảm giá",
+    "label-note": "Ghi chú",
+    "label-orderStatus": "Trạng thái đơn hàng",
+    "label-totalAmount": "Tổng số tiền",
+    "label-shippingFee": "Phí vận chuyển",
+    "label-subtotal": "Tổng tính toán",
+    "label-orderId": "Mã đơn hàng",
+    "label-delivery": "Giao hàng",
+    "label-pageTitleOrderSearch": "Quản lý đơn đặt hàng",
+    "": "",
+    "": ""
 }
