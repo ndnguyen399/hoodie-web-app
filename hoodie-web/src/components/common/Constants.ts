@@ -6,6 +6,7 @@ const Constants : any= {
     routeProductRegistration: "/manage-product-registration",
     routeCategorySearch: "/manage-category-search",
     routeDashboard: "/manage-category-search",
+    routeVoucherRegistration: "/manage-voucher-registration",
     routeHomePage: "/",
     routeLoginPage: "/sign-in",
     routeCheckOut: "/checkout",

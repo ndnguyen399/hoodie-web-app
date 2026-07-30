@@ -335,7 +335,7 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
                                     content='Quản lý chương trình mã giảm giá'
                                     icon={<PersonSearchOutlinedIcon sx={{ color: 'orange' }} />}
                                     iconPosition='start'
-                                    href='/manage-user-search'
+                                    href='/manage-voucher-search'
                                 />
                                 {/* <LinkCustom sx={{ color: 'black' }}
                                     content='Quản lý sản phẩm'

@@ -90,6 +90,16 @@
     "label-orderId": "Mã đơn hàng",
     "label-delivery": "Giao hàng",
     "label-pageTitleOrderSearch": "Quản lý đơn đặt hàng",
-    "": "",
-    "": ""
+    "label-promotionId": "ID Giảm giá",
+    "label-promotionName": "Tên giảm giá",
+    "label-promotionDescription": "Mô tả giảm giá",
+    "label-discountValue": "Giá trị giảm giá",
+    "label-minOrderValue": "Giá trị đơn hàng tối thiểu",
+    "label-maxDiscountAmount": "Số tiền giảm giá tối đa",
+    "label-usageLimit": "Giới hạn sử dụng",
+    "label-startDate": "Ngày bắt đầu",
+    "label-endDate": "Ngày kết thúc",
+    "label-isActive": "Còn hiệu lực",
+    "label-pageTitleVoucherSearch": "Quản lý mã giảm giá",
+    "label-pageTitleVoucherCreate": "Tạo mới mã giảm giá"
 }

@@ -1102,3 +1102,40 @@ export interface PaymentSearchDomainModel {
     gateway: string;
     transactionRef: string;
 }
+/**
+ * VoucherSearchApplicationModel
+ */
+export interface VoucherSearchApplicationModel {
+    promotionCode?: string;
+}
+/**
+ * VoucherSubmitApplicationModel
+ */
+export interface VoucherSubmitApplicationModel {
+    promotionId?: number;
+    promotionCode?: string;
+    promotionName?: string;
+    description?: string;
+    discountValue?: number;
+    minOrderValue?: number;
+    maxDiscountAmount?: number;
+    usageLimit?: number;
+    startDate?: Date;
+    endDate?: Date;
+}
+/**
+ * VoucherSearchDomainModel
+ */
+export interface VoucherSearchDomainModel {
+    promotionId?: number;
+    promotionCode?: string;
+    promotionName?: string;
+    description?: string;
+    discountValue?: number;
+    minOrderValue?: number;
+    maxDiscountAmount?: number;
+    usageLimit?: number;
+    startDate?: Date;
+    endDate?: Date;
+    isActive?: boolean;
+}
