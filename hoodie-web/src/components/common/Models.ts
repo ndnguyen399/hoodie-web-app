@@ -1139,3 +1139,54 @@ export interface VoucherSearchDomainModel {
     endDate?: Date;
     isActive?: boolean;
 }
+/**
+ * UserSearchApplicationModel
+ */
+export interface UserSearchApplicationModel {
+    userId?: number;
+    email?: string;
+}
+/**
+ * UserSearchDomainModel
+ */
+export interface UserSearchDomainModel {
+    userId?: number;
+    fullName?: string;
+    email?: string;
+    phone?: string;
+    birthDate?: Date;
+    gender?: string;
+    note?: string;
+    /**
+     * reserveItem01
+     */
+    reserveItem01?: string;
+    /**
+     * reserveItem02
+     */
+    reserveItem02?: string;
+    /**
+     * reserveItem03
+     */
+    reserveItem03?: string;
+    /**
+     * reserveItem04
+     */
+    reserveItem04?: string;
+    /**
+     * reserveItem05
+     */
+    reserveItem05?: string;
+    /**
+     * deleteFlag
+     */
+    deleteFlag?: string;
+    /**
+     * createdAt
+     */
+    createdAt?: Date;
+    /**
+     * updatedAt
+     */
+    updatedAt?: Date;
+}

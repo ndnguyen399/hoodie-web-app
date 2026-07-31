@@ -24,6 +24,7 @@ import { OrderDetail } from '../components/OrderDetail';
 import { OrderSearch } from '../components/ManageOrder/OrderSeach';
 import { VoucherSearch } from '../components/ManageVoucher/VoucherSearch';
 import { VoucherRegistration } from '../components/ManageVoucher/VoucherRegistration';
+import { UserSearch } from '../components/ManageUser/UserSearch';
 
 // Page Private
 // import CategoryPage from '~/views/Category';
@@ -134,6 +135,11 @@ const PrivateRoutes: RouteItem[] = [
   {
     path: '/manage-voucher-registration',
     component: VoucherRegistration,
+    layout: HomeLayout,
+  },
+  {
+    path: '/manage-user-search',
+    component: UserSearch,
     layout: HomeLayout,
   },
 ];

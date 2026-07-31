@@ -319,12 +319,12 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
                                     iconPosition='start'
                                     href='/manage-order-search'
                                 />
-                                <LinkCustom sx={{ color: 'black' }}
+                                {/* <LinkCustom sx={{ color: 'black' }}
                                     content='Quản lý phản hồi đánh giá'
                                     icon={<FeedOutlinedIcon sx={{ color: 'red' }} />}
                                     iconPosition='start'
                                     href='/manage-product-search'
-                                />
+                                /> */}
                             </Stack>
                         </Box>
                         <Divider />

@@ -101,5 +101,6 @@
     "label-endDate": "Ngày kết thúc",
     "label-isActive": "Còn hiệu lực",
     "label-pageTitleVoucherSearch": "Quản lý mã giảm giá",
-    "label-pageTitleVoucherCreate": "Tạo mới mã giảm giá"
+    "label-pageTitleVoucherCreate": "Tạo mới mã giảm giá",
+    "label-pageTitleUserSearch": "Quản lý tài khoản người dùng"
 }
