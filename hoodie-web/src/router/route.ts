@@ -25,6 +25,7 @@ import { OrderSearch } from '../components/ManageOrder/OrderSeach';
 import { VoucherSearch } from '../components/ManageVoucher/VoucherSearch';
 import { VoucherRegistration } from '../components/ManageVoucher/VoucherRegistration';
 import { UserSearch } from '../components/ManageUser/UserSearch';
+import { RevenueSearch } from '../components/ManageRevenue/RevenueSearch';
 
 // Page Private
 // import CategoryPage from '~/views/Category';
@@ -140,6 +141,11 @@ const PrivateRoutes: RouteItem[] = [
   {
     path: '/manage-user-search',
     component: UserSearch,
+    layout: HomeLayout,
+  },
+  {
+    path: '/manage-revenue-statistics-search',
+    component: RevenueSearch,
     layout: HomeLayout,
   },
 ];

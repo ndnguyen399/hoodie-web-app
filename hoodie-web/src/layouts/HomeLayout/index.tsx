@@ -263,7 +263,7 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
                                     content='Biểu đồ doanh thu'
                                     icon={<QueryStatsOutlinedIcon sx={{ color: 'green' }} />}
                                     iconPosition='start'
-                                    href='/manage-user-search'
+                                    href='/manage-revenue-statistics-search'
                                 />
                                 {/* <LinkCustom sx={{ color: 'black' }}
                                     content='Quản lý sản phẩm'

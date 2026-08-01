@@ -1190,3 +1190,66 @@ export interface UserSearchDomainModel {
      */
     updatedAt?: Date;
 }
+/**
+ * RevenueSearchApplicationModel
+ */
+export interface RevenueSearchApplicationModel {
+    range: RevenueRange;
+    fromDate?: string;
+    toDate?: string;
+}
+/**
+ * RevenueRange
+ */
+export type RevenueRange =
+    | "today"
+    | "7days"
+    | "30days"
+    | "90days"
+    | "month"
+    | "quarter"
+    | "year"
+    | "custom";
+/**
+ * RevenueSummary
+ */
+export interface RevenueSummary {
+    totalRevenue:number;
+    totalOrders:number;
+    averageOrderValue:number;
+    growthRate:number;
+    previousRevenue:number;
+    revenueDifference:number;
+}
+/**
+ * RevenueByDate
+ */
+export interface RevenueByDate{
+    date:string;
+    revenue:number;
+    orders:number;
+}
+/**
+ * RevenueByCategory
+ */
+export interface RevenueByCategory{
+    categoryName:string;
+    revenue:number;
+}
+/**
+ * RevenueByProduct
+ */
+export interface RevenueByProduct{
+    productName:string;
+    revenue:number;
+    quantity:number;
+}
+/**
+ * RevenueSearchDomainModel
+ */
+export interface RevenueSearchDomainModel{
+    summary?:RevenueSummary;
+    revenueByDate?:RevenueByDate[];
+    revenueByCategory?:RevenueByCategory[];
+    topProducts?:RevenueByProduct[];
+}
