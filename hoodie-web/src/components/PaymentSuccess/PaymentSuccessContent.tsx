@@ -51,52 +51,6 @@ export const PaymentSuccessContent: React.FC<PageProps> = (props) => {
                     />
                 </Box>
 
-                <Box sx={{ mb: 3 }}>
-                    <Typography variant="body1" fontWeight="medium">
-                        Mã đơn hàng: 
-                        {/* <strong>#{order.orderId}</strong> */}
-                    </Typography>
-                    {/* {order.orderCode && ( */}
-                        <Typography variant="body2" color="text.secondary">
-                            Mã tham chiếu: 
-                            {/* {order.orderCode} */}
-                        </Typography>
-                    {/* )} */}
-                    <Typography variant="body2" color="text.secondary">
-                        Thời gian: 
-                        {/* {new Date(order.createdAt).toLocaleString('vi-VN')} */}
-                    </Typography>
-                </Box>
-
-                <Divider sx={{ my: 3 }} />
-
-                {/* Thông tin người nhận */}
-                <Box sx={{ mb: 4 }}>
-                    <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
-                        Thông tin người nhận
-                    </Typography>
-                    {/* <Typography>{order.fullName}</Typography>
-                    <Typography>{order.phone}</Typography>
-                    <Typography>{order.address}</Typography> */}
-                </Box>
-
-                {/* Phương thức thanh toán */}
-                <Box sx={{ mb: 4 }}>
-                    <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
-                        Phương thức thanh toán
-                    </Typography>
-                    {/* <Typography>{order.paymentMethod === 'cod' ? 'Thanh toán khi nhận hàng (COD)' : order.paymentMethod}</Typography> */}
-                </Box>
-
-                <Divider sx={{ my: 3 }} />
-
-                {/* Tổng tiền */}
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography variant="h6">Tổng thanh toán</Typography>
-                    <Typography variant="h4" fontWeight="bold" color="primary">
-                        {/* {order.totalAmount.toLocaleString('vi-VN')}đ */}
-                    </Typography>
-                </Box>
             </Paper>
 
             {/* Nút hành động */}
@@ -106,6 +60,7 @@ export const PaymentSuccessContent: React.FC<PageProps> = (props) => {
                     size="large"
                     startIcon={<ReceiptLongIcon />}
                     // onClick={() => action.viewOrderDetail(order.orderId)}
+                    href="/user/profile"
                     sx={{ px: 4 }}
                 >
                     Xem chi tiết đơn hàng
