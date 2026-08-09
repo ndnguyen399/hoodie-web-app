@@ -1,7 +1,7 @@
 /**
  * @author duynguyen © 2025
  */
-import type { BaseApiResponse, ProductInitialApplicationModel, ProductSubmitApplicationModel, SubmitRequest } from '../../common/Models';
+import type { BaseApiResponse, ProductInitialApplicationModel, ProductSubmitApplicationModel, ProductSubmitDeleteApplicationModel, SubmitRequest } from '../../common/Models';
 import { ApiClient } from '../config/api.client';
 
 /**
@@ -58,5 +58,15 @@ export class ProductSubmitViewApi {
                 }
             }
         );
+    }
+
+    /**
+     * submitDelete
+     * 
+     * @param request {@link SubmitRequest<ProductSubmitDeleteApplicationModel>}
+     * @returns response {@link BaseApiResponse}
+     */
+    submitDelete(request: SubmitRequest<ProductSubmitDeleteApplicationModel>) {
+        return ApiClient.post<BaseApiResponse>('/api/v1/product/submitDelete', request);
     }
 }

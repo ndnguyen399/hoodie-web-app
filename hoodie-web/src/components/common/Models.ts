@@ -1253,3 +1253,9 @@ export interface RevenueSearchDomainModel{
     revenueByCategory?:RevenueByCategory[];
     topProducts?:RevenueByProduct[];
 }
+/**
+ * ProductSubmitDeleteApplicationModel
+ */
+export interface ProductSubmitDeleteApplicationModel {
+    productId?: number;
+}

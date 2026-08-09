@@ -13,6 +13,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import type { ProductSearchDomainModel } from "../../common/Models";
 import { ProductSearchViewApi } from "../../api/ProductSearchViewApi";
+import { ProductSubmitViewApi } from "../../api/ProductSubmitViewApi";
 // import type { ICommandBarItemProps } from "@fluentui/react";
 
 /**
@@ -282,19 +283,19 @@ export const useStore = (props: PageProps) => {
                 }
 
                 try {
-                    // const result = await new CategorySubmitViewApi().submitDelete({
-                    //     requestType: Constants.REUEST_TYPE_DELETE,
-                    //     model: {
-                    //         categoryId: row.categoryId
-                    //     }
-                    // });
-                    // const resultModel = result.data;
-                    // let message = '';
-                    // for (const item of resultModel) {
-                    //     message += `${item.code}: ${item.message}\n`;
-                    // }
-                    // await context.navigation.openInformationDialog(message);
-                    // await action.grid.loadDataTable.execute();
+                    const result = await new ProductSubmitViewApi().submitDelete({
+                        requestType: Constants.REUEST_TYPE_DELETE,
+                        model: {
+                            productId: row.productId!
+                        }
+                    });
+                    const resultModel = result.data;
+                    let message = '';
+                    for (const item of resultModel) {
+                        message += `${item.code}: ${item.message}\n`;
+                    }
+                    await context.navigation.openInformationDialog(message);
+                    await action.grid.loadDataTable.execute();
                 } catch (error: any) {
                     const responseData = error?.payload;
                     if (responseData) {
