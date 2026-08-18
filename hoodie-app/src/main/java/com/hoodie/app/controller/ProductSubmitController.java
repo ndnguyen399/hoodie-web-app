@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.hoodie.app.application.model.ProductInitialApplicationModel;
 import com.hoodie.app.application.model.ProductSearchApplicationModel;
 import com.hoodie.app.application.model.ProductSubmitApplicationModel;
+import com.hoodie.app.application.model.ProductSubmitDeleteApplicationModel;
 import com.hoodie.app.domain.model.ProductSearchDomainModel;
 import com.hoodie.app.dto.SubmitRequestModel;
 import com.hoodie.app.dto.SubmitResponseModel;
@@ -65,6 +66,22 @@ public class ProductSubmitController {
             @RequestPart(value = "images", required = false) List<MultipartFile> images) throws Exception {
         List<SubmitResponseModel> lists = new ArrayList<>();
         SubmitResponseModel response = productService.submitProduct(request, images);
+        lists.add(response);
+        return BaseApiResponse.success(lists);
+    }
+
+    /**
+     * submitDelete
+     * 
+     * @param request
+     * @return BaseApiResponse<SubmitResponseModel>
+     */
+    @PostMapping("/submitDelete")
+    @Transactional
+    public BaseApiResponse<List<SubmitResponseModel>> submitDelete(
+            @RequestBody @Valid SubmitRequestModel<ProductSubmitDeleteApplicationModel> request) {
+        List<SubmitResponseModel> lists = new ArrayList<>();
+        SubmitResponseModel response = productService.delete(request);
         lists.add(response);
         return BaseApiResponse.success(lists);
     }

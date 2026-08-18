@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.hoodie.app.application.model.ProductInitialApplicationModel;
 import com.hoodie.app.application.model.ProductSearchApplicationModel;
 import com.hoodie.app.application.model.ProductSubmitApplicationModel;
+import com.hoodie.app.application.model.ProductSubmitDeleteApplicationModel;
 import com.hoodie.app.common.CheckLogic;
 import com.hoodie.app.constant.Constant;
 import com.hoodie.app.domain.model.ProductSearchDomainModel;
@@ -379,5 +380,44 @@ public class ProductServiceImpl implements ProductService {
             }
         }
         return errors;
+    }
+
+    /**
+     * delete
+     * 
+     * @param request
+     * @return SubmitResponseModel
+     */
+    @Override
+    public SubmitResponseModel delete(SubmitRequestModel<ProductSubmitDeleteApplicationModel> request) {
+        // check validate
+//        List<ValidationErrorItem> errors = this.checkValidateDelete(request.getModel(), request.getRequestType());
+//        if (!errors.isEmpty()) {
+//            throw new BusinessValidationException(errors);
+//        }
+        // submit delete
+        SubmitResponseModel submitResponseModel = delete(request.getModel());
+
+        return submitResponseModel;
+    }
+
+    /**
+     * delete
+     * 
+     * @param request
+     * @return SubmitResponseModel
+     */
+    private SubmitResponseModel delete(ProductSubmitDeleteApplicationModel request) {
+        Product product = productRepository.findByProductIdAndDeleteFlag(request.getProductId(),
+                Constant.DELETE_FLAG_ZERO);
+
+//        categoryMapper.deleteEntity(request, category);
+        product.setDeleteFlag(Constant.DELETE_FLAG_ONE);
+        productRepository.save(product);
+
+        SubmitResponseModel response = new SubmitResponseModel();
+        response.setCode(Constant.NO_ERROR);
+        response.setMessage(Constant.INFO_DELETE_SUCCESS);
+        return response;
     }
 }

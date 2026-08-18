@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.hoodie.app.application.model.ProductInitialApplicationModel;
 import com.hoodie.app.application.model.ProductSubmitApplicationModel;
+import com.hoodie.app.application.model.ProductSubmitDeleteApplicationModel;
 import com.hoodie.app.domain.model.ProductSearchDomainModel;
 import com.hoodie.app.dto.SubmitRequestModel;
 import com.hoodie.app.dto.SubmitResponseModel;
@@ -29,4 +30,9 @@ public interface ProductService {
      */
     public SubmitResponseModel submitProduct(SubmitRequestModel<ProductSubmitApplicationModel> request,
             List<MultipartFile> images) throws Exception;
+
+    /**
+     * delete
+     */
+    public SubmitResponseModel delete(SubmitRequestModel<ProductSubmitDeleteApplicationModel> request);
 }
